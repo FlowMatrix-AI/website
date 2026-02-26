@@ -70,7 +70,7 @@ export const homeContent = {
       name: 'Umberto Lopardo',
       title: 'CEO & Co-founder',
       company: 'UBL Group',
-      logo: '/ubl-group-logo.png',
+      logo: '/third-party-logos/clients/ubl-group.png',
     },
   },
   founders: {
@@ -80,14 +80,14 @@ export const homeContent = {
       {
         name: 'Sebastian Tamburro',
         title: 'CEO',
-        image: '/sebastian-tamburro.webp',
+        image: '/headshots/sebastian-tamburro.webp',
         linkedin: 'https://www.linkedin.com/in/sebastian-tamburro-694530287',
         email: 'st@flowmatrixai.com',
       },
       {
         name: 'Dom Joseph',
         title: 'COO',
-        image: '/dom-joseph.webp',
+        image: '/headshots/dom-joseph.webp',
         linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
         email: 'dj@flowmatrixai.com',
       },

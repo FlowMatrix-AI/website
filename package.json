@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-ssg build",
+    "postbuild": "npm run sitemap:generate",
+    "sitemap:generate": "node scripts/generate-sitemap.mjs",
     "preview": "vite preview",
-    "type-check": "vue-tsc --build"
+    "typecheck": "vue-tsc --build"
   },
   "dependencies": {
     "@unhead/vue": "^1.11.20",
