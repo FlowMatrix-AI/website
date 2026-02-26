@@ -3,6 +3,7 @@ import { useHead } from '@unhead/vue'
 import Button from '../components/ui/Button.vue'
 import TallyEmbed from '../components/forms/TallyEmbed.vue'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
+import { forms } from '../config/forms'
 import { homeContent, servicePhases } from '../data/siteContent'
 
 useHead({
@@ -19,7 +20,7 @@ useHead({
 function handleHomeLeadSubmitted() {
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
-    form_id: homeContent.cta.tallyFormId,
+    form_id: forms.mainGetInTouch.formId,
     source_page: '/',
   })
 }
@@ -121,14 +122,14 @@ function handleHomeLeadSubmitted() {
 
       <div class="cta-form-wrap">
         <TallyEmbed
-          v-if="homeContent.cta.tallyFormId"
-          :form-id="homeContent.cta.tallyFormId"
+          v-if="forms.mainGetInTouch.formId"
+          :form-id="forms.mainGetInTouch.formId"
           title="Start the Conversation"
           @submitted="handleHomeLeadSubmitted"
         />
         <p v-else class="cta-missing-form">
-          Main contact form is not configured. Set <code>homeContent.cta.tallyFormId</code> in
-          <code>src/data/siteContent.ts</code>.
+          Main contact form is not configured. Set <code>mainGetInTouch.formId</code> in
+          <code>src/data/forms.json</code>.
         </p>
       </div>
     </section>

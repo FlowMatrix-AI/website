@@ -3,12 +3,15 @@ import path from 'node:path'
 
 const repoRoot = process.cwd()
 const templatesPath = path.resolve(repoRoot, 'src', 'data', 'templates.json')
-const PLACEHOLDER_PREFIXES = ['REPLACE_', 'TODO_']
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-
-function isPlaceholder(value) {
-  return PLACEHOLDER_PREFIXES.some((prefix) => value.startsWith(prefix))
-}
+const allowedDeliverableTypes = new Set([
+  'template',
+  'demo',
+  'document',
+  'discount',
+  'tool',
+  'course',
+])
 
 function readString(record, keys) {
   for (const key of keys) {
@@ -22,15 +25,6 @@ function readString(record, keys) {
   }
 
   return null
-}
-
-function isValidHttpUrl(value) {
-  try {
-    const parsed = new URL(value)
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
-  } catch {
-    return false
-  }
 }
 
 function normalizeStatus(value) {
@@ -56,6 +50,12 @@ async function main() {
 
   const errors = []
   const publishedSlugs = new Map()
+  const disallowedTemplateKeys = [
+    'tally_form_id',
+    'tallyFormId',
+    'deliverable_url',
+    'deliverableUrl',
+  ]
 
   parsed.forEach((entry, index) => {
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
@@ -73,8 +73,7 @@ async function main() {
     const slug = readString(template, ['slug'])
     const title = readString(template, ['title'])
     const description = readString(template, ['description'])
-    const tallyFormId = readString(template, ['tally_form_id', 'tallyFormId'])
-    const deliverableUrl = readString(template, ['deliverable_url', 'deliverableUrl'])
+    const deliverableType = readString(template, ['deliverable_type', 'deliverableType'])
 
     if (!slug) {
       errors.push(`[index ${index}] published template missing slug`)
@@ -99,20 +98,26 @@ async function main() {
       errors.push(`[${slug ?? `index ${index}`}] published template missing description`)
     }
 
-    if (!tallyFormId) {
-      errors.push(`[${slug ?? `index ${index}`}] published template missing tally_form_id`)
-    } else if (isPlaceholder(tallyFormId)) {
-      errors.push(`[${slug}] tally_form_id is placeholder value`)
+    if (!deliverableType) {
+      errors.push(`[${slug ?? `index ${index}`}] published template missing deliverable_type`)
+    } else if (!allowedDeliverableTypes.has(deliverableType.toLowerCase())) {
+      errors.push(
+        `[${slug ?? `index ${index}`}] deliverable_type must be one of: ${Array.from(allowedDeliverableTypes).join(', ')}`,
+      )
     }
 
-    if (!deliverableUrl) {
-      errors.push(`[${slug ?? `index ${index}`}] published template missing deliverable_url`)
-    } else if (isPlaceholder(deliverableUrl)) {
-      errors.push(`[${slug}] deliverable_url is placeholder value`)
-    } else if (!isValidHttpUrl(deliverableUrl)) {
-      errors.push(`[${slug}] deliverable_url must be a valid absolute http(s) URL`)
-    }
+    disallowedTemplateKeys.forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(template, key)) {
+        errors.push(
+          `[${slug ?? `index ${index}`}] remove ${key} from templates.json; lead forms are configured in src/data/forms.json`,
+        )
+      }
+    })
   })
+
+  if (publishedSlugs.size === 0) {
+    errors.push('No published templates found. Add at least one published template entry.')
+  }
 
   if (errors.length > 0) {
     console.error('\n[template-validate] Failed with the following issues:')

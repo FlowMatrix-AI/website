@@ -1,4 +1,5 @@
 import { onMounted } from 'vue'
+import { deployment } from '../config/deployment'
 
 type AnalyticsItem = {
   item_id: string
@@ -17,7 +18,7 @@ declare global {
   }
 }
 
-const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() || ''
+const measurementId = deployment.gaMeasurementId
 const scriptId = 'flowmatrix-ga4-script'
 
 function ensureGtagStub() {

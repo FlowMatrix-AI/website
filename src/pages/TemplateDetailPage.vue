@@ -4,6 +4,7 @@ import { useRoute, RouterLink } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import Button from '../components/ui/Button.vue'
 import TallyEmbed from '../components/forms/TallyEmbed.vue'
+import { forms } from '../config/forms'
 import { getTemplateBySlug } from '../data/templates'
 import { createSeoHead } from '../lib/seo'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
@@ -23,7 +24,7 @@ const template = computed(() => {
   return getTemplateBySlug(slug.value)
 })
 
-const currentFormId = computed(() => template.value?.tallyFormId ?? null)
+const currentFormId = forms.freeGetAccessNow.formId
 
 const seoHead = computed(() => {
   if (!template.value) {
@@ -86,7 +87,7 @@ function handleLeadSubmitted() {
 
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
-    form_id: currentFormId.value,
+    form_id: currentFormId,
     template_slug: template.value.slug,
     items: [
       {
@@ -145,21 +146,13 @@ function handleLeadSubmitted() {
           Tally form is not configured yet for this template.
         </p>
         <p>
-          Set <code>tally_form_id</code> in <code>src/data/templates.json</code>.
+          Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.
         </p>
-        <p>CI should fail deployment if published templates are missing required lead fields.</p>
+        <p>Templates use one shared access form by design.</p>
       </div>
 
       <div class="detail-actions">
         <Button href="/free" variant="ghost">Back to Templates</Button>
-        <Button
-          v-if="template.deliverableUrl"
-          :href="template.deliverableUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open Deliverable
-        </Button>
       </div>
     </section>
   </section>

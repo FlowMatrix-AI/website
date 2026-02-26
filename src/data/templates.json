@@ -1,15 +1,24 @@
 [
   {
-    "slug": "dummy-template",
+    "slug": "inbox-intelligence",
     "status": "published",
-    "title": "Dummy Template",
-    "description": "Placeholder template used to validate static route generation and lead-capture wiring.",
+    "title": "Inbox Intelligence Workflow Pack",
+    "description": "Automate inbox triage, tagging, and daily summaries so your team handles high-value messages first and spends less time in email.",
     "deliverable_type": "template",
-    "tally_form_id": "q4bdBG",
-    "deliverable_url": "https://tally.so/r/q4bdBG",
-    "labels": ["automation", "operations"],
-    "tools_used": ["Tally", "Google Sheets"],
-    "published_at": "2026-02-26",
-    "updated_at": "2026-02-26"
+    "labels": ["email", "operations", "automation"],
+    "tools_used": ["n8n", "Gmail", "OpenAI"],
+    "published_at": "2026-01-04",
+    "updated_at": "2026-01-04"
+  },
+  {
+    "slug": "invoice-lifecycle-assistant",
+    "status": "published",
+    "title": "Invoice Lifecycle Assistant Blueprint",
+    "description": "Map and automate the full invoice journey from draft to payment reminder with a repeatable workflow your operations team can implement quickly.",
+    "deliverable_type": "template",
+    "labels": ["finance", "invoicing", "automation"],
+    "tools_used": ["n8n", "QuickBooks", "Stripe"],
+    "published_at": "2026-01-04",
+    "updated_at": "2026-01-04"
   }
 ]

@@ -1,13 +1,10 @@
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
+import { readDeploymentConfig } from './read-deployment-config.mjs'
 
 const repoRoot = process.cwd()
 const distDir = path.resolve(repoRoot, 'dist')
 const outputFile = path.join(distDir, 'sitemap.xml')
-
-const defaultSiteUrl = 'https://flowmatrix-ai.github.io'
-const configuredSiteUrl = process.env.SITE_URL || process.env.VITE_SITE_URL || defaultSiteUrl
-const siteUrl = configuredSiteUrl.replace(/\/+$/, '')
 
 const DIRECTORY_EXCLUDES = new Set(['assets', '.vite'])
 
@@ -84,6 +81,8 @@ function routeMeta(route) {
 }
 
 async function main() {
+  const { siteUrl } = await readDeploymentConfig()
+
   try {
     await fs.access(distDir)
   } catch {

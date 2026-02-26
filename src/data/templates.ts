@@ -11,15 +11,6 @@ const allowedDeliverableTypes = new Set<DeliverableType>([
   'tool',
   'course',
 ])
-const PLACEHOLDER_PREFIXES = ['REPLACE_', 'TODO_']
-
-function isConfiguredTemplateValue(value: string | null): value is string {
-  if (!value) {
-    return false
-  }
-
-  return !PLACEHOLDER_PREFIXES.some((prefix) => value.startsWith(prefix))
-}
 
 function readString(record: RawTemplate, keys: string[]): string | null {
   for (const key of keys) {
@@ -91,15 +82,10 @@ function normalizeTemplate(record: unknown): Template | null {
     return null
   }
 
-  const explicitFormId = readString(templateRecord, ['tallyFormId', 'tally_form_id'])
-  const tallyFormId = isConfiguredTemplateValue(explicitFormId) ? explicitFormId : null
-
   return {
     slug,
     title,
     description,
-    tallyFormId,
-    deliverableUrl: readString(templateRecord, ['deliverableUrl', 'deliverable_url']),
     deliverableType: normalizeDeliverableType(
       readString(templateRecord, ['deliverableType', 'deliverable_type']),
     ),

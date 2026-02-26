@@ -10,40 +10,43 @@ npm run build
 
 Build output goes to `dist/`.
 
-## Environment Configuration
+## Deployment Configuration
 
-Copy `.env.example` to `.env` and set values for your target environment.
-CI builds should set equivalent GitHub Actions variables (see `docs/deployment-configuration.md`).
+Public deployment settings are versioned in `src/config/deployment.json`:
+- `siteUrl`
+- `allowIndexing`
+- `gaMeasurementId` (optional)
 
-### Staging (GitHub Pages first)
-
-- `VITE_SITE_URL=https://flowmatrix-ai.github.io`
-- `VITE_ALLOW_INDEXING=false`
-- `VITE_GA_MEASUREMENT_ID` optional (omit until GA is configured)
-
-### Production (domain cutover)
-
-- `VITE_SITE_URL=https://flowmatrixai.com`
-- `VITE_ALLOW_INDEXING=true`
+No GitHub Actions secrets or variables are required for these values.
+At domain cutover, update `siteUrl` and `allowIndexing` in `deployment.json` and deploy.
 
 ## Lead Capture Configuration
 
-Lead capture is fully template-driven in `src/data/templates.json`.
-For every `published` template, CI requires:
-- `tally_form_id` (non-placeholder)
-- `deliverable_url` (valid absolute `http(s)` URL, non-placeholder)
+Lead capture config is centralized in `src/data/forms.json`:
+- `mainGetInTouch`: form used on homepage CTA
+- `freeGetAccessNow`: shared form used across `/free/:slug` pages
+
+`src/data/templates.json` is content-only for free resources.
+For each `published` template, CI requires:
+- `slug`
+- `title`
+- `description`
+- `deliverable_type`
 
 Run locally:
 
 ```bash
+npm run validate:deployment
+npm run validate:forms
 npm run validate:templates
+npm run validate:content
 ```
 
 ## SEO Artifacts
 
 - `dist/sitemap.xml` is generated automatically by `scripts/generate-sitemap.mjs`.
 - `dist/robots.txt` is generated automatically by `scripts/generate-robots.mjs`.
-- Both use build-time env (`SITE_URL`/`VITE_SITE_URL`, `ALLOW_INDEXING`/`VITE_ALLOW_INDEXING`).
+- Both use committed config from `src/config/deployment.json`.
 
 ## Verification
 
