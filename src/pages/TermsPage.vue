@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useHead } from '@unhead/vue'
+import { createSeoHead } from '../lib/seo'
 
 const lastUpdated = computed(() => {
   return new Date().toLocaleDateString('en-US', {
@@ -85,15 +86,13 @@ const sections = [
   },
 ]
 
-useHead({
-  title: 'Terms | FlowMatrix AI',
-  meta: [
-    {
-      name: 'description',
-      content: 'Terms and conditions for FlowMatrix AI services.',
-    },
-  ],
-})
+useHead(
+  createSeoHead({
+    title: 'Terms',
+    description: 'Terms and conditions for FlowMatrix AI services.',
+    path: '/terms',
+  }),
+)
 </script>
 
 <template>

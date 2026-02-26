@@ -5,17 +5,16 @@ import TallyEmbed from '../components/forms/TallyEmbed.vue'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
 import { forms } from '../config/forms'
 import { homeContent, servicePhases } from '../data/siteContent'
+import { createSeoHead } from '../lib/seo'
 
-useHead({
-  title: 'FlowMatrix AI | AI Systems for Operators',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
-    },
-  ],
-})
+useHead(
+  createSeoHead({
+    title: 'FlowMatrix AI | AI Systems for Operators',
+    description:
+      'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
+    path: '/',
+  }),
+)
 
 function handleHomeLeadSubmitted() {
   trackAnalyticsEvent('generate_lead', {

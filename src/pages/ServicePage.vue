@@ -5,6 +5,7 @@ import { useHead } from '@unhead/vue'
 import Button from '../components/ui/Button.vue'
 import { serviceBody } from '../data/serviceContent'
 import { servicePhases, type ServicePhase } from '../data/siteContent'
+import { createSeoHead } from '../lib/seo'
 
 const props = defineProps<{
   serviceId: ServicePhase['id']
@@ -29,16 +30,18 @@ const nextPhase = computed(() => {
 
 useHead(() => {
   if (!phase.value) {
-    return {
-      title: 'Service | FlowMatrix AI',
-      meta: [{ name: 'description', content: 'FlowMatrix AI services.' }],
-    }
+    return createSeoHead({
+      title: 'Service',
+      description: 'FlowMatrix AI services.',
+      path: `/${props.serviceId}`,
+    })
   }
 
-  return {
-    title: `${phase.value.title} | FlowMatrix AI`,
-    meta: [{ name: 'description', content: phase.value.description }],
-  }
+  return createSeoHead({
+    title: phase.value.title,
+    description: phase.value.description,
+    path: phase.value.href,
+  })
 })
 </script>
 

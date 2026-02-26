@@ -42,7 +42,7 @@ function routeFromFile(filePath) {
   const relative = path.relative(distDir, filePath)
   const normalized = relative.split(path.sep).join('/')
 
-  if (!normalized.endsWith('/index.html') && normalized !== 'index.html') {
+  if (!normalized.endsWith('.html')) {
     return null
   }
 
@@ -50,8 +50,19 @@ function routeFromFile(filePath) {
     return '/'
   }
 
-  const routePath = normalized.slice(0, -'/index.html'.length)
-  const route = `/${routePath}`
+  let routePath = ''
+
+  if (normalized.endsWith('/index.html')) {
+    routePath = normalized.slice(0, -'/index.html'.length)
+  } else {
+    routePath = normalized.slice(0, -'.html'.length)
+  }
+
+  const route = `/${routePath}`.replace(/\/+$/, '')
+
+  if (route === '/404') {
+    return null
+  }
 
   if (route.includes('/:')) {
     return null

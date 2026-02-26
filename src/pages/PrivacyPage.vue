@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { createSeoHead } from '../lib/seo'
 
 const sections = [
   {
@@ -82,15 +83,13 @@ const sections = [
   },
 ]
 
-useHead({
-  title: 'Privacy | FlowMatrix AI',
-  meta: [
-    {
-      name: 'description',
-      content: 'Privacy policy for FlowMatrix AI services.',
-    },
-  ],
-})
+useHead(
+  createSeoHead({
+    title: 'Privacy',
+    description: 'Privacy policy for FlowMatrix AI services.',
+    path: '/privacy',
+  }),
+)
 </script>
 
 <template>
