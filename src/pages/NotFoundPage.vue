@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import Button from '../components/ui/Button.vue'
 
 useHead({
   title: '404 | FlowMatrix AI',
@@ -13,9 +14,15 @@ useHead({
 </script>
 
 <template>
-  <section>
-    <h1>404</h1>
-    <p>The page you requested was not found.</p>
-    <a href="/">Return home</a>
+  <section class="surface-card not-found animate-fade-in-up">
+    <h1 class="page-title">404</h1>
+    <p class="page-subtitle">The page you requested was not found.</p>
+    <Button href="/" variant="ghost">Return home</Button>
   </section>
 </template>
+
+<style scoped>
+.not-found {
+  padding: clamp(1.25rem, 3.5vw, 2rem);
+}
+</style>

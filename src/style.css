@@ -1,28 +1,3 @@
-:root {
-  color-scheme: dark;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #ffffff;
-  background-color: #000000;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1 {
-  margin: 0 0 0.75rem;
-}
-
-p {
-  margin: 0 0 0.75rem;
-}
-
-a {
-  color: #d4a84b;
-}
+@import './styles/variables.css';
+@import './styles/base.css';
+@import './styles/animations.css';
