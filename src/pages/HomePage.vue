@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import Button from '../components/ui/Button.vue'
+import TallyEmbed from '../components/forms/TallyEmbed.vue'
+import { trackAnalyticsEvent } from '../composables/useAnalytics'
 import { homeContent, servicePhases } from '../data/siteContent'
 
 useHead({
@@ -13,11 +15,19 @@ useHead({
     },
   ],
 })
+
+function handleHomeLeadSubmitted() {
+  trackAnalyticsEvent('generate_lead', {
+    lead_source: 'tally',
+    form_id: homeContent.cta.tallyFormId,
+    source_page: '/',
+  })
+}
 </script>
 
 <template>
   <div class="home-stack">
-    <section id="start" class="home-hero surface-card animate-fade-in-up">
+    <section class="home-hero surface-card animate-fade-in-up">
       <div class="hero-copy">
         <p class="hero-kicker">FlowMatrix AI</p>
         <h1 class="page-title">
@@ -26,7 +36,7 @@ useHead({
         <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
 
         <div class="hero-actions">
-          <Button href="/free" size="lg">{{ homeContent.hero.cta }}</Button>
+          <Button href="/#start" size="lg">{{ homeContent.hero.cta }}</Button>
           <Button href="/#services" variant="ghost" size="lg">View Services</Button>
         </div>
       </div>
@@ -100,6 +110,26 @@ useHead({
           <summary>{{ item.question }}</summary>
           <p>{{ item.answer }}</p>
         </details>
+      </div>
+    </section>
+
+    <section id="start" class="surface-card section-block cta-section" aria-labelledby="cta-heading">
+      <div class="cta-header">
+        <h2 id="cta-heading" class="section-title">{{ homeContent.cta.headline }}</h2>
+        <p class="page-subtitle">{{ homeContent.cta.subheadline }}</p>
+      </div>
+
+      <div class="cta-form-wrap">
+        <TallyEmbed
+          v-if="homeContent.cta.tallyFormId"
+          :form-id="homeContent.cta.tallyFormId"
+          title="Start the Conversation"
+          @submitted="handleHomeLeadSubmitted"
+        />
+        <p v-else class="cta-missing-form">
+          Main contact form is not configured. Set <code>homeContent.cta.tallyFormId</code> in
+          <code>src/data/siteContent.ts</code>.
+        </p>
       </div>
     </section>
   </div>
@@ -310,6 +340,27 @@ useHead({
 
 .faq-item p {
   margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+}
+
+.cta-section {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.cta-header {
+  max-width: 70ch;
+}
+
+.cta-form-wrap {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.015);
+  padding: var(--space-4);
+}
+
+.cta-missing-form {
+  margin: 0;
   color: var(--color-text-muted);
 }
 

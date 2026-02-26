@@ -1,3 +1,7 @@
 # Docs
 
-This is the documentation directory for the project, this is mostly meant for humans. This is where we will document the project, it's architecture, design decisions, and other documents related to the project. All documents in this directory should be written in a way that is easy to understand for humans, and should be well organized and structured as well as concise and to the point - no bloat or fluff. The main goal of this directory is to provide a clear and comprehensive documentation for the project that can be easily understood by anyone who wants to learn about the project or contribute to it.
+Concise operational docs for configuration and deployment.
+
+## Index
+
+- `deployment-configuration.md`: GitHub variable setup, staging/production values, GA4 hookup, and Tally hookup.

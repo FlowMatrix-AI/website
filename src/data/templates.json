@@ -1,7 +1,15 @@
 [
   {
     "slug": "dummy-template",
+    "status": "published",
     "title": "Dummy Template",
-    "description": "Test template used for Phase 1 SSG route generation verification."
+    "description": "Placeholder template used to validate static route generation and lead-capture wiring.",
+    "deliverable_type": "template",
+    "tally_form_id": "q4bdBG",
+    "deliverable_url": "https://tally.so/r/q4bdBG",
+    "labels": ["automation", "operations"],
+    "tools_used": ["Tally", "Google Sheets"],
+    "published_at": "2026-02-26",
+    "updated_at": "2026-02-26"
   }
 ]

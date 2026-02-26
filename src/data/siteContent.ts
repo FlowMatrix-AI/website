@@ -123,4 +123,11 @@ export const homeContent = {
       },
     ],
   },
+  cta: {
+    headline: 'Ready when you are.',
+    subheadline:
+      'One conversation. No pitch, no pressure, just clarity on what AI can do for your business.',
+    button: 'Start the Conversation',
+    tallyFormId: 'q4bdBG',
+  },
 }

@@ -10,14 +10,45 @@ npm run build
 
 Build output goes to `dist/`.
 
-## SEO Artifacts
+## Environment Configuration
 
-- `public/robots.txt` is source-controlled and copied to `dist/` during build.
-- `dist/sitemap.xml` is generated automatically by `scripts/generate-sitemap.mjs` via `postbuild`.
-- Set `SITE_URL` when needed (default: `https://flowmatrixai.com`).
+Copy `.env.example` to `.env` and set values for your target environment.
+CI builds should set equivalent GitHub Actions variables (see `docs/deployment-configuration.md`).
 
-Example:
+### Staging (GitHub Pages first)
+
+- `VITE_SITE_URL=https://flowmatrix-ai.github.io`
+- `VITE_ALLOW_INDEXING=false`
+- `VITE_GA_MEASUREMENT_ID` optional (omit until GA is configured)
+
+### Production (domain cutover)
+
+- `VITE_SITE_URL=https://flowmatrixai.com`
+- `VITE_ALLOW_INDEXING=true`
+
+## Lead Capture Configuration
+
+Lead capture is fully template-driven in `src/data/templates.json`.
+For every `published` template, CI requires:
+- `tally_form_id` (non-placeholder)
+- `deliverable_url` (valid absolute `http(s)` URL, non-placeholder)
+
+Run locally:
 
 ```bash
-SITE_URL=https://flowmatrixai.com npm run build
+npm run validate:templates
+```
+
+## SEO Artifacts
+
+- `dist/sitemap.xml` is generated automatically by `scripts/generate-sitemap.mjs`.
+- `dist/robots.txt` is generated automatically by `scripts/generate-robots.mjs`.
+- Both use build-time env (`SITE_URL`/`VITE_SITE_URL`, `ALLOW_INDEXING`/`VITE_ALLOW_INDEXING`).
+
+## Verification
+
+```bash
+npm run type-check
+npm run build
+npm run preview
 ```

@@ -4,7 +4,10 @@ import path from 'node:path'
 const repoRoot = process.cwd()
 const distDir = path.resolve(repoRoot, 'dist')
 const outputFile = path.join(distDir, 'sitemap.xml')
-const siteUrl = (process.env.SITE_URL || 'https://flowmatrixai.com').replace(/\/+$/, '')
+
+const defaultSiteUrl = 'https://flowmatrix-ai.github.io'
+const configuredSiteUrl = process.env.SITE_URL || process.env.VITE_SITE_URL || defaultSiteUrl
+const siteUrl = configuredSiteUrl.replace(/\/+$/, '')
 
 const DIRECTORY_EXCLUDES = new Set(['assets', '.vite'])
 
@@ -139,6 +142,7 @@ async function main() {
 
   await fs.writeFile(outputFile, xml, 'utf8')
   console.log(`[sitemap] wrote ${routes.length} routes to ${outputFile}`)
+  console.log(`[sitemap] using base URL: ${siteUrl}`)
 }
 
 main().catch((error) => {
