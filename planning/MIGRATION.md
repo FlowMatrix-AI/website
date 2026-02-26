@@ -1,6 +1,6 @@
 # FlowMatrix AI: Migration Strategy & Execution Plan (v4.2)
 
-**Status:** In Progress (MVP Parity Pass)  
+**Status:** Implementation Complete in Staging (Production Cutover Pending)  
 **Last Updated:** February 26, 2026  
 **Source:** `Seabass-T/Flowmatrix-AI-Website` (Vercel/React/Supabase)  
 **Target:** `FlowMatrix-AI/flowmatrix-ai.github.io` (GitHub Pages/Vue 3/SSG)
@@ -12,6 +12,7 @@
 This migration is actively underway and the new site is live in staging shape within the `flowmatrix-ai.github.io` repo.
 
 Core directive remains unchanged:
+
 - Remove backend runtime complexity.
 - Preserve high-value user experience and route coverage.
 - Reach practical parity with the old site without reintroducing disproportionate bloat.
@@ -20,16 +21,16 @@ Core directive remains unchanged:
 
 ## 2. Current Architecture (Implemented)
 
-| Component | Implemented Choice | Notes |
-| --- | --- | --- |
-| Framework | Vue 3 + TypeScript + Vite | Implemented |
-| Routing | `vite-ssg` + Vue Router | Implemented; generated output is static `.html` pages |
-| Hosting | GitHub Pages via Actions | Implemented (`configure-pages`, `upload-pages-artifact`, `deploy-pages`) |
-| Lead Capture | Tally embeds | Implemented with centralized form config |
-| Analytics | GA4 via lightweight `gtag` wrapper | Implemented; load/event behavior controlled by config |
-| Styling | Vanilla CSS + scoped styles | Implemented |
-| Content | Static JSON (`templates.json`) | Implemented; now content-only |
-| Deployment Config | Committed config (`src/config/deployment.json`) | Implemented; no env secrets/vars required |
+| Component         | Implemented Choice                              | Notes                                                                    |
+| ----------------- | ----------------------------------------------- | ------------------------------------------------------------------------ |
+| Framework         | Vue 3 + TypeScript + Vite                       | Implemented                                                              |
+| Routing           | `vite-ssg` + Vue Router                         | Implemented; generated output is static `.html` pages                    |
+| Hosting           | GitHub Pages via Actions                        | Implemented (`configure-pages`, `upload-pages-artifact`, `deploy-pages`) |
+| Lead Capture      | Tally embeds                                    | Implemented with centralized form config                                 |
+| Analytics         | GA4 via lightweight `gtag` wrapper              | Implemented; load/event behavior controlled by config                    |
+| Styling           | Vanilla CSS + scoped styles                     | Implemented                                                              |
+| Content           | Static JSON (`templates.json`)                  | Implemented; now content-only                                            |
+| Deployment Config | Committed config (`src/config/deployment.json`) | Implemented; no env secrets/vars required                                |
 
 ---
 
@@ -66,7 +67,7 @@ Core directive remains unchanged:
 - [x] Base design system and shell components implemented.
 - [x] Core static pages implemented (`/`, 4 service routes, `/terms`, `/privacy`, `404`).
 - [x] `/free` listing + detail routes implemented.
-- [~] Free-template catalog parity is partial (2 templates present; additional legacy high-value entries still pending).
+- [x] Free-template catalog parity completed (10 legacy `/free/*` entries migrated to static content).
 
 ### Phase 3: Analytics & Lead Capture
 
@@ -93,12 +94,12 @@ Core directive remains unchanged:
 
 ### Priority A: Parity-Critical (Do Next)
 
-1. Expand `src/data/templates.json` from 2 entries toward the legacy high-value set (legacy sitemap currently indicates 10 `/free/*` pages).
-2. Complete staged QA pass:
+1. Execute staging-to-production cutover checklist and domain migration.
+2. Complete final staged QA pass:
    - Route rendering and links
    - Mobile and desktop visual checks
    - Form submissions and analytics events
-3. Lock go-live checklist in planning docs with explicit pass/fail status.
+3. Lock production go-live checklist results with explicit pass/fail status.
 
 ### Priority B: Quality Hardening
 
