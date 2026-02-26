@@ -25,6 +25,7 @@ const template = computed(() => {
 })
 
 const currentFormId = forms.freeGetAccessNow.formId
+const freeTemplateFormMinHeight = 280
 
 const seoHead = computed(() => {
   if (!template.value) {
@@ -137,6 +138,7 @@ function handleLeadSubmitted() {
       <TallyEmbed
         v-if="currentFormId"
         :form-id="currentFormId"
+        :min-height="freeTemplateFormMinHeight"
         :title="`Lead form for ${template.title}`"
         @submitted="handleLeadSubmitted"
       />
