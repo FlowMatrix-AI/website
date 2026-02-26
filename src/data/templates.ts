@@ -91,6 +91,7 @@ function normalizeTemplate(record: unknown): Template | null {
     ),
     labels: readStringArray(templateRecord, ['labels']),
     toolsUsed: readStringArray(templateRecord, ['toolsUsed', 'tools_used']),
+    builders: readStringArray(templateRecord, ['builders']),
     thumbnailUrl: readString(templateRecord, ['thumbnailUrl', 'thumbnail_url']),
     youtubeId: readString(templateRecord, ['youtubeId', 'youtube_id']),
     publishedAt: readString(templateRecord, ['publishedAt', 'published_at']),
@@ -98,9 +99,31 @@ function normalizeTemplate(record: unknown): Template | null {
   }
 }
 
+function sortDateValue(value: string | null): number {
+  if (!value) {
+    return 0
+  }
+
+  const parsed = Date.parse(value)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
 export const templates: Template[] = (rawTemplates as unknown[])
   .map((record) => normalizeTemplate(record))
   .filter((record): record is Template => record !== null)
+  .sort((a, b) => {
+    const publishedDelta = sortDateValue(b.publishedAt) - sortDateValue(a.publishedAt)
+    if (publishedDelta !== 0) {
+      return publishedDelta
+    }
+
+    const updatedDelta = sortDateValue(b.updatedAt) - sortDateValue(a.updatedAt)
+    if (updatedDelta !== 0) {
+      return updatedDelta
+    }
+
+    return a.title.localeCompare(b.title)
+  })
 
 export function getTemplateBySlug(slug: string): Template | null {
   const normalizedSlug = slug.trim().toLowerCase()

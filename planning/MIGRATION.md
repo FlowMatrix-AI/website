@@ -1,166 +1,134 @@
-# FlowMatrix AI: Migration Strategy & Execution Plan (v4 Final)
+# FlowMatrix AI: Migration Strategy & Execution Plan (v4.2)
 
-**Status:** Approved for Execution  
-**Date:** February 26, 2026  
-**Source:** `Seabass-T/Flowmatrix-AI-Website` (Vercel/React)  
-**Target:** `FlowMatrix-AI/flowmatrix-ai.github.io` (GitHub Pages/Vue 3)
+**Status:** In Progress (MVP Parity Pass)  
+**Last Updated:** February 26, 2026  
+**Source:** `Seabass-T/Flowmatrix-AI-Website` (Vercel/React/Supabase)  
+**Target:** `FlowMatrix-AI/flowmatrix-ai.github.io` (GitHub Pages/Vue 3/SSG)
 
 ---
 
 ## 1. Executive Summary
 
-This document defines the definitive path to migrate FlowMatrix.com to a high-performance static site on GitHub Pages.
+This migration is actively underway and the new site is live in staging shape within the `flowmatrix-ai.github.io` repo.
 
-**Core Directive:** Radical simplification. We are removing the backend entirely. All lead capture moves to Tally. All content becomes static.
-
-**Critical Technical Strategy:**
-We will use **`vite-ssg` (Static Site Generation)**.
-This provides the best balance:
-
-- **Authoring:** Modern Vue 3 components (Nav, Footer, Pages) for maintainability and consistency with company standards.
-- **Output:** Real static HTML files for every route (e.g., `/free/invoice-manager/index.html`) to ensure SEO compatibility with GitHub Pages.
-- **Performance:** Instant SPA-style navigation after initial load.
+Core directive remains unchanged:
+- Remove backend runtime complexity.
+- Preserve high-value user experience and route coverage.
+- Reach practical parity with the old site without reintroducing disproportionate bloat.
 
 ---
 
-## 2. Architecture & Stack
+## 2. Current Architecture (Implemented)
 
-| Component            | Decision                  | Rationale                                                                                         |
-| -------------------- | ------------------------- | ------------------------------------------------------------------------------------------------- |
-| **Framework**        | Vue 3 + TypeScript + Vite | Company standard. Lightweight, performance-first.                                                 |
-| **Routing Strategy** | **SSG (vite-ssg)**        | **CRITICAL:** Generates real `index.html` files for every route. Solves GitHub Pages 404/SEO gap. |
-| **Hosting**          | GitHub Pages              | Deploy with GitHub Actions custom workflow (`upload-pages-artifact` + `deploy-pages`).            |
-| **Lead Capture**     | Tally.io                  | Zero-maintenance backend. Handles storage, notification, and export.                              |
-| **Analytics**        | Google Analytics 4 (GA4)  | Replaces custom database tracking. Standardized on `view_item` and `generate_lead` events.        |
-| **Styling**          | Vanilla CSS + Scoped      | Dropping Tailwind to reduce build complexity and dependency overhead.                             |
-| **Content**          | Static JSON               | "Database" content (templates) exported to JSON and bundled at build time.                        |
-
----
-
-## 3. Migration Scope
-
-### 3.1 What we keep (Ported)
-
-- **Domain:** `flowmatrixai.com` (DNS switch required)
-- **Assets:** All ~32MB of existing video/images (well within GitHub Pages limits).
-- **Routes:** 1:1 mapping of all 10 existing verified routes.
-- **Content:** Copy from logic-less `constants.ts` and hardcoded components.
-
-### 3.2 What we drop (Decommissioned)
-
-- ❌ **Supabase:** Database, Auth, Edge Functions, Row Level Security.
-- ❌ **Vercel:** Hosting, Analytics, Logs.
-- ❌ **React Ecosystem:** Tailwind, shadcn/ui, Radix, framer-motion.
-- ❌ **Custom Logic:** `EmailGate.tsx`, `email-storage.ts`, API fetchers.
-- ❌ **Legacy:** `newsletter-signup` function, heavy `VisualEffects.tsx` (simplified port).
+| Component | Implemented Choice | Notes |
+| --- | --- | --- |
+| Framework | Vue 3 + TypeScript + Vite | Implemented |
+| Routing | `vite-ssg` + Vue Router | Implemented; generated output is static `.html` pages |
+| Hosting | GitHub Pages via Actions | Implemented (`configure-pages`, `upload-pages-artifact`, `deploy-pages`) |
+| Lead Capture | Tally embeds | Implemented with centralized form config |
+| Analytics | GA4 via lightweight `gtag` wrapper | Implemented; load/event behavior controlled by config |
+| Styling | Vanilla CSS + scoped styles | Implemented |
+| Content | Static JSON (`templates.json`) | Implemented; now content-only |
+| Deployment Config | Committed config (`src/config/deployment.json`) | Implemented; no env secrets/vars required |
 
 ---
 
-## 4. Key Solutions to Identified Risks
+## 3. Scope Rules (For MVP Parity)
 
-### Risk 1: "SPA on GitHub Pages kills SEO" (HTTP 404s)
+### 3.1 Keep / Reach
 
-**Solution: Explicit SSG Config via `includedRoutes`**
+- 1:1 route coverage for core marketing and legal routes.
+- High-confidence parity for homepage + service pages + legal pages.
+- Practical parity for `/free` library where SEO/value impact is highest.
 
-We will configure `vite-ssg` with an `includedRoutes` function that reads `templates.json` and returns all dynamic paths:
+### 3.2 Intentionally Drop
 
-```ts
-// vite.config.ts
-import { defineConfig } from "vite";
-import templates from "./src/data/templates.json";
-
-export default defineConfig({
-  ssgOptions: {
-    includedRoutes(paths) {
-      const templatePaths = templates.map(
-        (t: { slug: string }) => `/free/${t.slug}`,
-      );
-      return [...new Set([...paths, ...templatePaths])];
-    },
-  },
-});
-```
-
-This ensures a physical HTML file is generated for every template page, guaranteeing 200 responses for valid migrated routes.
-
-### Risk 2: Loss of Granular Analytics
-
-We replace Supabase `template_views` with standard GA4 events:
-
-- `view_item`: fired on `/free/:slug` mount. Params: `{ item_id: slug, item_name: title }`.
-- `generate_lead`: fired on successful Tally form completion.
-
-### Risk 3: "No Backend" Limiting CRM Needs
-
-**Solution: Tally Webhooks.**
-
-Tally native integrations/webhooks can send data to Zapier/Make/Airtable instantly. We rely on Tally infrastructure, not our own backend.
+- Supabase runtime (queries, tracking tables, RLS policies, Edge Functions).
+- Vercel runtime dependencies.
+- Per-template backend/email gate complexity.
+- UI complexity that does not materially affect conversion or clarity.
 
 ---
 
-## 5. Execution Plan
+## 4. Execution Status
 
-### Phase 1: Foundation (Days 1-2)
+### Phase 1: Foundation
 
-- [ ] Initialize Vue 3 + Vite + TypeScript repository.
-- [ ] Configure `vite-ssg` with `includedRoutes` for template generation.
-- [ ] Set up GitHub Actions custom Pages workflow:
-  - Build on push to `main`
-  - `actions/configure-pages@v5`
-  - `actions/upload-pages-artifact@v4` (path: `dist`)
-  - `actions/deploy-pages@v4`
-- [ ] Add `public/404.html` custom fallback page (served for unknown routes on GitHub Pages).
-- [ ] **Gate 1:** Verify generated output includes `dist/free/<slug>/index.html` for all template slugs.
+- [x] Vue 3 + Vite + TypeScript scaffolded.
+- [x] `vite-ssg` configured with `includedRoutes` from template slugs.
+- [x] GitHub Pages Actions workflow implemented.
+- [x] `public/404.html` implemented.
+- [x] Static route generation validated in `dist/` (current output format is `.html` files, not nested `index.html`).
 
-### Phase 2: Content Migration (Days 2-4)
+### Phase 2: Content Migration
 
-- [ ] Port assets (`public/`).
-- [ ] Port design system (CSS variables for Black/White/Gold theme).
-- [ ] Build shell (Nav, Footer).
-- [ ] Build static pages (Index, Service Details x4, Legal).
-- [ ] Export Supabase `templates` table to `src/data/templates.json`.
-- [ ] Build template detail page (dynamic route component).
+- [x] Core assets migrated into `public/`.
+- [x] Base design system and shell components implemented.
+- [x] Core static pages implemented (`/`, 4 service routes, `/terms`, `/privacy`, `404`).
+- [x] `/free` listing + detail routes implemented.
+- [~] Free-template catalog parity is partial (2 templates present; additional legacy high-value entries still pending).
 
-### Phase 3: Analytics & Lead Capture (Day 5)
+### Phase 3: Analytics & Lead Capture
 
-- [ ] Implement GA4 (`vue-gtag`) with `view_item` and `generate_lead`.
-- [ ] Replace custom Email Gate with Tally Popup/Embed.
-- [ ] **Gate 2:** Verify end-to-end flow: landing -> analytics event -> Tally submit -> lead captured.
+- [x] Tally integration implemented for main CTA (`mainGetInTouch`) and shared `/free` access form (`freeGetAccessNow`).
+- [x] Template-level and home lead analytics events wired (`view_item`, `generate_lead`).
+- [x] Config/validation model implemented (`deployment`, `forms`, `templates` validators in CI).
+- [ ] Gate validation still required in staging: end-to-end event verification in GA4 realtime and successful Tally receipt for representative flows.
 
-### Phase 4: Cutover (Day 6)
+### Phase 4: Cutover
 
-- [ ] **Pre-Flight:** Lower DNS TTL for `flowmatrixai.com` to 300 seconds (24h prior).
-- [ ] **Deploy:** Final push to `main` and confirm successful Pages deployment from Actions artifact.
-- [ ] **Pages Config:** Ensure Pages source is `GitHub Actions` and custom domain is set to `flowmatrixai.com` in repository settings.
-- [ ] **DNS Switch:** Update apex A records to GitHub Pages IPs and `www` CNAME to `flowmatrix-ai.github.io`.
-- [ ] **HTTPS:** Wait for certificate provisioning, then enforce HTTPS.
-- [ ] **Post-Flight:** Validate all routes, forms, and GA4 real-time events.
+- [ ] DNS TTL lower + cutover execution.
+- [ ] Pages custom domain config (`flowmatrixai.com`).
+- [ ] TLS confirmation and post-cutover validation.
 
-### Phase 5: Cleanup (Day 7+)
+### Phase 5: Legacy Decommission
 
-- [ ] Archive Vercel project.
+- [ ] Archive Vercel project (after stable cutover window).
 - [ ] Archive Supabase project.
-- [ ] Benchmark Lighthouse (mobile) >= 90.
+- [ ] Mark legacy repo archival status.
 
 ---
 
-## 6. Launch Gates (Required)
+## 5. Remaining Path to MVP Parity (No Bloat)
 
-Launch is blocked until all checks pass:
+### Priority A: Parity-Critical (Do Next)
 
-1. **Routing/SSG:** every expected route has generated HTML and serves correctly.
-2. **SEO:** each key route has title, meta description, canonical, and OG tags.
-3. **Technical SEO:** `robots.txt`, `sitemap.xml`, and custom `404.html` are present and valid.
-4. **Analytics:** `view_item` and `generate_lead` visible in GA4 Realtime during test flow.
-5. **Lead Capture:** successful Tally submissions received by configured destination.
+1. Expand `src/data/templates.json` from 2 entries toward the legacy high-value set (legacy sitemap currently indicates 10 `/free/*` pages).
+2. Complete staged QA pass:
+   - Route rendering and links
+   - Mobile and desktop visual checks
+   - Form submissions and analytics events
+3. Lock go-live checklist in planning docs with explicit pass/fail status.
+
+### Priority B: Quality Hardening
+
+1. Verify sitemap/robots output on every build.
+2. Verify canonical/OG coverage across all priority routes.
+3. Run crawl-based broken-link/asset checks before cutover.
+
+### Priority C: Cutover + Focus Shift
+
+1. Cut domain to new site only after Priority A+B pass.
+2. Keep legacy repo read-only/archive after stability window.
+3. Continue product iteration in the new repo only.
+
+---
+
+## 6. Launch Gates (Must Pass)
+
+1. Routing/SSG: All intended routes serve correctly from generated static output.
+2. SEO: Title, description, canonical, OG metadata present on priority pages.
+3. Technical SEO: Valid `robots.txt`, `sitemap.xml`, and `404.html`.
+4. Analytics: `view_item` and `generate_lead` observable in GA4 realtime.
+5. Lead Capture: Tally submissions received for both main CTA and `/free` flow.
 
 ---
 
 ## 7. Rollback Plan
 
-If the new site fails critically within 2 hours of cutover:
+If critical issues appear shortly after cutover:
 
-1. Revert DNS (A/CNAME) back to Vercel.
+1. Revert DNS to legacy Vercel endpoint.
 2. Confirm legacy site health.
-3. Fix root cause in Vue app.
-4. Retry cutover.
+3. Patch issue in new repo.
+4. Re-run cutover checklist and retry.

@@ -8,6 +8,7 @@ import { forms } from '../config/forms'
 import { getTemplateBySlug } from '../data/templates'
 import { createSeoHead } from '../lib/seo'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
+import type { DeliverableType } from '../types/template'
 
 const route = useRoute()
 
@@ -27,6 +28,33 @@ const template = computed(() => {
 const currentFormId = forms.freeGetAccessNow.formId
 const freeTemplateFormMinHeight = 280
 
+const typeLabelMap: Record<DeliverableType, string> = {
+  template: 'Template',
+  demo: 'Live Demo',
+  document: 'Document',
+  discount: 'Discount',
+  tool: 'Tool',
+  course: 'Course',
+}
+
+const typeClassMap: Record<DeliverableType, string> = {
+  template: 'type-template',
+  demo: 'type-demo',
+  document: 'type-document',
+  discount: 'type-discount',
+  tool: 'type-tool',
+  course: 'type-course',
+}
+
+const youtubeEmbedUrl = computed(() => {
+  if (!template.value?.youtubeId) {
+    return null
+  }
+
+  const encodedId = encodeURIComponent(template.value.youtubeId)
+  return `https://www.youtube.com/embed/${encodedId}`
+})
+
 const seoHead = computed(() => {
   if (!template.value) {
     return createSeoHead({
@@ -45,6 +73,20 @@ const seoHead = computed(() => {
     type: 'article',
   })
 })
+
+function typeLabel(type: DeliverableType | null): string {
+  if (!type) {
+    return 'Resource'
+  }
+  return typeLabelMap[type]
+}
+
+function typeClass(type: DeliverableType | null): string {
+  if (!type) {
+    return 'type-default'
+  }
+  return typeClassMap[type]
+}
 
 useHead(seoHead)
 
@@ -104,8 +146,30 @@ function handleLeadSubmitted() {
 <template>
   <section class="surface-card template-detail animate-fade-in-up" v-if="template">
     <RouterLink to="/free" class="back-link">← Back to templates</RouterLink>
+
+    <header class="detail-header">
+      <span class="type-badge" :class="typeClass(template.deliverableType)">
+        {{ typeLabel(template.deliverableType) }}
+      </span>
+      <p v-if="template.builders.length > 0" class="builder-line">
+        By {{ template.builders.join(', ') }}
+      </p>
+    </header>
+
     <h1 class="page-title">{{ template.title }}</h1>
-    <p class="page-subtitle">{{ template.description }}</p>
+
+    <div class="video-wrap" v-if="youtubeEmbedUrl">
+      <iframe
+        :src="youtubeEmbedUrl"
+        :title="template.title"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      />
+    </div>
+
+    <p class="video-caption" v-if="youtubeEmbedUrl">Watch the walkthrough above.</p>
+    <p class="detail-description">{{ template.description }}</p>
 
     <div class="meta-wrap" v-if="template.toolsUsed.length > 0 || template.labels.length > 0">
       <div v-if="template.toolsUsed.length > 0">
@@ -178,6 +242,95 @@ function handleLeadSubmitted() {
   text-decoration: none;
 }
 
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.builder-line {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.type-badge {
+  border-radius: 999px;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.74rem;
+  border: 1px solid;
+}
+
+.type-default {
+  color: #d4d4d8;
+  border-color: rgba(212, 212, 216, 0.4);
+  background: rgba(24, 24, 27, 0.75);
+}
+
+.type-template {
+  color: #a7f3d0;
+  border-color: rgba(52, 211, 153, 0.5);
+  background: rgba(6, 95, 70, 0.55);
+}
+
+.type-demo {
+  color: #d8b4fe;
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(88, 28, 135, 0.55);
+}
+
+.type-document {
+  color: #bfdbfe;
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(30, 58, 138, 0.55);
+}
+
+.type-discount {
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.55);
+  background: rgba(120, 53, 15, 0.55);
+}
+
+.type-tool {
+  color: #a5f3fc;
+  border-color: rgba(6, 182, 212, 0.55);
+  background: rgba(21, 94, 117, 0.55);
+}
+
+.type-course {
+  color: #fbcfe8;
+  border-color: rgba(236, 72, 153, 0.55);
+  background: rgba(131, 24, 67, 0.55);
+}
+
+.video-wrap {
+  margin: var(--space-6) 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #000;
+}
+
+.video-wrap iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.video-caption {
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.detail-description {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
 .meta-wrap {
   margin-top: var(--space-6);
   display: grid;
@@ -234,11 +387,6 @@ function handleLeadSubmitted() {
   border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-sm);
   padding: var(--space-4);
-}
-
-.missing-form a {
-  color: var(--color-gold-soft);
-  text-decoration: none;
 }
 
 .detail-actions {

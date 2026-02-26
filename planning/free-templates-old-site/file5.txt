@@ -1,0 +1,10 @@
+https://flowmatrixai.com/free/voice-agent-google-1
+
+TemplateBy Sebastian Tamburro
+Inbound Voice Agents for HVAC Customer Service: Appointment Booking and Calendar Management
+
+Sebastian demonstrates building a customer service voice agent for an HVAC company using Google Workspace infrastructure and n8n workflow automation. The agent handles four core functions: checking calendar availability, verifying specific time slots, booking appointments, and canceling appointments. This walkthrough explains why inbound agents outperform outbound agents based on customer intent, compares RetailAI and Vapi as voice agent platforms, and includes a live demonstration of the agent booking a real appointment. The video covers webhook setup, integration with Google Workspace for calendar and email infrastructure, and practical implementation of voice agents as a service offering. A downloadable n8n workflow and tools are available for the complete HVAC voice agent setup. Tools covered include n8n for workflow automation with webhooks, RetailAI as the voice agent platform, Google Workspace for calendar and email infrastructure, and Vapi as an alternative voice agent platform.
+Topics
+Enterprise
+
+https://www.youtube.com/watch?v=-cnavZ2F2is

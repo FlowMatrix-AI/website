@@ -1,0 +1,11 @@
+https://flowmatrixai.com/free/kiro-walkthrough-1
+
+DocumentBy Sebastian Tamburro
+Spec-Driven Development with Kiro.dev for Non-Technical Users
+
+Sebastian explores Kiro.dev as a spec-driven AI development platform designed for users without formal computer science backgrounds. This walkthrough covers the complete platform architecture including specs, tasks, design documents, agent hooks, MCP servers, and AWS integration. The video demonstrates how Kiro.dev uses a planning-first approach with PRD documents, design specifications, and structured tasks before code generation. Key features examined include version history, GitHub integration, Mermaid chart extensions for visual planning, context windows, agent hooks for development automation, agent steering with dynamic context documents, and Powers for MCP server integration. The demonstration also covers AWS CDK MCP for cloud infrastructure management and Amazon Bedrock Agent Core integration for agent hosting. This comprehensive overview shows how spec-driven development bridges the gap between AI capability and AI adoption for professional software development without requiring a coding background.
+Topics
+Education
+Individual
+
+https://www.youtube.com/watch?v=cNWbpGmyj2k

@@ -1,0 +1,10 @@
+https://flowmatrixai.com/free/ainotes-to-crm
+
+TemplateBy Sebastian Tamburro
+Automatically Generate CRM Tasks From Meeting Notes Using n8n Workflow Automation
+
+This video demonstrates how to build an n8n workflow that automatically converts meeting notes into CRM tasks in under 60 seconds. The complete build includes Gmail trigger setup, AI extraction using OpenRouter and GPT-4.1 Mini, Google Drive document sharing, and ClickUp task creation. The workflow uses Google Gemini for AI meeting notes and includes routing logic to handle both document storage and task creation. The tutorial covers system and user prompts, AI Information Extractor configuration, ClickUp API integration using HTTP requests and access tokens, and text classification for advanced routing. A demonstration shows the automated task creation and meeting summary page generation in ClickUp. The video also explores building an agentic system with sub-agents for more advanced automation capabilities. A free n8n workflow JSON template is available for implementation.
+Topics
+Individual
+
+https://www.youtube.com/watch?v=XaW7nsJALvk

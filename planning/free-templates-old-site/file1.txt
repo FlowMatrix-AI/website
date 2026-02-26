@@ -1,0 +1,11 @@
+https://flowmatrixai.com/free/content-generator
+
+TemplateBy Sebastian Tamburro
+Automated Social Media Content Workflow: From Competitor Research to Optimized Posts
+
+This workflow automates social media content creation by scraping successful competitor posts, analyzing content structures including hooks, retention methods, and rewards, and generating optimized content based on proven engagement patterns. The system stores all data in a traceable database to correlate content performance with engagement metrics over time. Users submit content ideas through a simple form that triggers keyword searches and platform scraping across LinkedIn, YouTube, Instagram, and TikTok. The workflow filters for high engagement posts, uses AI agents to break down content units, generates proposed post structures, and stores everything in ClickUp for easy access. Google Sheets serves as a temporary database before migration to vector databases. The system includes identifiers and traceability features to enable correlation analysis as the database grows. This workflow is part of a larger Marketing MEGA Agent designed to automate the entire content creation process. Tools used include n8n for workflow automation, Google Sheets for database management, ClickUp for task management and content tracking, AI agents for content analysis and generation, and platform scrapers for major social media channels.
+Topics
+Individual
+Enterprise
+
+https://www.youtube.com/watch?v=y5CSU1i24f4

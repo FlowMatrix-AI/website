@@ -8,6 +8,7 @@ export type Template = {
   deliverableType: DeliverableType | null
   labels: string[]
   toolsUsed: string[]
+  builders: string[]
   thumbnailUrl: string | null
   youtubeId: string | null
   publishedAt: string | null

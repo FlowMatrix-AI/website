@@ -1,0 +1,10 @@
+https://flowmatrixai.com/free/invoice-lifecycle-assistant
+
+TemplateBy Sebastian Tamburro
+Automated Invoice Lifecycle Management System: Complete Invoice Creation, Tracking, and Payment Collection
+
+FlowMatrix AI's Invoice Lifecycle Manager is an end-to-end automated system that handles the entire invoicing process from creation to payment collection without manual intervention. The system automates invoice creation and delivery by triggering when projects are marked complete, gathering client and project information, creating professionally formatted PDF invoices, and sending them to clients while updating tracking systems. It provides intelligent communication monitoring by scanning incoming emails daily for invoice-related communications, automatically identifying payment confirmations, classifying client questions that need attention, and sending real-time text notifications with direct links to important emails. The system includes strategic follow-up automation with a progressive reminder sequence at 1 week, 2 weeks, and due date, automatically escalating tone for overdue invoices, sending daily reminders after due dates, and offering optional automated phone call integration for severely overdue accounts. This system saves businesses 10 to 20 plus hours monthly while reducing payment collection time by 40 to 60 percent.
+Topics
+Enterprise
+
+https://www.youtube.com/watch?v=6_XnGTYzS7A
