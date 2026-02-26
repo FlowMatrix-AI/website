@@ -70,7 +70,7 @@ export const homeContent = {
       name: 'Umberto Lopardo',
       title: 'CEO & Co-founder',
       company: 'UBL Group',
-      logo: '/third-party-logos/clients/ubl-group.png',
+      logo: '/client-logos/ubl-group.png',
     },
   },
   founders: {
