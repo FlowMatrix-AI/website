@@ -427,7 +427,12 @@ function handleHomeLeadSubmitted() {
 .founder-card img {
   width: 100%;
   height: 260px;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center top;
+  background:
+    radial-gradient(440px 180px at 50% -10%, rgba(212, 168, 75, 0.12), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  padding: 0.4rem 0.4rem 0;
 }
 
 .founder-card > div {
@@ -554,6 +559,7 @@ function handleHomeLeadSubmitted() {
 
   .founder-card img {
     height: 220px;
+    padding-top: 0.25rem;
   }
 
   .client-logo {
