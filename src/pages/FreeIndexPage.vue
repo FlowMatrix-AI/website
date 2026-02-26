@@ -57,6 +57,10 @@ const filteredTemplates = computed(() => {
   })
 })
 
+const hasActiveFilters = computed(
+  () => selectedType.value !== 'all' || searchQuery.value.trim().length > 0,
+)
+
 function typeLabel(type: DeliverableType | null): string {
   if (!type) {
     return 'Resource'
@@ -71,6 +75,11 @@ function typeClass(type: DeliverableType | null): string {
   return typeClassMap[type]
 }
 
+function clearFilters() {
+  selectedType.value = 'all'
+  searchQuery.value = ''
+}
+
 useHead(
   createSeoHead({
     title: 'Free Templates',
@@ -83,16 +92,28 @@ useHead(
 
 <template>
   <section class="templates-page animate-fade-in-up">
-    <header class="page-header">
-      <p class="header-kicker">FlowMatrix AI Resource Library</p>
-      <h1 class="page-title">Free Stuff</h1>
-      <p class="page-subtitle">
-        Browse automation templates, walkthroughs, and implementation documents. Every page is statically generated for speed and SEO.
-      </p>
-      <p class="resource-count">{{ filteredTemplates.length }} resources</p>
+    <header class="surface-card page-header">
+      <div>
+        <p class="section-eyebrow">FlowMatrix AI Resource Library</p>
+        <h1 class="page-title">Free Stuff</h1>
+        <p class="page-subtitle">
+          Browse automation templates, walkthroughs, and implementation documents. Every page is statically generated for speed and SEO.
+        </p>
+      </div>
+      <div class="resource-pills" aria-label="Resource counts">
+        <span>{{ filteredTemplates.length }} shown</span>
+        <span>{{ templates.length }} total</span>
+      </div>
     </header>
 
     <section class="surface-card filter-panel">
+      <div class="filter-head">
+        <p class="section-eyebrow">Filter Library</p>
+        <button v-if="hasActiveFilters" type="button" class="clear-btn" @click="clearFilters">
+          Clear filters
+        </button>
+      </div>
+
       <label class="search-label" for="template-search">Search</label>
       <input
         id="template-search"
@@ -127,14 +148,18 @@ useHead(
     <ul class="template-grid" v-if="filteredTemplates.length > 0">
       <li v-for="template in filteredTemplates" :key="template.slug">
         <RouterLink :to="`/free/${template.slug}`" class="template-link">
-          <article class="surface-card template-card">
+          <article class="surface-card template-card card-lift">
             <div class="media-wrap" v-if="template.thumbnailUrl">
               <img :src="template.thumbnailUrl" :alt="template.title" loading="lazy" />
+              <div class="media-fade" aria-hidden="true" />
               <span class="type-badge" :class="typeClass(template.deliverableType)">
                 {{ typeLabel(template.deliverableType) }}
               </span>
             </div>
             <div class="card-body">
+              <p class="card-meta">
+                {{ template.builders.length > 0 ? `By ${template.builders[0]}` : 'FlowMatrix Resource' }}
+              </p>
               <h2>{{ template.title }}</h2>
               <p class="card-description">{{ template.description }}</p>
 
@@ -156,6 +181,7 @@ useHead(
     <section v-else class="surface-card empty-state">
       <h2>No resources matched this filter</h2>
       <p>Try clearing the search term or changing the selected resource type.</p>
+      <button type="button" class="clear-btn" @click="clearFilters">Reset filters</button>
     </section>
   </section>
 </template>
@@ -167,27 +193,53 @@ useHead(
 }
 
 .page-header {
-  display: grid;
-  gap: var(--space-3);
+  padding: clamp(1.2rem, 3.2vw, 2rem);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  align-items: flex-start;
 }
 
-.header-kicker {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.75rem;
-  color: var(--color-gold-soft);
+.resource-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
-.resource-count {
-  margin: 0;
+.resource-pills span {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.26rem 0.6rem;
   color: var(--color-text-muted);
+  font-size: 0.78rem;
 }
 
 .filter-panel {
   padding: var(--space-5);
   display: grid;
   gap: var(--space-4);
+}
+
+.filter-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.clear-btn {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-muted);
+  padding: 0.34rem 0.72rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.clear-btn:hover {
+  border-color: var(--color-border-gold);
+  color: var(--color-gold-soft);
 }
 
 .search-label {
@@ -199,7 +251,7 @@ input[type='search'] {
   width: 100%;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem 0.9rem;
+  padding: 0.8rem 0.95rem;
   background: rgba(0, 0, 0, 0.32);
   color: var(--color-text);
 }
@@ -219,7 +271,7 @@ input[type='search']:focus {
 .type-pill {
   border: 1px solid var(--color-border);
   border-radius: 999px;
-  padding: 0.35rem 0.72rem;
+  padding: 0.38rem 0.78rem;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
@@ -249,12 +301,6 @@ input[type='search']:focus {
 .template-card {
   height: 100%;
   overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.template-link:hover .template-card {
-  transform: translateY(-2px);
-  border-color: rgba(212, 168, 75, 0.35);
 }
 
 .media-wrap {
@@ -268,6 +314,17 @@ input[type='search']:focus {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.template-link:hover .media-wrap img {
+  transform: scale(1.03);
+}
+
+.media-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 55%);
 }
 
 .type-badge {
@@ -327,6 +384,12 @@ input[type='search']:focus {
   padding: var(--space-4);
 }
 
+.card-meta {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-faint);
+  font-size: 0.78rem;
+}
+
 .card-body h2 {
   margin: 0 0 var(--space-2);
   font-size: 1.05rem;
@@ -335,7 +398,7 @@ input[type='search']:focus {
 .card-description {
   margin: 0 0 var(--space-3);
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.55;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -374,11 +437,14 @@ input[type='search']:focus {
 }
 
 .empty-state {
-  padding: var(--space-5);
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
 }
 
 .empty-state h2 {
-  margin: 0 0 var(--space-2);
+  margin: 0;
   font-size: 1.15rem;
 }
 
@@ -394,6 +460,10 @@ input[type='search']:focus {
 }
 
 @media (max-width: 760px) {
+  .page-header {
+    display: grid;
+  }
+
   .template-grid {
     grid-template-columns: 1fr;
   }

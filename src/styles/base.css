@@ -17,8 +17,9 @@ body {
   font-family: var(--font-sans);
   color: var(--color-text);
   background:
-    radial-gradient(1200px 500px at 85% -20%, rgba(212, 168, 75, 0.13), transparent 55%),
-    radial-gradient(900px 420px at 10% -30%, rgba(255, 255, 255, 0.06), transparent 55%),
+    radial-gradient(1200px 560px at 85% -18%, rgba(212, 168, 75, 0.13), transparent 56%),
+    radial-gradient(1000px 460px at 8% -28%, rgba(255, 255, 255, 0.07), transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%),
     var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -65,10 +66,59 @@ video {
 }
 
 .surface-card {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.034), rgba(255, 255, 255, 0.012)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent 70%);
   box-shadow: var(--shadow-soft);
+}
+
+.surface-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(212, 168, 75, 0.07), transparent 35%, transparent 68%, rgba(255, 255, 255, 0.035));
+  opacity: 0.6;
+}
+
+.section-eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--color-gold-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin-inline: auto;
+  width: min(40%, 260px);
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 75, 0.62), transparent);
+}
+
+.card-lift {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card-lift:hover {
+  border-color: var(--color-border-gold);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 .gold-gradient-text {
@@ -76,6 +126,16 @@ video {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.gold-link {
+  color: var(--color-gold-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.gold-link:hover {
+  color: var(--color-gold-bright);
 }
 
 .visually-hidden {

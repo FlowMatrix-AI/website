@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import Button from '../ui/Button.vue'
 
@@ -17,6 +17,20 @@ const navItems = [
 
 const onScroll = () => {
   scrolled.value = window.scrollY > 24
+}
+
+const activeHash = computed(() => route.hash || '')
+
+const isActive = (href: string) => {
+  if (href === '/free') {
+    return route.path.startsWith('/free')
+  }
+
+  if (href.startsWith('/#')) {
+    return route.path === '/' && activeHash.value === href.slice(1)
+  }
+
+  return route.path === href
 }
 
 onMounted(() => {
@@ -49,7 +63,13 @@ watch(
       </RouterLink>
 
       <nav class="nav-desktop" aria-label="Primary">
-        <a v-for="item in navItems" :key="item.href" :href="item.href" class="nav-link">
+        <a
+          v-for="item in navItems"
+          :key="item.href"
+          :href="item.href"
+          class="nav-link"
+          :class="{ 'is-active': isActive(item.href) }"
+        >
           {{ item.label }}
         </a>
       </nav>
@@ -72,7 +92,13 @@ watch(
     <transition name="mobile-fade">
       <div v-if="mobileOpen" id="mobile-menu" class="mobile-panel">
         <nav class="mobile-menu" aria-label="Mobile">
-          <a v-for="item in navItems" :key="item.href" :href="item.href" class="mobile-link">
+          <a
+            v-for="item in navItems"
+            :key="item.href"
+            :href="item.href"
+            class="mobile-link"
+            :class="{ 'is-active': isActive(item.href) }"
+          >
             {{ item.label }}
           </a>
           <Button href="/#start" size="lg" class="animate-pulse-glow">Start Conversation</Button>
@@ -89,13 +115,13 @@ watch(
   height: var(--nav-height);
   z-index: 20;
   border-bottom: 1px solid transparent;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: background 0.22s ease, border-color 0.22s ease;
 }
 
 .nav-wrap--scrolled {
-  background: rgba(5, 5, 5, 0.88);
-  backdrop-filter: blur(14px);
-  border-color: var(--color-border);
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
 .nav-inner {
@@ -114,6 +140,7 @@ watch(
 .brand-link img {
   width: 132px;
   height: auto;
+  filter: saturate(1.03);
 }
 
 .nav-desktop {
@@ -123,6 +150,7 @@ watch(
 }
 
 .nav-link {
+  position: relative;
   text-decoration: none;
   color: var(--color-text-muted);
   font-size: 0.9rem;
@@ -130,8 +158,31 @@ watch(
   transition: color 0.2s ease;
 }
 
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 75, 0.9), transparent);
+  opacity: 0;
+  transform: scaleX(0.65);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
 .nav-link:hover {
   color: var(--color-text);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.nav-link.is-active {
+  color: var(--color-gold-soft);
 }
 
 .nav-actions {
@@ -153,9 +204,11 @@ watch(
 .mobile-panel {
   position: fixed;
   inset: var(--nav-height) 0 0;
-  background: rgba(5, 5, 5, 0.97);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--color-border);
+  background:
+    radial-gradient(700px 300px at 82% -10%, rgba(212, 168, 75, 0.14), transparent 64%),
+    rgba(5, 5, 5, 0.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .mobile-menu {
@@ -169,6 +222,12 @@ watch(
   text-decoration: none;
   font-size: 1.08rem;
   font-weight: 500;
+  opacity: 0.9;
+}
+
+.mobile-link.is-active {
+  color: var(--color-gold-soft);
+  opacity: 1;
 }
 
 .mobile-fade-enter-active,

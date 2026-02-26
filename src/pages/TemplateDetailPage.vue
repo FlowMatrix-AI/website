@@ -26,7 +26,7 @@ const template = computed(() => {
 })
 
 const currentFormId = forms.freeGetAccessNow.formId
-const freeTemplateFormMinHeight = 280
+const freeTemplateFormMinHeight = 240
 
 const typeLabelMap: Record<DeliverableType, string> = {
   template: 'Template',
@@ -158,69 +158,74 @@ function handleLeadSubmitted() {
 
     <h1 class="page-title">{{ template.title }}</h1>
 
-    <div class="video-wrap" v-if="youtubeEmbedUrl">
-      <iframe
-        :src="youtubeEmbedUrl"
-        :title="template.title"
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      />
+    <div class="detail-layout">
+      <div class="detail-main">
+        <div class="video-wrap" v-if="youtubeEmbedUrl">
+          <iframe
+            :src="youtubeEmbedUrl"
+            :title="template.title"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          />
+        </div>
+
+        <p class="video-caption" v-if="youtubeEmbedUrl">Watch the walkthrough above.</p>
+        <p class="detail-description">{{ template.description }}</p>
+
+        <div class="meta-wrap" v-if="template.toolsUsed.length > 0 || template.labels.length > 0">
+          <div v-if="template.toolsUsed.length > 0">
+            <h2>Tools</h2>
+            <ul>
+              <li v-for="tool in template.toolsUsed" :key="tool">{{ tool }}</li>
+            </ul>
+          </div>
+
+          <div v-if="template.labels.length > 0">
+            <h2>Topics</h2>
+            <ul>
+              <li v-for="label in template.labels" :key="label">{{ label }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <aside class="surface-card lead-capture">
+        <header>
+          <p class="section-eyebrow">Get Access</p>
+          <h2>Access This Resource</h2>
+          <p>
+            Submit once and we will route you to the next step. Lead capture is handled by Tally.
+          </p>
+        </header>
+
+        <p v-if="submitted" class="success-message">
+          Thanks. Your submission was captured successfully.
+        </p>
+
+        <TallyEmbed
+          v-if="currentFormId"
+          :form-id="currentFormId"
+          :min-height="freeTemplateFormMinHeight"
+          :title="`Lead form for ${template.title}`"
+          @submitted="handleLeadSubmitted"
+        />
+
+        <div v-else class="missing-form">
+          <p>
+            Tally form is not configured yet for this template.
+          </p>
+          <p>
+            Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.
+          </p>
+          <p>Templates use one shared access form by design.</p>
+        </div>
+
+        <div class="detail-actions">
+          <Button href="/free" variant="ghost">Back to Templates</Button>
+        </div>
+      </aside>
     </div>
-
-    <p class="video-caption" v-if="youtubeEmbedUrl">Watch the walkthrough above.</p>
-    <p class="detail-description">{{ template.description }}</p>
-
-    <div class="meta-wrap" v-if="template.toolsUsed.length > 0 || template.labels.length > 0">
-      <div v-if="template.toolsUsed.length > 0">
-        <h2>Tools</h2>
-        <ul>
-          <li v-for="tool in template.toolsUsed" :key="tool">{{ tool }}</li>
-        </ul>
-      </div>
-
-      <div v-if="template.labels.length > 0">
-        <h2>Topics</h2>
-        <ul>
-          <li v-for="label in template.labels" :key="label">{{ label }}</li>
-        </ul>
-      </div>
-    </div>
-
-    <section class="surface-card lead-capture">
-      <header>
-        <h2>Access This Resource</h2>
-        <p>
-          Submit the form to unlock next steps. Lead capture is handled by Tally (no custom backend).
-        </p>
-      </header>
-
-      <p v-if="submitted" class="success-message">
-        Thanks. Your submission was captured successfully.
-      </p>
-
-      <TallyEmbed
-        v-if="currentFormId"
-        :form-id="currentFormId"
-        :min-height="freeTemplateFormMinHeight"
-        :title="`Lead form for ${template.title}`"
-        @submitted="handleLeadSubmitted"
-      />
-
-      <div v-else class="missing-form">
-        <p>
-          Tally form is not configured yet for this template.
-        </p>
-        <p>
-          Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.
-        </p>
-        <p>Templates use one shared access form by design.</p>
-      </div>
-
-      <div class="detail-actions">
-        <Button href="/free" variant="ghost">Back to Templates</Button>
-      </div>
-    </section>
   </section>
 
   <section v-else class="surface-card template-detail animate-fade-in-up">
@@ -240,6 +245,10 @@ function handleLeadSubmitted() {
   margin-bottom: var(--space-4);
   color: var(--color-text-muted);
   text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--color-gold-soft);
 }
 
 .detail-header {
@@ -304,8 +313,14 @@ function handleLeadSubmitted() {
   background: rgba(131, 24, 67, 0.55);
 }
 
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: var(--space-5);
+}
+
 .video-wrap {
-  margin: var(--space-6) 0 var(--space-3);
+  margin: var(--space-3) 0 var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -328,7 +343,7 @@ function handleLeadSubmitted() {
 .detail-description {
   margin: 0;
   color: var(--color-text-muted);
-  line-height: 1.7;
+  line-height: 1.72;
 }
 
 .meta-wrap {
@@ -361,8 +376,10 @@ function handleLeadSubmitted() {
 }
 
 .lead-capture {
-  margin-top: var(--space-8);
   padding: var(--space-5);
+  height: fit-content;
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-4));
 }
 
 .lead-capture h2 {
@@ -394,6 +411,16 @@ function handleLeadSubmitted() {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
+}
+
+@media (max-width: 1080px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lead-capture {
+    position: static;
+  }
 }
 
 @media (max-width: 900px) {

@@ -6,6 +6,7 @@ const year = new Date().getFullYear()
   <footer class="footer-wrap">
     <div class="container footer-grid">
       <div class="footer-brand-block">
+        <p class="footer-kicker">AI Transformation Studio</p>
         <img src="/flowmatrix-logo.webp" alt="FlowMatrix AI" width="160" height="40" />
         <p class="footer-description">
           Practical AI systems for real operators.
@@ -39,11 +40,13 @@ const year = new Date().getFullYear()
 .footer-wrap {
   position: relative;
   z-index: 1;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   margin-top: var(--space-10);
   padding-top: var(--space-10);
   padding-bottom: var(--space-8);
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  background:
+    radial-gradient(900px 280px at 80% 120%, rgba(212, 168, 75, 0.09), transparent 60%),
+    linear-gradient(to top, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
 }
 
 .footer-grid {
@@ -52,9 +55,18 @@ const year = new Date().getFullYear()
   gap: var(--space-8);
 }
 
+.footer-kicker {
+  margin: 0 0 var(--space-2);
+  color: var(--color-gold-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
 .footer-brand-block img {
   width: 150px;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
 .footer-description {
@@ -69,7 +81,7 @@ const year = new Date().getFullYear()
 }
 
 .footer-email:hover {
-  color: var(--color-gold-soft);
+  color: var(--color-gold-bright);
 }
 
 .footer-heading {
@@ -89,14 +101,14 @@ const year = new Date().getFullYear()
 }
 
 .footer-links-block a:hover {
-  color: var(--color-text);
+  color: var(--color-gold-soft);
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   margin-top: var(--space-8);
   padding-top: var(--space-4);
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
 }
 
 @media (max-width: 900px) {

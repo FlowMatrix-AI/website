@@ -1,19 +1,25 @@
 :root {
   --color-bg: #050505;
   --color-bg-soft: #0d0d0f;
+  --color-bg-elevated: #141418;
   --color-surface: #111113;
+  --color-surface-soft: #18181c;
   --color-text: #f4f4f5;
   --color-text-muted: #9b9ca1;
+  --color-text-faint: #7f8086;
   --color-gold: #d4a84b;
   --color-gold-soft: #f0d68a;
+  --color-gold-bright: #f6e3a5;
   --color-border: rgba(255, 255, 255, 0.12);
   --color-border-strong: rgba(255, 255, 255, 0.22);
+  --color-border-gold: rgba(212, 168, 75, 0.45);
 
   --font-sans: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
+  --radius-xl: 24px;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -24,9 +30,12 @@
   --space-8: 2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
 
-  --shadow-soft: 0 12px 36px rgba(0, 0, 0, 0.38);
+  --shadow-soft: 0 14px 42px rgba(0, 0, 0, 0.42);
   --shadow-gold: 0 12px 32px rgba(212, 168, 75, 0.22);
+  --shadow-card-hover: 0 26px 56px rgba(0, 0, 0, 0.56);
 
   --container-max: 1120px;
   --nav-height: 72px;
