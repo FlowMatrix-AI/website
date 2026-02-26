@@ -8,8 +8,11 @@ const mobileOpen = ref(false)
 const scrolled = ref(false)
 
 const navItems = [
-  { label: 'Home', to: '/' },
-  { label: 'Free Templates', to: '/free' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Results', href: '/#proof' },
+  { label: 'Team', href: '/#team' },
+  { label: 'FAQ', href: '/#faq' },
+  { label: 'Free Templates', href: '/free' },
 ]
 
 const onScroll = () => {
@@ -46,13 +49,13 @@ watch(
       </RouterLink>
 
       <nav class="nav-desktop" aria-label="Primary">
-        <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" class="nav-link">
+        <a v-for="item in navItems" :key="item.href" :href="item.href" class="nav-link">
           {{ item.label }}
-        </RouterLink>
+        </a>
       </nav>
 
       <div class="nav-actions">
-        <Button href="/free" size="md" class="desktop-cta">Get Started</Button>
+        <Button href="/#start" size="md" class="desktop-cta">Start Conversation</Button>
         <button
           class="mobile-toggle"
           type="button"
@@ -69,10 +72,10 @@ watch(
     <transition name="mobile-fade">
       <div v-if="mobileOpen" id="mobile-menu" class="mobile-panel">
         <nav class="mobile-menu" aria-label="Mobile">
-          <RouterLink v-for="item in navItems" :key="item.to" :to="item.to" class="mobile-link">
+          <a v-for="item in navItems" :key="item.href" :href="item.href" class="mobile-link">
             {{ item.label }}
-          </RouterLink>
-          <Button href="/free" size="lg" class="animate-pulse-glow">Get Started</Button>
+          </a>
+          <Button href="/#start" size="lg" class="animate-pulse-glow">Start Conversation</Button>
         </nav>
       </div>
     </transition>
@@ -116,19 +119,18 @@ watch(
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--color-text-muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
-.nav-link:hover,
-.nav-link.router-link-active {
+.nav-link:hover {
   color: var(--color-text);
 }
 
@@ -179,7 +181,7 @@ watch(
   opacity: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .desktop-cta,
   .nav-desktop {
     display: none;
