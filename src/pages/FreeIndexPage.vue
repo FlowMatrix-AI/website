@@ -3,11 +3,18 @@ import { computed, ref } from 'vue'
 import { useHead } from '@unhead/vue'
 import { RouterLink } from 'vue-router'
 import { createSeoHead } from '../lib/seo'
+import { createCollectionPageSchema, createJsonLdHead } from '../lib/structuredData'
 import { templates } from '../data/templates'
 import type { DeliverableType } from '../types/template'
 
+type LabelOption = {
+  label: string
+  count: number
+}
+
 const searchQuery = ref('')
 const selectedType = ref<'all' | DeliverableType>('all')
+const selectedLabel = ref<'all' | string>('all')
 
 const typeLabelMap: Record<DeliverableType, string> = {
   template: 'Template',
@@ -38,11 +45,29 @@ const availableTypes = computed(() => {
   return Array.from(unique).sort()
 })
 
+const availableLabels = computed<LabelOption[]>(() => {
+  const labelCounts = new Map<string, number>()
+
+  for (const template of templates) {
+    for (const label of template.labels) {
+      labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1)
+    }
+  }
+
+  return Array.from(labelCounts.entries())
+    .map(([label, count]) => ({ label, count }))
+    .sort((a, b) => a.label.localeCompare(b.label))
+})
+
 const filteredTemplates = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
 
   return templates.filter((template) => {
     if (selectedType.value !== 'all' && template.deliverableType !== selectedType.value) {
+      return false
+    }
+
+    if (selectedLabel.value !== 'all' && !template.labels.includes(selectedLabel.value)) {
       return false
     }
 
@@ -58,7 +83,10 @@ const filteredTemplates = computed(() => {
 })
 
 const hasActiveFilters = computed(
-  () => selectedType.value !== 'all' || searchQuery.value.trim().length > 0,
+  () =>
+    selectedType.value !== 'all' ||
+    selectedLabel.value !== 'all' ||
+    searchQuery.value.trim().length > 0,
 )
 
 function typeLabel(type: DeliverableType | null): string {
@@ -77,6 +105,7 @@ function typeClass(type: DeliverableType | null): string {
 
 function clearFilters() {
   selectedType.value = 'all'
+  selectedLabel.value = 'all'
   searchQuery.value = ''
 }
 
@@ -87,6 +116,17 @@ useHead(
       'Browse FlowMatrix AI free templates, demos, and implementation resources.',
     path: '/free',
   }),
+)
+
+useHead(
+  createJsonLdHead([
+    createCollectionPageSchema({
+      name: 'FlowMatrix AI Free Resource Library',
+      description:
+        'Free templates, walkthroughs, and implementation resources from FlowMatrix AI.',
+      path: '/free',
+    }),
+  ]),
 )
 </script>
 
@@ -123,25 +163,54 @@ useHead(
         placeholder="Search by title, topic, or tool..."
       />
 
-      <div class="type-pills">
-        <button
-          type="button"
-          class="type-pill"
-          :class="{ active: selectedType === 'all' }"
-          @click="selectedType = 'all'"
-        >
-          All
-        </button>
-        <button
-          v-for="type in availableTypes"
-          :key="type"
-          type="button"
-          class="type-pill"
-          :class="{ active: selectedType === type }"
-          @click="selectedType = type"
-        >
-          {{ typeLabel(type) }}
-        </button>
+      <div class="filter-group">
+        <p class="group-label">Type</p>
+        <div class="type-pills">
+          <button
+            type="button"
+            class="type-pill"
+            :class="{ active: selectedType === 'all' }"
+            @click="selectedType = 'all'"
+          >
+            All types
+          </button>
+          <button
+            v-for="type in availableTypes"
+            :key="type"
+            type="button"
+            class="type-pill"
+            :class="{ active: selectedType === type }"
+            @click="selectedType = type"
+          >
+            {{ typeLabel(type) }}
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-group" v-if="availableLabels.length > 0">
+        <p class="group-label">Label</p>
+        <div class="label-pills">
+          <button
+            type="button"
+            class="label-pill"
+            :class="{ active: selectedLabel === 'all' }"
+            @click="selectedLabel = 'all'"
+          >
+            <span>All labels</span>
+          </button>
+
+          <button
+            v-for="labelOption in availableLabels"
+            :key="labelOption.label"
+            type="button"
+            class="label-pill"
+            :class="{ active: selectedLabel === labelOption.label }"
+            @click="selectedLabel = labelOption.label"
+          >
+            <span>{{ labelOption.label }}</span>
+            <span class="label-count">{{ labelOption.count }}</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -180,7 +249,7 @@ useHead(
 
     <section v-else class="surface-card empty-state">
       <h2>No resources matched this filter</h2>
-      <p>Try clearing the search term or changing the selected resource type.</p>
+      <p>Try clearing the search term or changing selected type/label filters.</p>
       <button type="button" class="clear-btn" @click="clearFilters">Reset filters</button>
     </section>
   </section>
@@ -262,25 +331,52 @@ input[type='search']:focus {
   box-shadow: 0 0 0 2px rgba(212, 168, 75, 0.15);
 }
 
-.type-pills {
+.filter-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.group-label {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.type-pills,
+.label-pills {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
 }
 
-.type-pill {
+.type-pill,
+.label-pill {
   border: 1px solid var(--color-border);
   border-radius: 999px;
   padding: 0.38rem 0.78rem;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
-.type-pill.active {
+.type-pill.active,
+.label-pill.active {
   border-color: rgba(212, 168, 75, 0.8);
   color: var(--color-gold-soft);
   background: rgba(212, 168, 75, 0.11);
+}
+
+.label-count {
+  border: 1px solid rgba(212, 168, 75, 0.35);
+  border-radius: 999px;
+  padding: 0.02rem 0.42rem;
+  font-size: 0.72rem;
+  color: var(--color-gold-soft);
 }
 
 .template-grid {

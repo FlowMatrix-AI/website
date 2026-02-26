@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import { createSeoHead } from '../lib/seo'
+import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
 
 const sections = [
   {
@@ -89,6 +90,16 @@ useHead(
     description: 'Privacy policy for FlowMatrix AI services.',
     path: '/privacy',
   }),
+)
+
+useHead(
+  createJsonLdHead([
+    createWebPageSchema({
+      name: 'FlowMatrix AI Privacy Policy',
+      description: 'Privacy policy for FlowMatrix AI services.',
+      path: '/privacy',
+    }),
+  ]),
 )
 </script>
 

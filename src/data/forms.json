@@ -1,10 +1,12 @@
 {
   "mainGetInTouch": {
     "formId": "q4bdBG",
-    "shareUrl": "https://tally.so/r/q4bdBG"
+    "shareUrl": "https://tally.so/r/q4bdBG",
+    "embedMinHeight": 620
   },
   "freeGetAccessNow": {
     "formId": "q4bdj2",
-    "shareUrl": "https://tally.so/r/q4bdj2"
+    "shareUrl": "https://tally.so/r/q4bdj2",
+    "embedMinHeight": 180
   }
 }

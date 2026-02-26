@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useHead } from '@unhead/vue'
 import Button from '../components/ui/Button.vue'
 import TallyEmbed from '../components/forms/TallyEmbed.vue'
@@ -6,15 +7,15 @@ import { trackAnalyticsEvent } from '../composables/useAnalytics'
 import { forms } from '../config/forms'
 import { homeContent, servicePhases } from '../data/siteContent'
 import { createSeoHead } from '../lib/seo'
+import {
+  createFaqPageSchema,
+  createJsonLdHead,
+  createOrganizationSchema,
+  createWebPageSchema,
+} from '../lib/structuredData'
 
-useHead(
-  createSeoHead({
-    title: 'FlowMatrix AI | AI Systems for Operators',
-    description:
-      'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
-    path: '/',
-  }),
-)
+const homeLeadSubmitted = ref(false)
+const mainFormMinHeight = forms.mainGetInTouch.embedMinHeight ?? 620
 
 const clientLogos = [
   { name: 'All Clean', src: '/client-logos/all-clean.webp' },
@@ -33,9 +34,40 @@ const trustSignals = [
   'Execution-focused roadmap',
 ]
 
+useHead(
+  createSeoHead({
+    title: 'FlowMatrix AI | AI Systems for Operators',
+    description:
+      'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
+    path: '/',
+  }),
+)
+
+useHead(
+  createJsonLdHead([
+    createOrganizationSchema(),
+    createWebPageSchema({
+      name: 'FlowMatrix AI | AI Systems for Operators',
+      description:
+        'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
+      path: '/',
+    }),
+    createFaqPageSchema({
+      path: '/',
+      entries: homeContent.faq.items.map((item) => ({
+        question: item.question,
+        answer: item.answer,
+      })),
+    }),
+  ]),
+)
+
 function handleHomeLeadSubmitted() {
+  homeLeadSubmitted.value = true
+
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
+    lead_flow: 'main_get_in_touch',
     form_id: forms.mainGetInTouch.formId,
     source_page: '/',
   })
@@ -168,9 +200,18 @@ function handleHomeLeadSubmitted() {
       </div>
 
       <div class="cta-form-wrap">
+        <p class="cta-form-note">
+          Tell us your current state and goals. We review every submission and respond within one business day.
+        </p>
+
+        <p v-if="homeLeadSubmitted" class="cta-success" role="status" aria-live="polite">
+          Thanks. Submission received. We will follow up by email within 24 hours.
+        </p>
+
         <TallyEmbed
           v-if="forms.mainGetInTouch.formId"
           :form-id="forms.mainGetInTouch.formId"
+          :min-height="mainFormMinHeight"
           title="Start the Conversation"
           @submitted="handleHomeLeadSubmitted"
         />
@@ -508,6 +549,21 @@ function handleHomeLeadSubmitted() {
     radial-gradient(500px 200px at 90% -20%, rgba(212, 168, 75, 0.12), transparent 58%),
     rgba(255, 255, 255, 0.01);
   padding: var(--space-4);
+}
+
+.cta-form-note {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.cta-success {
+  margin: 0 0 var(--space-3);
+  border: 1px solid rgba(212, 168, 75, 0.4);
+  border-radius: var(--radius-sm);
+  background: rgba(212, 168, 75, 0.08);
+  color: var(--color-gold-soft);
+  padding: var(--space-3);
 }
 
 .cta-missing-form {

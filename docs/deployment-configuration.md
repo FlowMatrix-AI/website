@@ -36,6 +36,9 @@ Each key must include:
 - `formId` (Tally form ID)
 - `shareUrl` (`https://tally.so/r/<id>` or `https://tally.so/embed/<id>`)
 
+Optional key:
+- `embedMinHeight` (integer between `120` and `2000` for layout control)
+
 ## Free Template Content Source of Truth
 
 `src/data/templates.json` is content-only for `/free` pages.
@@ -57,7 +60,7 @@ Lead capture is shared at the page level via `forms.json`.
 - `npm run validate:deployment`
 - `npm run validate:forms`
 - `npm run validate:templates`
-- `npm run validate:content` (both)
+- `npm run validate:content` (all)
 
 CI runs `npm run validate:content` before build.
 

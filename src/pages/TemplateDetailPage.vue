@@ -7,6 +7,11 @@ import TallyEmbed from '../components/forms/TallyEmbed.vue'
 import { forms } from '../config/forms'
 import { getTemplateBySlug } from '../data/templates'
 import { createSeoHead } from '../lib/seo'
+import {
+  createCreativeWorkSchema,
+  createJsonLdHead,
+  createWebPageSchema,
+} from '../lib/structuredData'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
 import type { DeliverableType } from '../types/template'
 
@@ -25,8 +30,9 @@ const template = computed(() => {
   return getTemplateBySlug(slug.value)
 })
 
-const currentFormId = forms.freeGetAccessNow.formId
-const freeTemplateFormMinHeight = 240
+const currentForm = forms.freeGetAccessNow
+const currentFormId = currentForm.formId
+const freeTemplateFormMinHeight = currentForm.embedMinHeight ?? 180
 
 const typeLabelMap: Record<DeliverableType, string> = {
   template: 'Template',
@@ -90,6 +96,36 @@ function typeClass(type: DeliverableType | null): string {
 
 useHead(seoHead)
 
+useHead(() => {
+  if (!template.value) {
+    return createJsonLdHead([
+      createWebPageSchema({
+        name: 'Template Not Found',
+        description: 'The requested template could not be found.',
+        path: `/free/${slug.value || ''}`,
+      }),
+    ])
+  }
+
+  return createJsonLdHead([
+    createWebPageSchema({
+      name: template.value.title,
+      description: template.value.description,
+      path: `/free/${template.value.slug}`,
+    }),
+    createCreativeWorkSchema({
+      name: template.value.title,
+      description: template.value.description,
+      path: `/free/${template.value.slug}`,
+      image: template.value.thumbnailUrl,
+      keywords: template.value.labels,
+      creators: template.value.builders,
+      datePublished: template.value.publishedAt,
+      dateModified: template.value.updatedAt,
+    }),
+  ])
+})
+
 watch(
   () => template.value?.slug,
   (nextSlug) => {
@@ -130,6 +166,7 @@ function handleLeadSubmitted() {
 
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
+    lead_flow: 'free_get_access',
     form_id: currentFormId,
     template_slug: template.value.slug,
     items: [
@@ -195,12 +232,14 @@ function handleLeadSubmitted() {
           <p class="section-eyebrow">Get Access</p>
           <h2>Access This Resource</h2>
           <p>
-            Submit once and we will route you to the next step. Lead capture is handled by Tally.
+            Submit once and we will send next-step access details to your email.
           </p>
         </header>
 
-        <p v-if="submitted" class="success-message">
-          Thanks. Your submission was captured successfully.
+        <p class="lead-note">Expected turnaround: within one business day.</p>
+
+        <p v-if="submitted" class="success-message" role="status" aria-live="polite">
+          Thanks. Submission received. Check your inbox for the next-step access email.
         </p>
 
         <TallyEmbed
@@ -390,6 +429,11 @@ function handleLeadSubmitted() {
   margin: 0 0 var(--space-3);
   color: var(--color-text-muted);
   line-height: 1.6;
+}
+
+.lead-note {
+  color: var(--color-text-faint);
+  font-size: 0.88rem;
 }
 
 .success-message {

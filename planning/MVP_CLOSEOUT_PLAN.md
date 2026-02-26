@@ -1,76 +1,48 @@
 # FlowMatrix AI: MVP Closeout Plan
 
-**Status:** Proposed  
+**Status:** Implementation Complete (Code)  
 **Date:** February 26, 2026  
 **Goal:** Close MVP with pragmatic parity, then retire the legacy repo from active workspace.
 
-## 1. Scope (What We Will Implement Next)
+## 1. Implemented Scope
 
-1. `/free` filter parity (simple): add label/category filtering back to the listing UX.
-2. Structured data parity (safe): add JSON-LD where it is maintainable and page-accurate.
-3. Lead-flow polish (no backend): improve post-submit messaging/next-step UX for forms.
-4. Service-page polish (CSS-only): close remaining visual professionalism gaps without JS-heavy effects.
+- [x] `/free` filter parity: added label/category filtering alongside search + type.
+- [x] Structured data parity: added shared JSON-LD helper and applied to home, services, legal, `/free`, and `/free/:slug`.
+- [x] Lead-flow polish: added explicit expectation + submission confirmation messaging and form-size config.
+- [x] Service-page polish: applied CSS-only layout/hierarchy improvements without JS-heavy effects.
 
-## 2. Guardrails (Do Not Reintroduce)
+## 2. Guardrails Kept
 
-1. No Supabase runtime or custom lead backend.
-2. No per-template backend email-gate logic.
-3. No heavy animation engines or interaction frameworks.
-4. Keep all config/content data-driven in committed JSON/TS files.
+- [x] No Supabase runtime or custom lead backend.
+- [x] No per-template backend email-gate logic.
+- [x] No heavy animation engines/interactions.
+- [x] Config/content remain data-driven in committed JSON/TS.
 
-## 3. Execution Sequence
+## 3. Acceptance Gates
 
-### Step A: `/free` UX Parity
+Automated gates (completed):
 
-- Add label/category filter controls to `/free`.
-- Keep current search + type filters; avoid overcomplicating state.
-- Confirm each template has consistent labels in `templates.json`.
+- [x] `npm run type-check`
+- [x] `npm run validate:content`
+- [x] `npm run build` (including sitemap/robots generation)
 
-### Step B: JSON-LD Coverage
+Manual gates (remaining):
 
-- Add shared JSON-LD helper/composable for maintainability.
-- Implement minimal, valid schema only:
-  - Home/services/legal: `WebPage` + site-level `Organization` (if applicable).
-  - `/free/:slug`: page-specific content schema where fields are complete.
-- Validate with Rich Results Test before merge.
+- [ ] Desktop/mobile QA pass on priority routes.
+- [ ] Main "Get in Touch" form submission verification.
+- [ ] Shared `/free` "Get Access" form submission verification.
+- [ ] JSON-LD check in Rich Results Test for representative pages.
 
-### Step C: Lead Capture UX Tightening
+## 4. Workspace Transition (Manual)
 
-- Improve embed container sizing and spacing consistency for short forms.
-- Add explicit post-submit expectation text (what happens next + timing).
-- Ensure analytics events map cleanly to visible user actions.
+After manual gates pass:
 
-### Step D: Final Visual Pass (Services)
+1. Freeze `Flowmatrix-AI-Website-SebT` as read-only reference.
+2. Remove it from active IDE workspace.
+3. Continue all execution in `flowmatrix-ai.github.io` exclusively.
 
-- Apply the same spacing/type hierarchy standards used on home and `/free`.
-- Tighten section rhythm and CTA consistency.
-- Keep effects CSS-first and low-cost.
-
-## 4. Acceptance Gates (Before Legacy Repo Retirement)
-
-1. `npm run type-check` passes.
-2. `npm run validate:content` passes.
-3. `npm run build` passes and sitemap/robots are regenerated.
-4. Manual QA pass on desktop + mobile for:
-   - Home, 4 service pages, legal pages, `/free`, 2 sample template detail pages.
-5. Forms test:
-   - Main "Get in Touch" submission verified.
-   - Shared `/free` "Get Access" submission verified.
-6. SEO sanity:
-   - Canonical + OG present on priority routes.
-   - JSON-LD valid on implemented pages.
-
-## 5. Workspace Transition (Leave Old Site Behind)
-
-After the acceptance gates pass:
-
-1. Freeze legacy repo as read-only reference (no active feature work).
-2. Remove `Flowmatrix-AI-Website-SebT` from active workspace in local IDE.
-3. Keep legacy repo archived externally for rollback/reference only.
-4. Continue all execution in `flowmatrix-ai.github.io` exclusively.
-
-## 6. Definition of Done
+## 5. Definition of Done
 
 1. MVP parity is achieved for high-value flows without architecture regression.
-2. The new repo is the single active codebase.
-3. Legacy repo is no longer part of day-to-day development workspace.
+2. `flowmatrix-ai.github.io` is the single active codebase.
+3. Legacy repo is no longer part of day-to-day workspace.

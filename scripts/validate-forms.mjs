@@ -48,6 +48,22 @@ function parseShareUrl(value) {
   }
 }
 
+function validateEmbedMinHeight(value) {
+  if (value === undefined) {
+    return null
+  }
+
+  if (typeof value !== 'number' || !Number.isInteger(value)) {
+    return 'embedMinHeight must be an integer when provided'
+  }
+
+  if (value < 120 || value > 2000) {
+    return 'embedMinHeight must be between 120 and 2000'
+  }
+
+  return null
+}
+
 async function main() {
   const raw = await readFile(formsPath, 'utf8')
   const parsed = JSON.parse(raw)
@@ -101,6 +117,11 @@ async function main() {
       errors.push(
         `[${formKey}] shareUrl form id (${parsedUrl.formId}) does not match formId (${formId})`,
       )
+    }
+
+    const minHeightIssue = validateEmbedMinHeight(config.embedMinHeight)
+    if (minHeightIssue) {
+      errors.push(`[${formKey}] ${minHeightIssue}`)
     }
   })
 

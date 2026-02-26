@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useHead } from '@unhead/vue'
 import { createSeoHead } from '../lib/seo'
+import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
 
 const lastUpdated = computed(() => {
   return new Date().toLocaleDateString('en-US', {
@@ -92,6 +93,16 @@ useHead(
     description: 'Terms and conditions for FlowMatrix AI services.',
     path: '/terms',
   }),
+)
+
+useHead(
+  createJsonLdHead([
+    createWebPageSchema({
+      name: 'FlowMatrix AI Terms and Conditions',
+      description: 'Terms and conditions for FlowMatrix AI services.',
+      path: '/terms',
+    }),
+  ]),
 )
 </script>
 
