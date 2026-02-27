@@ -19,14 +19,6 @@ const emit = defineEmits<{
 
 const TALLY_SCRIPT_SRC = 'https://tally.so/widgets/embed.js';
 
-declare global {
-  interface Window {
-    Tally?: {
-      loadEmbeds?: () => void;
-    };
-  }
-}
-
 const iframeUrl = computed(() => {
   const encodedFormId = encodeURIComponent(props.formId);
   return `https://tally.so/embed/${encodedFormId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;

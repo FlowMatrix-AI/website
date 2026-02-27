@@ -11,13 +11,6 @@ type AnalyticsParams = Record<string, unknown> & {
   items?: AnalyticsItem[];
 };
 
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 const measurementId = deployment.gaMeasurementId;
 const scriptId = 'flowmatrix-ga4-script';
 
