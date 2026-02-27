@@ -10,9 +10,10 @@
     "validate:templates": "node scripts/validate-templates.mjs",
     "validate:content": "npm run validate:deployment && npm run validate:forms && npm run validate:templates",
     "build": "vite-ssg build",
-    "postbuild": "npm run sitemap:generate && npm run robots:generate",
+    "postbuild": "npm run sitemap:generate && npm run robots:generate && npm run validate:head-artifacts",
     "sitemap:generate": "node scripts/generate-sitemap.mjs",
     "robots:generate": "node scripts/generate-robots.mjs",
+    "validate:head-artifacts": "node scripts/validate-head-artifacts.mjs",
     "preview": "vite preview",
     "typecheck": "vue-tsc --build",
     "type-check": "vue-tsc --build"
