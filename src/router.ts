@@ -1,11 +1,12 @@
 import type { RouteRecordRaw } from 'vue-router'
 import HomePage from './pages/HomePage.vue'
-import ServicePage from './pages/ServicePage.vue'
-import FreeIndexPage from './pages/FreeIndexPage.vue'
-import TemplateDetailPage from './pages/TemplateDetailPage.vue'
-import TermsPage from './pages/TermsPage.vue'
-import PrivacyPage from './pages/PrivacyPage.vue'
-import NotFoundPage from './pages/NotFoundPage.vue'
+
+const ServicePage = () => import('./pages/ServicePage.vue')
+const FreeIndexPage = () => import('./pages/FreeIndexPage.vue')
+const TemplateDetailPage = () => import('./pages/TemplateDetailPage.vue')
+const TermsPage = () => import('./pages/TermsPage.vue')
+const PrivacyPage = () => import('./pages/PrivacyPage.vue')
+const NotFoundPage = () => import('./pages/NotFoundPage.vue')
 
 const routes: RouteRecordRaw[] = [
   {

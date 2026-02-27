@@ -16,6 +16,7 @@ import {
 
 const homeLeadSubmitted = ref(false)
 const mainFormMinHeight = forms.mainGetInTouch.embedMinHeight ?? 620
+const mainFormShareUrl = forms.mainGetInTouch.shareUrl
 
 const clientLogos = [
   { name: 'All Clean', src: '/client-logos/all-clean.webp' },
@@ -218,6 +219,12 @@ function handleHomeLeadSubmitted() {
         <p v-else class="cta-missing-form">
           Main contact form is not configured. Set <code>mainGetInTouch.formId</code> in
           <code>src/data/forms.json</code>.
+        </p>
+
+        <p v-if="mainFormShareUrl" class="cta-share-link">
+          <a :href="mainFormShareUrl" target="_blank" rel="noopener noreferrer">
+            Open form in a new tab
+          </a>
         </p>
       </div>
 
@@ -569,6 +576,15 @@ function handleHomeLeadSubmitted() {
 .cta-missing-form {
   margin: 0;
   color: var(--color-text-muted);
+}
+
+.cta-share-link {
+  margin: var(--space-3) 0 0;
+  font-size: 0.88rem;
+}
+
+.cta-share-link a {
+  color: var(--color-gold-soft);
 }
 
 .trust-row {

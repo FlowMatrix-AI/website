@@ -9,6 +9,10 @@ useHead({
       name: 'description',
       content: 'Page not found.',
     },
+    {
+      name: 'robots',
+      content: 'noindex, nofollow',
+    },
   ],
 })
 </script>

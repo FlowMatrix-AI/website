@@ -1,6 +1,6 @@
 import rawTemplates from './templates.json'
 import type { DeliverableType, Template } from '../types/template'
-import { isPublishedTemplateStatus } from './templateStatus'
+import { isPublishedTemplateStatus } from './templateStatus.mjs'
 
 type RawTemplate = Record<string, unknown>
 
@@ -67,15 +67,17 @@ function normalizeTemplate(record: unknown): Template | null {
 
   const slug = readString(templateRecord, ['slug'])
   const title = readString(templateRecord, ['title'])
+  const summary = readString(templateRecord, ['summary'])
   const description = readString(templateRecord, ['description'])
 
-  if (!slug || !title || !description) {
+  if (!slug || !title || !summary || !description) {
     return null
   }
 
   return {
     slug,
     title,
+    summary,
     description,
     deliverableType: normalizeDeliverableType(
       readString(templateRecord, ['deliverableType', 'deliverable_type']),
@@ -121,5 +123,3 @@ export function getTemplateBySlug(slug: string): Template | null {
 
   return templates.find((template) => template.slug.toLowerCase() === normalizedSlug) ?? null
 }
-
-export const templateSlugs = templates.map((template) => template.slug)

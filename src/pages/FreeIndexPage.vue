@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router'
 import { createSeoHead } from '../lib/seo'
 import { createCollectionPageSchema, createJsonLdHead } from '../lib/structuredData'
 import { templates } from '../data/templates'
+import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes'
 import type { DeliverableType } from '../types/template'
 
 type LabelOption = {
@@ -15,24 +16,6 @@ type LabelOption = {
 const searchQuery = ref('')
 const selectedType = ref<'all' | DeliverableType>('all')
 const selectedLabel = ref<'all' | string>('all')
-
-const typeLabelMap: Record<DeliverableType, string> = {
-  template: 'Template',
-  demo: 'Live Demo',
-  document: 'Document',
-  discount: 'Discount',
-  tool: 'Tool',
-  course: 'Course',
-}
-
-const typeClassMap: Record<DeliverableType, string> = {
-  template: 'type-template',
-  demo: 'type-demo',
-  document: 'type-document',
-  discount: 'type-discount',
-  tool: 'type-tool',
-  course: 'type-course',
-}
 
 const availableTypes = computed(() => {
   const unique = new Set<DeliverableType>()
@@ -75,7 +58,7 @@ const filteredTemplates = computed(() => {
       return true
     }
 
-    const haystack = `${template.title} ${template.description} ${template.labels.join(' ')} ${template.toolsUsed.join(' ')}`
+    const haystack = `${template.title} ${template.summary} ${template.description} ${template.labels.join(' ')} ${template.toolsUsed.join(' ')}`
       .toLowerCase()
 
     return haystack.includes(query)
@@ -88,20 +71,6 @@ const hasActiveFilters = computed(
     selectedLabel.value !== 'all' ||
     searchQuery.value.trim().length > 0,
 )
-
-function typeLabel(type: DeliverableType | null): string {
-  if (!type) {
-    return 'Resource'
-  }
-  return typeLabelMap[type]
-}
-
-function typeClass(type: DeliverableType | null): string {
-  if (!type) {
-    return 'type-default'
-  }
-  return typeClassMap[type]
-}
 
 function clearFilters() {
   selectedType.value = 'all'
@@ -182,7 +151,7 @@ useHead(
             :class="{ active: selectedType === type }"
             @click="selectedType = type"
           >
-            {{ typeLabel(type) }}
+            {{ getTemplateTypeLabel(type) }}
           </button>
         </div>
       </div>
@@ -221,8 +190,8 @@ useHead(
             <div class="media-wrap" v-if="template.thumbnailUrl">
               <img :src="template.thumbnailUrl" :alt="template.title" loading="lazy" />
               <div class="media-fade" aria-hidden="true" />
-              <span class="type-badge" :class="typeClass(template.deliverableType)">
-                {{ typeLabel(template.deliverableType) }}
+              <span class="type-badge" :class="getTemplateTypeClass(template.deliverableType)">
+                {{ getTemplateTypeLabel(template.deliverableType) }}
               </span>
             </div>
             <div class="card-body">
@@ -230,7 +199,7 @@ useHead(
                 {{ template.builders.length > 0 ? `By ${template.builders[0]}` : 'FlowMatrix Resource' }}
               </p>
               <h2>{{ template.title }}</h2>
-              <p class="card-description">{{ template.description }}</p>
+              <p class="card-description">{{ template.summary }}</p>
 
               <div class="chip-row" v-if="template.labels.length > 0">
                 <span v-for="label in template.labels.slice(0, 3)" :key="label">{{ label }}</span>

@@ -4,6 +4,7 @@ export type TemplateStatus = 'draft' | 'published' | 'archived'
 export type Template = {
   slug: string
   title: string
+  summary: string
   description: string
   deliverableType: DeliverableType | null
   labels: string[]

@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { readTemplateStatus } from '../src/data/templateStatus.mjs'
 
 const repoRoot = process.cwd()
 const templatesPath = path.resolve(repoRoot, 'src', 'data', 'templates.json')
@@ -12,6 +13,8 @@ const allowedDeliverableTypes = new Set([
   'tool',
   'course',
 ])
+const summaryMinLength = 40
+const summaryMaxLength = 240
 
 function readString(record, keys) {
   for (const key of keys) {
@@ -22,27 +25,6 @@ function readString(record, keys) {
         return trimmed
       }
     }
-  }
-
-  return null
-}
-
-function normalizeStatus(value) {
-  if (value === undefined || value === null) {
-    return 'published'
-  }
-
-  if (typeof value !== 'string') {
-    return null
-  }
-
-  const normalized = value.trim().toLowerCase()
-  if (!normalized) {
-    return null
-  }
-
-  if (normalized === 'draft' || normalized === 'archived' || normalized === 'published') {
-    return normalized
   }
 
   return null
@@ -72,7 +54,7 @@ async function main() {
     }
 
     const template = entry
-    const status = normalizeStatus(template.status)
+    const status = readTemplateStatus(template.status)
 
     if (!status) {
       const rawStatus = template.status
@@ -88,6 +70,7 @@ async function main() {
 
     const slug = readString(template, ['slug'])
     const title = readString(template, ['title'])
+    const summary = readString(template, ['summary'])
     const description = readString(template, ['description'])
     const deliverableType = readString(template, ['deliverable_type', 'deliverableType'])
 
@@ -112,6 +95,14 @@ async function main() {
 
     if (!description) {
       errors.push(`[${slug ?? `index ${index}`}] published template missing description`)
+    }
+
+    if (!summary) {
+      errors.push(`[${slug ?? `index ${index}`}] published template missing summary`)
+    } else if (summary.length < summaryMinLength || summary.length > summaryMaxLength) {
+      errors.push(
+        `[${slug ?? `index ${index}`}] summary must be ${summaryMinLength}-${summaryMaxLength} characters for listing cards`,
+      )
     }
 
     if (!deliverableType) {

@@ -1,42 +1,12 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import {
+  normalizeAllowIndexing,
+  normalizeMeasurementId,
+  normalizeSiteUrl,
+} from '../src/config/deploymentNormalization.mjs'
 
 const deploymentConfigPath = path.resolve(process.cwd(), 'src', 'config', 'deployment.json')
-const defaultSiteUrl = 'https://flowmatrix-ai.github.io'
-
-function normalizeSiteUrl(value) {
-  if (typeof value !== 'string') {
-    return defaultSiteUrl
-  }
-
-  const trimmed = value.trim()
-  if (!trimmed) {
-    return defaultSiteUrl
-  }
-
-  return trimmed.replace(/\/+$/, '')
-}
-
-function normalizeAllowIndexing(value, siteUrl) {
-  if (typeof value === 'boolean') {
-    return value
-  }
-
-  try {
-    const host = new URL(siteUrl).hostname
-    return !host.endsWith('github.io')
-  } catch {
-    return true
-  }
-}
-
-function normalizeMeasurementId(value) {
-  if (typeof value !== 'string') {
-    return ''
-  }
-
-  return value.trim()
-}
 
 export async function readDeploymentConfig() {
   const raw = await readFile(deploymentConfigPath, 'utf8')

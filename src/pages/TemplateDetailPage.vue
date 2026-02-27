@@ -6,6 +6,7 @@ import Button from '../components/ui/Button.vue'
 import TallyEmbed from '../components/forms/TallyEmbed.vue'
 import { forms } from '../config/forms'
 import { getTemplateBySlug } from '../data/templates'
+import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes'
 import { createSeoHead } from '../lib/seo'
 import {
   createCreativeWorkSchema,
@@ -13,7 +14,6 @@ import {
   createWebPageSchema,
 } from '../lib/structuredData'
 import { trackAnalyticsEvent } from '../composables/useAnalytics'
-import type { DeliverableType } from '../types/template'
 
 const route = useRoute()
 
@@ -33,24 +33,7 @@ const template = computed(() => {
 const currentForm = forms.freeGetAccessNow
 const currentFormId = currentForm.formId
 const freeTemplateFormMinHeight = currentForm.embedMinHeight ?? 180
-
-const typeLabelMap: Record<DeliverableType, string> = {
-  template: 'Template',
-  demo: 'Live Demo',
-  document: 'Document',
-  discount: 'Discount',
-  tool: 'Tool',
-  course: 'Course',
-}
-
-const typeClassMap: Record<DeliverableType, string> = {
-  template: 'type-template',
-  demo: 'type-demo',
-  document: 'type-document',
-  discount: 'type-discount',
-  tool: 'type-tool',
-  course: 'type-course',
-}
+const currentFormShareUrl = currentForm.shareUrl
 
 const youtubeEmbedUrl = computed(() => {
   if (!template.value?.youtubeId) {
@@ -79,20 +62,6 @@ const seoHead = computed(() => {
     type: 'article',
   })
 })
-
-function typeLabel(type: DeliverableType | null): string {
-  if (!type) {
-    return 'Resource'
-  }
-  return typeLabelMap[type]
-}
-
-function typeClass(type: DeliverableType | null): string {
-  if (!type) {
-    return 'type-default'
-  }
-  return typeClassMap[type]
-}
 
 useHead(seoHead)
 
@@ -185,8 +154,8 @@ function handleLeadSubmitted() {
     <RouterLink to="/free" class="back-link">← Back to templates</RouterLink>
 
     <header class="detail-header">
-      <span class="type-badge" :class="typeClass(template.deliverableType)">
-        {{ typeLabel(template.deliverableType) }}
+      <span class="type-badge" :class="getTemplateTypeClass(template.deliverableType)">
+        {{ getTemplateTypeLabel(template.deliverableType) }}
       </span>
       <p v-if="template.builders.length > 0" class="builder-line">
         By {{ template.builders.join(', ') }}
@@ -259,6 +228,12 @@ function handleLeadSubmitted() {
           </p>
           <p>Templates use one shared access form by design.</p>
         </div>
+
+        <p v-if="currentFormShareUrl" class="lead-share-link">
+          <a :href="currentFormShareUrl" target="_blank" rel="noopener noreferrer">
+            Open form in a new tab
+          </a>
+        </p>
 
         <div class="detail-actions">
           <Button href="/free" variant="ghost">Back to Templates</Button>
@@ -448,6 +423,15 @@ function handleLeadSubmitted() {
   border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-sm);
   padding: var(--space-4);
+}
+
+.lead-share-link {
+  margin: var(--space-3) 0 0;
+  font-size: 0.88rem;
+}
+
+.lead-share-link a {
+  color: var(--color-gold-soft);
 }
 
 .detail-actions {

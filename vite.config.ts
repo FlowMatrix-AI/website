@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import 'vite-ssg'
 import templates from './src/data/templates.json'
-import { isPublishedTemplateStatus } from './src/data/templateStatus'
+import { isPublishedTemplateStatus } from './src/data/templateStatus.mjs'
 
 type TemplateRouteRecord = {
   slug?: string
