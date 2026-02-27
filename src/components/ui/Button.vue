@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
 
 type ButtonVariant = 'primary' | 'ghost';
 type ButtonSize = 'md' | 'lg';
@@ -7,6 +8,7 @@ type ButtonSize = 'md' | 'lg';
 const props = withDefaults(
   defineProps<{
     href?: string;
+    to?: string;
     type?: 'button' | 'submit' | 'reset';
     variant?: ButtonVariant;
     size?: ButtonSize;
@@ -21,7 +23,15 @@ const props = withDefaults(
   }
 );
 
-const tagName = computed(() => (props.href ? 'a' : 'button'));
+const isInternalLink = computed(() => {
+  return props.href?.startsWith('/') || props.to;
+});
+
+const tagName = computed(() => {
+  if (isInternalLink.value) return RouterLink;
+  if (props.href) return 'a';
+  return 'button';
+});
 
 const classes = computed(() => {
   return {
@@ -38,7 +48,8 @@ const classes = computed(() => {
   <component
     :is="tagName"
     :class="classes"
-    :href="href"
+    :to="to || href"
+    :href="!isInternalLink ? href : undefined"
     :type="tagName === 'button' ? type : undefined"
     :target="href ? target : undefined"
     :rel="href ? rel : undefined"

@@ -14,10 +14,10 @@ const year = new Date().getFullYear();
 
       <div class="footer-links-block">
         <p class="footer-heading">Explore</p>
-        <a href="/">Home</a>
-        <a href="/free">Free Templates</a>
-        <a href="/terms">Terms</a>
-        <a href="/privacy">Privacy</a>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/free">Free Templates</RouterLink>
+        <RouterLink to="/terms">Terms</RouterLink>
+        <RouterLink to="/privacy">Privacy</RouterLink>
       </div>
 
       <div class="footer-links-block">

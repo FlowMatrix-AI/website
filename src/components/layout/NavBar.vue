@@ -63,15 +63,15 @@ watch(
       </RouterLink>
 
       <nav class="nav-desktop" aria-label="Primary">
-        <a
+        <RouterLink
           v-for="item in navItems"
           :key="item.href"
-          :href="item.href"
+          :to="item.href"
           class="nav-link"
           :class="{ 'is-active': isActive(item.href) }"
         >
           {{ item.label }}
-        </a>
+        </RouterLink>
       </nav>
 
       <div class="nav-actions">
@@ -92,15 +92,15 @@ watch(
     <transition name="mobile-fade">
       <div v-if="mobileOpen" id="mobile-menu" class="mobile-panel">
         <nav class="mobile-menu" aria-label="Mobile">
-          <a
+          <RouterLink
             v-for="item in navItems"
             :key="item.href"
-            :href="item.href"
+            :to="item.href"
             class="mobile-link"
             :class="{ 'is-active': isActive(item.href) }"
           >
             {{ item.label }}
-          </a>
+          </RouterLink>
           <Button href="/#start" size="lg" class="animate-pulse-glow">Start Conversation</Button>
         </nav>
       </div>
