@@ -1,5 +1,7 @@
 # FlowMatrix AI: Migration Strategy & Execution Plan (v4.2)
 
+> Status: Historical migration record as of February 27, 2026. For current cutover operations, use `docs/staging-to-production-cutover-checklist.md`.
+
 **Status:** Implementation Complete in Staging (Production Cutover Pending)  
 **Last Updated:** February 26, 2026  
 **Source:** `Seabass-T/Flowmatrix-AI-Website` (Vercel/React/Supabase)  

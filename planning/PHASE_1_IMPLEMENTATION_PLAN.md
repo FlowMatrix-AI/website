@@ -1,5 +1,7 @@
 # FlowMatrix AI: Website Implementation Plan (v4.3)
 
+> Status: Historical build record as of February 27, 2026. Active execution is tracked in `docs/staging-to-production-cutover-checklist.md`.
+
 **Version:** 4.3 (Closed for Build Execution)  
 **Last Updated:** February 26, 2026  
 **Project Lead:** CTO

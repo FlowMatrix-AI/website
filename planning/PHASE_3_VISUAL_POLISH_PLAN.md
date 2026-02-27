@@ -1,5 +1,7 @@
 # FlowMatrix AI: Visual Polish Plan (MVP Parity)
 
+> Status: Historical planning reference as of February 27, 2026. Use `planning/PRODUCTION_READINESS_REMEDIATION_PLAN.md` for active remediation scope.
+
 **Status:** Proposed  
 **Last Updated:** February 26, 2026  
 **Owner:** CTO

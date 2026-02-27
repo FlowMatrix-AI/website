@@ -380,3 +380,19 @@ For pre-cutover completion, all must pass:
 2. Favor small, testable changes with clear rollback.
 3. Keep content/config validation as strict as possible.
 4. Do not bypass failing gates for schedule reasons.
+
+## 9. Completion Status (Updated February 27, 2026)
+
+- `REV-A1` completed: head metadata integration aligned and build artifact validation added.
+- `REV-A2` completed: template status validation hardened and SSG/runtime status handling aligned.
+- `REV-A3` completed: CI deployment gates hardened (`npm ci`, `type-check`, artifact checks).
+- `REV-B1` completed: SPA pageview tracking added via router hook with no double-count on init.
+- `REV-B2` completed: legal revision dates moved to static content and rendered explicitly.
+- `REV-B3` completed: global keyboard `:focus-visible` treatment added and local suppression removed.
+- `REV-B4` completed: routed and static 404 pages now explicitly `noindex, nofollow`.
+- `REV-C1` completed: non-home routes moved to lazy route loading for better initial bundle characteristics.
+- `REV-C2` completed: template type display maps/helpers centralized and status normalization shared between runtime, SSG, and validation scripts.
+- `REV-D1` completed: template `summary` field added/enforced for listing cards while detail pages keep full descriptions.
+- `REV-D2` completed: dead code removed (`templateSlugs`, unused section-divider styles) and `shareUrl` now intentionally used in runtime UI fallbacks.
+- `REV-D3` completed: stale planning docs marked historical and canonical operational docs clearly identified.
+- `REV-D4` completed: deployment normalization consolidated into one shared module used by both runtime and scripts.

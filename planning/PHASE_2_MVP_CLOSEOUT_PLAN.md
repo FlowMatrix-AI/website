@@ -1,5 +1,7 @@
 # FlowMatrix AI: MVP Closeout Plan
 
+> Status: Historical closeout snapshot as of February 27, 2026. Active operational checklist is `docs/staging-to-production-cutover-checklist.md`.
+
 **Status:** Implementation Complete (Code)  
 **Date:** February 26, 2026  
 **Goal:** Close MVP with pragmatic parity, then retire the legacy repo from active workspace.

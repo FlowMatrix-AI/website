@@ -50,6 +50,7 @@ Required fields for `published` entries:
 
 - `slug`
 - `title`
+- `summary` (short listing copy; 40-240 chars)
 - `description`
 - `deliverable_type`
 
