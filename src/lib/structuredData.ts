@@ -1,74 +1,74 @@
-import { siteName, siteUrl, toAbsoluteUrl } from '../config/site'
+import { siteName, siteUrl, toAbsoluteUrl } from '../config/site';
 
-type JsonLdSchema = Record<string, unknown>
+type JsonLdSchema = Record<string, unknown>;
 
 type WebPageSchemaInput = {
-  name: string
-  description: string
-  path: string
-}
+  name: string;
+  description: string;
+  path: string;
+};
 
 type ServiceSchemaInput = {
-  name: string
-  description: string
-  path: string
-}
+  name: string;
+  description: string;
+  path: string;
+};
 
 type CollectionPageSchemaInput = {
-  name: string
-  description: string
-  path: string
-}
+  name: string;
+  description: string;
+  path: string;
+};
 
 type CreativeWorkSchemaInput = {
-  name: string
-  description: string
-  path: string
-  image?: string | null
-  keywords?: string[]
-  creators?: string[]
-  datePublished?: string | null
-  dateModified?: string | null
-}
+  name: string;
+  description: string;
+  path: string;
+  image?: string | null;
+  keywords?: string[];
+  creators?: string[];
+  datePublished?: string | null;
+  dateModified?: string | null;
+};
 
 type FaqEntry = {
-  question: string
-  answer: string
-}
+  question: string;
+  answer: string;
+};
 
 type FaqPageSchemaInput = {
-  path: string
-  entries: FaqEntry[]
-}
+  path: string;
+  entries: FaqEntry[];
+};
 
 function compactObject<T extends JsonLdSchema>(input: T): T {
   return Object.fromEntries(
     Object.entries(input).filter(([, value]) => {
       if (value === undefined || value === null) {
-        return false
+        return false;
       }
 
       if (Array.isArray(value)) {
-        return value.length > 0
+        return value.length > 0;
       }
 
-      return true
-    }),
-  ) as T
+      return true;
+    })
+  ) as T;
 }
 
 export function createJsonLdHead(schemas: JsonLdSchema[]) {
   return {
     script: schemas.map((schema, index) => {
-      const schemaType = typeof schema['@type'] === 'string' ? schema['@type'] : 'schema'
+      const schemaType = typeof schema['@type'] === 'string' ? schema['@type'] : 'schema';
 
       return {
         key: `ld-${schemaType}-${index}`,
         type: 'application/ld+json',
         children: JSON.stringify(schema),
-      }
+      };
     }),
-  }
+  };
 }
 
 export function createOrganizationSchema(): JsonLdSchema {
@@ -78,7 +78,7 @@ export function createOrganizationSchema(): JsonLdSchema {
     name: siteName,
     url: siteUrl,
     logo: toAbsoluteUrl('/flowmatrix-logo.webp'),
-  }
+  };
 }
 
 export function createWebPageSchema({ name, description, path }: WebPageSchemaInput): JsonLdSchema {
@@ -88,7 +88,7 @@ export function createWebPageSchema({ name, description, path }: WebPageSchemaIn
     name,
     description,
     url: toAbsoluteUrl(path),
-  }
+  };
 }
 
 export function createServiceSchema({ name, description, path }: ServiceSchemaInput): JsonLdSchema {
@@ -103,7 +103,7 @@ export function createServiceSchema({ name, description, path }: ServiceSchemaIn
       name: siteName,
       url: siteUrl,
     },
-  }
+  };
 }
 
 export function createCollectionPageSchema({
@@ -117,7 +117,7 @@ export function createCollectionPageSchema({
     name,
     description,
     url: toAbsoluteUrl(path),
-  }
+  };
 }
 
 export function createCreativeWorkSchema({
@@ -133,7 +133,7 @@ export function createCreativeWorkSchema({
   const creatorList = creators?.map((creatorName) => ({
     '@type': 'Person',
     name: creatorName,
-  }))
+  }));
 
   return compactObject({
     '@context': 'https://schema.org',
@@ -146,7 +146,7 @@ export function createCreativeWorkSchema({
     creator: creatorList,
     datePublished,
     dateModified,
-  })
+  });
 }
 
 export function createFaqPageSchema({ path, entries }: FaqPageSchemaInput): JsonLdSchema {
@@ -162,5 +162,5 @@ export function createFaqPageSchema({ path, entries }: FaqPageSchemaInput): Json
         text: entry.answer,
       },
     })),
-  }
+  };
 }

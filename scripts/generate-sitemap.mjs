@@ -1,12 +1,12 @@
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
-import { readDeploymentConfig } from './read-deployment-config.mjs'
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { readDeploymentConfig } from './read-deployment-config.mjs';
 
-const repoRoot = process.cwd()
-const distDir = path.resolve(repoRoot, 'dist')
-const outputFile = path.join(distDir, 'sitemap.xml')
+const repoRoot = process.cwd();
+const distDir = path.resolve(repoRoot, 'dist');
+const outputFile = path.join(distDir, 'sitemap.xml');
 
-const DIRECTORY_EXCLUDES = new Set(['assets', '.vite'])
+const DIRECTORY_EXCLUDES = new Set(['assets', '.vite']);
 
 function escapeXml(value) {
   return value
@@ -14,122 +14,122 @@ function escapeXml(value) {
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;')
+    .replaceAll("'", '&apos;');
 }
 
 async function walk(dir) {
-  const entries = await fs.readdir(dir, { withFileTypes: true })
-  const files = []
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const files = [];
 
   for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name)
+    const fullPath = path.join(dir, entry.name);
 
     if (entry.isDirectory()) {
       if (DIRECTORY_EXCLUDES.has(entry.name)) {
-        continue
+        continue;
       }
-      files.push(...(await walk(fullPath)))
-      continue
+      files.push(...(await walk(fullPath)));
+      continue;
     }
 
-    files.push(fullPath)
+    files.push(fullPath);
   }
 
-  return files
+  return files;
 }
 
 function routeFromFile(filePath) {
-  const relative = path.relative(distDir, filePath)
-  const normalized = relative.split(path.sep).join('/')
+  const relative = path.relative(distDir, filePath);
+  const normalized = relative.split(path.sep).join('/');
 
   if (!normalized.endsWith('.html')) {
-    return null
+    return null;
   }
 
   if (normalized === 'index.html') {
-    return '/'
+    return '/';
   }
 
-  let routePath = ''
+  let routePath = '';
 
   if (normalized.endsWith('/index.html')) {
-    routePath = normalized.slice(0, -'/index.html'.length)
+    routePath = normalized.slice(0, -'/index.html'.length);
   } else {
-    routePath = normalized.slice(0, -'.html'.length)
+    routePath = normalized.slice(0, -'.html'.length);
   }
 
-  const route = `/${routePath}`.replace(/\/+$/, '')
+  const route = `/${routePath}`.replace(/\/+$/, '');
 
   if (route === '/404') {
-    return null
+    return null;
   }
 
   if (route.includes('/:')) {
-    return null
+    return null;
   }
 
-  return route
+  return route;
 }
 
 function routeMeta(route) {
   if (route === '/') {
-    return { changefreq: 'weekly', priority: '1.0' }
+    return { changefreq: 'weekly', priority: '1.0' };
   }
 
   if (route === '/free') {
-    return { changefreq: 'daily', priority: '0.9' }
+    return { changefreq: 'daily', priority: '0.9' };
   }
 
   if (route === '/terms' || route === '/privacy') {
-    return { changefreq: 'yearly', priority: '0.3' }
+    return { changefreq: 'yearly', priority: '0.3' };
   }
 
   if (route.startsWith('/free/')) {
-    return { changefreq: 'weekly', priority: '0.8' }
+    return { changefreq: 'weekly', priority: '0.8' };
   }
 
-  return { changefreq: 'monthly', priority: '0.7' }
+  return { changefreq: 'monthly', priority: '0.7' };
 }
 
 async function main() {
-  const { siteUrl } = await readDeploymentConfig()
+  const { siteUrl } = await readDeploymentConfig();
 
   try {
-    await fs.access(distDir)
+    await fs.access(distDir);
   } catch {
-    throw new Error(`dist directory not found at ${distDir}. Run the build first.`)
+    throw new Error(`dist directory not found at ${distDir}. Run the build first.`);
   }
 
-  const files = await walk(distDir)
-  const routeEntries = []
+  const files = await walk(distDir);
+  const routeEntries = [];
 
   for (const filePath of files) {
-    const route = routeFromFile(filePath)
+    const route = routeFromFile(filePath);
     if (!route) {
-      continue
+      continue;
     }
 
-    const stat = await fs.stat(filePath)
-    const lastmod = stat.mtime.toISOString().slice(0, 10)
-    routeEntries.push({ route, lastmod })
+    const stat = await fs.stat(filePath);
+    const lastmod = stat.mtime.toISOString().slice(0, 10);
+    routeEntries.push({ route, lastmod });
   }
 
   const routes = Array.from(
-    new Map(routeEntries.map((entry) => [entry.route, entry])).values(),
+    new Map(routeEntries.map((entry) => [entry.route, entry])).values()
   ).sort((a, b) => {
-    if (a.route === '/') return -1
-    if (b.route === '/') return 1
-    return a.route.localeCompare(b.route)
-  })
+    if (a.route === '/') return -1;
+    if (b.route === '/') return 1;
+    return a.route.localeCompare(b.route);
+  });
 
   if (routes.length === 0) {
-    throw new Error('No routes found in dist/. Nothing to include in sitemap.')
+    throw new Error('No routes found in dist/. Nothing to include in sitemap.');
   }
 
   const urls = routes
     .map(({ route, lastmod }) => {
-      const { changefreq, priority } = routeMeta(route)
-      const loc = `${siteUrl}${route}`
+      const { changefreq, priority } = routeMeta(route);
+      const loc = `${siteUrl}${route}`;
 
       return [
         '  <url>',
@@ -138,9 +138,9 @@ async function main() {
         `    <changefreq>${changefreq}</changefreq>`,
         `    <priority>${priority}</priority>`,
         '  </url>',
-      ].join('\n')
+      ].join('\n');
     })
-    .join('\n')
+    .join('\n');
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -148,14 +148,14 @@ async function main() {
     urls,
     '</urlset>',
     '',
-  ].join('\n')
+  ].join('\n');
 
-  await fs.writeFile(outputFile, xml, 'utf8')
-  console.log(`[sitemap] wrote ${routes.length} routes to ${outputFile}`)
-  console.log(`[sitemap] using base URL: ${siteUrl}`)
+  await fs.writeFile(outputFile, xml, 'utf8');
+  console.log(`[sitemap] wrote ${routes.length} routes to ${outputFile}`);
+  console.log(`[sitemap] using base URL: ${siteUrl}`);
 }
 
 main().catch((error) => {
-  console.error(`[sitemap] ${error.message}`)
-  process.exit(1)
-})
+  console.error(`[sitemap] ${error.message}`);
+  process.exit(1);
+});

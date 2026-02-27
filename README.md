@@ -13,6 +13,7 @@ Build output goes to `dist/`.
 ## Deployment Configuration
 
 Public deployment settings are versioned in `src/config/deployment.json`:
+
 - `siteUrl`
 - `allowIndexing`
 - `gaMeasurementId` (optional)
@@ -23,11 +24,13 @@ At domain cutover, update `siteUrl` and `allowIndexing` in `deployment.json` and
 ## Lead Capture Configuration
 
 Lead capture config is centralized in `src/data/forms.json`:
+
 - `mainGetInTouch`: form used on homepage CTA
 - `freeGetAccessNow`: shared form used across `/free/:slug` pages
 
 `src/data/templates.json` is content-only for free resources.
 For each `published` template, CI requires:
+
 - `slug`
 - `title`
 - `description`

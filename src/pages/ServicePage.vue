@@ -1,54 +1,50 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
-import { useHead } from '@unhead/vue'
-import Button from '../components/ui/Button.vue'
-import { serviceBody } from '../data/serviceContent'
-import { servicePhases, type ServicePhase } from '../data/siteContent'
-import { createSeoHead } from '../lib/seo'
-import {
-  createJsonLdHead,
-  createServiceSchema,
-  createWebPageSchema,
-} from '../lib/structuredData'
+import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
+import { useHead } from '@unhead/vue';
+import Button from '../components/ui/Button.vue';
+import { serviceBody } from '../data/serviceContent';
+import { servicePhases, type ServicePhase } from '../data/siteContent';
+import { createSeoHead } from '../lib/seo';
+import { createJsonLdHead, createServiceSchema, createWebPageSchema } from '../lib/structuredData';
 
 const props = defineProps<{
-  serviceId: ServicePhase['id']
-}>()
+  serviceId: ServicePhase['id'];
+}>();
 
-const phase = computed(() => servicePhases.find((item) => item.id === props.serviceId))
-const content = computed(() => serviceBody[props.serviceId])
+const phase = computed(() => servicePhases.find((item) => item.id === props.serviceId));
+const content = computed(() => serviceBody[props.serviceId]);
 
 const currentIndex = computed(() => {
-  return servicePhases.findIndex((item) => item.id === props.serviceId)
-})
+  return servicePhases.findIndex((item) => item.id === props.serviceId);
+});
 
 const phaseTrack = computed(() => {
   return servicePhases.map((item) => ({
     ...item,
     isCurrent: item.id === props.serviceId,
-  }))
-})
+  }));
+});
 
 const outcomes = computed(() => {
-  return content.value?.sections.map((section) => section.heading) ?? []
-})
+  return content.value?.sections.map((section) => section.heading) ?? [];
+});
 
 const serviceTrustSignals = [
   'Built for real operators',
   'Execution over slide decks',
   'Architecture with long-term ownership in mind',
-]
+];
 
 const prevPhase = computed(() => {
-  if (currentIndex.value <= 0) return null
-  return servicePhases[currentIndex.value - 1]
-})
+  if (currentIndex.value <= 0) return null;
+  return servicePhases[currentIndex.value - 1];
+});
 
 const nextPhase = computed(() => {
-  if (currentIndex.value === -1 || currentIndex.value >= servicePhases.length - 1) return null
-  return servicePhases[currentIndex.value + 1]
-})
+  if (currentIndex.value === -1 || currentIndex.value >= servicePhases.length - 1) return null;
+  return servicePhases[currentIndex.value + 1];
+});
 
 useHead(() => {
   if (!phase.value) {
@@ -56,15 +52,15 @@ useHead(() => {
       title: 'Service',
       description: 'FlowMatrix AI services.',
       path: `/${props.serviceId}`,
-    })
+    });
   }
 
   return createSeoHead({
     title: phase.value.title,
     description: phase.value.description,
     path: phase.value.href,
-  })
-})
+  });
+});
 
 useHead(() => {
   if (!phase.value) {
@@ -74,7 +70,7 @@ useHead(() => {
         description: 'FlowMatrix AI services.',
         path: `/${props.serviceId}`,
       }),
-    ])
+    ]);
   }
 
   return createJsonLdHead([
@@ -88,8 +84,8 @@ useHead(() => {
       description: phase.value.description,
       path: phase.value.href,
     }),
-  ])
-})
+  ]);
+});
 </script>
 
 <template>
@@ -129,7 +125,11 @@ useHead(() => {
   </section>
 
   <section class="service-sections" v-if="content">
-    <article class="surface-card section-item card-lift" v-for="(section, index) in content.sections" :key="section.heading">
+    <article
+      class="surface-card section-item card-lift"
+      v-for="(section, index) in content.sections"
+      :key="section.heading"
+    >
       <p class="section-index">{{ String(index + 1).padStart(2, '0') }}</p>
       <h3>{{ section.heading }}</h3>
       <p>{{ section.body }}</p>

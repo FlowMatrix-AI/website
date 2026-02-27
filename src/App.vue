@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import NavBar from './components/layout/NavBar.vue'
-import Footer from './components/layout/Footer.vue'
-import { useAnalyticsHead } from './composables/useAnalytics'
+import NavBar from './components/layout/NavBar.vue';
+import Footer from './components/layout/Footer.vue';
+import { useAnalyticsHead } from './composables/useAnalytics';
 
-useAnalyticsHead()
+useAnalyticsHead();
 </script>
 
 <template>

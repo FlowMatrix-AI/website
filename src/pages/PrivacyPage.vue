@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import { legalRevisionDates } from '../data/legalContent'
-import { createSeoHead } from '../lib/seo'
-import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
+import { useHead } from '@unhead/vue';
+import { legalRevisionDates } from '../data/legalContent';
+import { createSeoHead } from '../lib/seo';
+import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData';
 
 const sections = [
   {
@@ -83,15 +83,15 @@ const sections = [
       'This policy may be updated periodically. Material changes are communicated through normal client channels.',
     ],
   },
-]
+];
 
 useHead(
   createSeoHead({
     title: 'Privacy',
     description: 'Privacy policy for FlowMatrix AI services.',
     path: '/privacy',
-  }),
-)
+  })
+);
 
 useHead(
   createJsonLdHead([
@@ -100,8 +100,8 @@ useHead(
       description: 'Privacy policy for FlowMatrix AI services.',
       path: '/privacy',
     }),
-  ]),
-)
+  ])
+);
 </script>
 
 <template>

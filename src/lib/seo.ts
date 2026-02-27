@@ -1,12 +1,12 @@
-import { allowIndexing, defaultOgImage, siteName, toAbsoluteUrl } from '../config/site'
+import { allowIndexing, defaultOgImage, siteName, toAbsoluteUrl } from '../config/site';
 
 type SeoInput = {
-  title: string
-  description: string
-  path: string
-  image?: string
-  type?: 'website' | 'article'
-}
+  title: string;
+  description: string;
+  path: string;
+  image?: string;
+  type?: 'website' | 'article';
+};
 
 export function createSeoHead({
   title,
@@ -15,8 +15,8 @@ export function createSeoHead({
   image = defaultOgImage,
   type = 'website',
 }: SeoInput) {
-  const canonicalUrl = toAbsoluteUrl(path)
-  const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`
+  const canonicalUrl = toAbsoluteUrl(path);
+  const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
   return {
     title: fullTitle,
@@ -76,5 +76,5 @@ export function createSeoHead({
         content: toAbsoluteUrl(image),
       },
     ],
-  }
+  };
 }

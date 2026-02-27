@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import { legalRevisionDates } from '../data/legalContent'
-import { createSeoHead } from '../lib/seo'
-import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
+import { useHead } from '@unhead/vue';
+import { legalRevisionDates } from '../data/legalContent';
+import { createSeoHead } from '../lib/seo';
+import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData';
 
 const sections = [
   {
     title: 'Acceptance of Terms',
     paragraphs: [
-      "By accessing and using FlowMatrix AI services, you agree to be bound by these Terms and Conditions. If you do not agree, do not use our services.",
+      'By accessing and using FlowMatrix AI services, you agree to be bound by these Terms and Conditions. If you do not agree, do not use our services.',
     ],
   },
   {
@@ -77,15 +77,15 @@ const sections = [
       'FlowMatrix AI may update these terms at any time. Material changes are communicated through appropriate client channels.',
     ],
   },
-]
+];
 
 useHead(
   createSeoHead({
     title: 'Terms',
     description: 'Terms and conditions for FlowMatrix AI services.',
     path: '/terms',
-  }),
-)
+  })
+);
 
 useHead(
   createJsonLdHead([
@@ -94,8 +94,8 @@ useHead(
       description: 'Terms and conditions for FlowMatrix AI services.',
       path: '/terms',
     }),
-  ]),
-)
+  ])
+);
 </script>
 
 <template>
@@ -106,7 +106,8 @@ useHead(
     <div class="legal-intro">
       <h2>Welcome to FlowMatrix AI</h2>
       <p>
-        FlowMatrix AI provides specialized automation and AI implementation services for businesses that need to move faster with better systems.
+        FlowMatrix AI provides specialized automation and AI implementation services for businesses
+        that need to move faster with better systems.
       </p>
     </div>
 
@@ -123,7 +124,12 @@ useHead(
     <div class="legal-contact">
       <h2>Contact</h2>
       <p>Email: <a href="mailto:legal@flowmatrixai.com">legal@flowmatrixai.com</a></p>
-      <p>Website: <a href="https://www.flowmatrixai.com" target="_blank" rel="noopener noreferrer">www.flowmatrixai.com</a></p>
+      <p>
+        Website:
+        <a href="https://www.flowmatrixai.com" target="_blank" rel="noopener noreferrer"
+          >www.flowmatrixai.com</a
+        >
+      </p>
     </div>
   </section>
 </template>

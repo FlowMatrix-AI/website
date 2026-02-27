@@ -1,26 +1,26 @@
-const allowedStatuses = new Set(['draft', 'published', 'archived'])
+const allowedStatuses = new Set(['draft', 'published', 'archived']);
 
 export function readTemplateStatus(value) {
   if (value === undefined || value === null) {
-    return 'published'
+    return 'published';
   }
 
   if (typeof value !== 'string') {
-    return null
+    return null;
   }
 
-  const normalized = value.trim().toLowerCase()
+  const normalized = value.trim().toLowerCase();
   if (!normalized) {
-    return null
+    return null;
   }
 
   if (allowedStatuses.has(normalized)) {
-    return normalized
+    return normalized;
   }
 
-  return null
+  return null;
 }
 
 export function isPublishedTemplateStatus(value) {
-  return readTemplateStatus(value) === 'published'
+  return readTemplateStatus(value) === 'published';
 }

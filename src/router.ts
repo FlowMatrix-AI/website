@@ -1,12 +1,12 @@
-import type { RouteRecordRaw } from 'vue-router'
-import HomePage from './pages/HomePage.vue'
+import type { RouteRecordRaw } from 'vue-router';
+import HomePage from './pages/HomePage.vue';
 
-const ServicePage = () => import('./pages/ServicePage.vue')
-const FreeIndexPage = () => import('./pages/FreeIndexPage.vue')
-const TemplateDetailPage = () => import('./pages/TemplateDetailPage.vue')
-const TermsPage = () => import('./pages/TermsPage.vue')
-const PrivacyPage = () => import('./pages/PrivacyPage.vue')
-const NotFoundPage = () => import('./pages/NotFoundPage.vue')
+const ServicePage = () => import('./pages/ServicePage.vue');
+const FreeIndexPage = () => import('./pages/FreeIndexPage.vue');
+const TemplateDetailPage = () => import('./pages/TemplateDetailPage.vue');
+const TermsPage = () => import('./pages/TermsPage.vue');
+const PrivacyPage = () => import('./pages/PrivacyPage.vue');
+const NotFoundPage = () => import('./pages/NotFoundPage.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -63,6 +63,6 @@ const routes: RouteRecordRaw[] = [
     name: 'not-found',
     component: NotFoundPage,
   },
-]
+];
 
-export default routes
+export default routes;

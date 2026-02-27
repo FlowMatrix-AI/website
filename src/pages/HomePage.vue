@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useHead } from '@unhead/vue'
-import Button from '../components/ui/Button.vue'
-import TallyEmbed from '../components/forms/TallyEmbed.vue'
-import { trackAnalyticsEvent } from '../composables/useAnalytics'
-import { forms } from '../config/forms'
-import { homeContent, servicePhases } from '../data/siteContent'
-import { createSeoHead } from '../lib/seo'
+import { ref } from 'vue';
+import { useHead } from '@unhead/vue';
+import Button from '../components/ui/Button.vue';
+import TallyEmbed from '../components/forms/TallyEmbed.vue';
+import { trackAnalyticsEvent } from '../composables/useAnalytics';
+import { forms } from '../config/forms';
+import { homeContent, servicePhases } from '../data/siteContent';
+import { createSeoHead } from '../lib/seo';
 import {
   createFaqPageSchema,
   createJsonLdHead,
   createOrganizationSchema,
   createWebPageSchema,
-} from '../lib/structuredData'
+} from '../lib/structuredData';
 
-const homeLeadSubmitted = ref(false)
-const mainFormMinHeight = forms.mainGetInTouch.embedMinHeight ?? 620
-const mainFormShareUrl = forms.mainGetInTouch.shareUrl
+const homeLeadSubmitted = ref(false);
+const mainFormMinHeight = forms.mainGetInTouch.embedMinHeight ?? 620;
+const mainFormShareUrl = forms.mainGetInTouch.shareUrl;
 
 const clientLogos = [
   { name: 'All Clean', src: '/client-logos/all-clean.webp' },
@@ -25,15 +25,11 @@ const clientLogos = [
   { name: 'Palisades Bowhunting', src: '/client-logos/palisades-bowhunting.webp' },
   { name: 'UBL Group', src: '/client-logos/ubl-group.png' },
   { name: 'Valor Tax Relief', src: '/client-logos/valor-tax-relief.webp' },
-]
+];
 
-const marqueeLogos = [...clientLogos, ...clientLogos]
+const marqueeLogos = [...clientLogos, ...clientLogos];
 
-const trustSignals = [
-  'No obligation call',
-  'Response within 24h',
-  'Execution-focused roadmap',
-]
+const trustSignals = ['No obligation call', 'Response within 24h', 'Execution-focused roadmap'];
 
 useHead(
   createSeoHead({
@@ -41,8 +37,8 @@ useHead(
     description:
       'FlowMatrix AI architects and executes AI transformation for business: assessment, database mobilization, AI implementation, and personalized software.',
     path: '/',
-  }),
-)
+  })
+);
 
 useHead(
   createJsonLdHead([
@@ -60,18 +56,18 @@ useHead(
         answer: item.answer,
       })),
     }),
-  ]),
-)
+  ])
+);
 
 function handleHomeLeadSubmitted() {
-  homeLeadSubmitted.value = true
+  homeLeadSubmitted.value = true;
 
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
     lead_flow: 'main_get_in_touch',
     form_id: forms.mainGetInTouch.formId,
     source_page: '/',
-  })
+  });
 }
 </script>
 
@@ -94,11 +90,16 @@ function handleHomeLeadSubmitted() {
           <Button href="/#services" variant="ghost" size="lg">View Services</Button>
         </div>
 
-        <p class="hero-note">From assessment to implementation, built for operators with no room for fluff.</p>
+        <p class="hero-note">
+          From assessment to implementation, built for operators with no room for fluff.
+        </p>
       </div>
     </section>
 
-    <section class="surface-card section-block section-block--stakes" aria-labelledby="stakes-heading">
+    <section
+      class="surface-card section-block section-block--stakes"
+      aria-labelledby="stakes-heading"
+    >
       <p class="section-eyebrow">The Stakes</p>
       <h2 id="stakes-heading" class="section-title">{{ homeContent.stakes.headline }}</h2>
       <p class="page-subtitle">{{ homeContent.stakes.body }}</p>
@@ -111,7 +112,11 @@ function handleHomeLeadSubmitted() {
       </ul>
     </section>
 
-    <section id="services" class="surface-card section-block section-block--services" aria-labelledby="services-heading">
+    <section
+      id="services"
+      class="surface-card section-block section-block--services"
+      aria-labelledby="services-heading"
+    >
       <p class="section-eyebrow">Methodology</p>
       <h2 id="services-heading" class="section-title">Four phases. One transformation.</h2>
       <p class="page-subtitle">Each phase compounds the value of the previous one.</p>
@@ -126,7 +131,11 @@ function handleHomeLeadSubmitted() {
       </ul>
     </section>
 
-    <section id="proof" class="surface-card section-block section-block--proof" aria-labelledby="proof-heading">
+    <section
+      id="proof"
+      class="surface-card section-block section-block--proof"
+      aria-labelledby="proof-heading"
+    >
       <p class="section-eyebrow">Client Results</p>
       <h2 id="proof-heading" class="section-title">{{ homeContent.proof.headline }}</h2>
 
@@ -136,7 +145,10 @@ function handleHomeLeadSubmitted() {
       </blockquote>
 
       <div class="proof-attribution">
-        <img :src="homeContent.proof.attribution.logo" :alt="homeContent.proof.attribution.company" />
+        <img
+          :src="homeContent.proof.attribution.logo"
+          :alt="homeContent.proof.attribution.company"
+        />
         <div>
           <strong>{{ homeContent.proof.attribution.name }}</strong>
           <p>
@@ -159,19 +171,29 @@ function handleHomeLeadSubmitted() {
       </div>
     </section>
 
-    <section id="team" class="surface-card section-block section-block--team" aria-labelledby="team-heading">
+    <section
+      id="team"
+      class="surface-card section-block section-block--team"
+      aria-labelledby="team-heading"
+    >
       <p class="section-eyebrow">The Team</p>
       <h2 id="team-heading" class="section-title">{{ homeContent.founders.headline }}</h2>
       <p class="page-subtitle">{{ homeContent.founders.intro }}</p>
 
       <ul class="founder-grid">
-        <li v-for="member in homeContent.founders.team" :key="member.name" class="founder-card card-lift">
+        <li
+          v-for="member in homeContent.founders.team"
+          :key="member.name"
+          class="founder-card card-lift"
+        >
           <img :src="member.image" :alt="member.name" />
           <div>
             <h3>{{ member.name }}</h3>
             <p>{{ member.title }}</p>
             <div class="founder-links">
-              <a :href="member.linkedin" target="_blank" rel="noopener noreferrer" class="gold-link">LinkedIn</a>
+              <a :href="member.linkedin" target="_blank" rel="noopener noreferrer" class="gold-link"
+                >LinkedIn</a
+              >
               <a :href="`mailto:${member.email}`" class="gold-link">{{ member.email }}</a>
             </div>
           </div>
@@ -179,11 +201,19 @@ function handleHomeLeadSubmitted() {
       </ul>
     </section>
 
-    <section id="faq" class="surface-card section-block section-block--faq" aria-labelledby="faq-heading">
+    <section
+      id="faq"
+      class="surface-card section-block section-block--faq"
+      aria-labelledby="faq-heading"
+    >
       <p class="section-eyebrow">FAQ</p>
       <h2 id="faq-heading" class="section-title">{{ homeContent.faq.headline }}</h2>
       <div class="faq-list">
-        <details v-for="(item, index) in homeContent.faq.items" :key="item.question" class="faq-item card-lift">
+        <details
+          v-for="(item, index) in homeContent.faq.items"
+          :key="item.question"
+          class="faq-item card-lift"
+        >
           <summary>
             <span class="faq-number">{{ String(index + 1).padStart(2, '0') }}</span>
             <span>{{ item.question }}</span>
@@ -193,7 +223,11 @@ function handleHomeLeadSubmitted() {
       </div>
     </section>
 
-    <section id="start" class="surface-card section-block section-block--cta" aria-labelledby="cta-heading">
+    <section
+      id="start"
+      class="surface-card section-block section-block--cta"
+      aria-labelledby="cta-heading"
+    >
       <div class="cta-header">
         <p class="section-eyebrow">Start Here</p>
         <h2 id="cta-heading" class="section-title">{{ homeContent.cta.headline }}</h2>
@@ -202,7 +236,8 @@ function handleHomeLeadSubmitted() {
 
       <div class="cta-form-wrap">
         <p class="cta-form-note">
-          Tell us your current state and goals. We review every submission and respond within one business day.
+          Tell us your current state and goals. We review every submission and respond within one
+          business day.
         </p>
 
         <p v-if="homeLeadSubmitted" class="cta-success" role="status" aria-live="polite">

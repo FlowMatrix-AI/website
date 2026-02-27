@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
-import Button from '../ui/Button.vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+import Button from '../ui/Button.vue';
 
-const route = useRoute()
-const mobileOpen = ref(false)
-const scrolled = ref(false)
+const route = useRoute();
+const mobileOpen = ref(false);
+const scrolled = ref(false);
 
 const navItems = [
   { label: 'Services', href: '/#services' },
@@ -13,46 +13,46 @@ const navItems = [
   { label: 'Team', href: '/#team' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Free Templates', href: '/free' },
-]
+];
 
 const onScroll = () => {
-  scrolled.value = window.scrollY > 24
-}
+  scrolled.value = window.scrollY > 24;
+};
 
-const activeHash = computed(() => route.hash || '')
+const activeHash = computed(() => route.hash || '');
 
 const isActive = (href: string) => {
   if (href === '/free') {
-    return route.path.startsWith('/free')
+    return route.path.startsWith('/free');
   }
 
   if (href.startsWith('/#')) {
-    return route.path === '/' && activeHash.value === href.slice(1)
+    return route.path === '/' && activeHash.value === href.slice(1);
   }
 
-  return route.path === href
-}
+  return route.path === href;
+};
 
 onMounted(() => {
-  onScroll()
-  window.addEventListener('scroll', onScroll, { passive: true })
-})
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
-  document.body.style.overflow = ''
-})
+  window.removeEventListener('scroll', onScroll);
+  document.body.style.overflow = '';
+});
 
 watch(mobileOpen, (open) => {
-  document.body.style.overflow = open ? 'hidden' : ''
-})
+  document.body.style.overflow = open ? 'hidden' : '';
+});
 
 watch(
   () => route.fullPath,
   () => {
-    mobileOpen.value = false
-  },
-)
+    mobileOpen.value = false;
+  }
+);
 </script>
 
 <template>
@@ -115,7 +115,9 @@ watch(
   height: var(--nav-height);
   z-index: 20;
   border-bottom: 1px solid transparent;
-  transition: background 0.22s ease, border-color 0.22s ease;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .nav-wrap--scrolled {
@@ -168,7 +170,9 @@ watch(
   background: linear-gradient(90deg, transparent, rgba(212, 168, 75, 0.9), transparent);
   opacity: 0;
   transform: scaleX(0.65);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .nav-link:hover {

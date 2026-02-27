@@ -1,11 +1,11 @@
 export type ServicePhase = {
-  id: 'assessment' | 'database-mobilization' | 'ai-implementation' | 'personalized-software'
-  phase: number
-  title: string
-  tagline: string
-  description: string
-  href: string
-}
+  id: 'assessment' | 'database-mobilization' | 'ai-implementation' | 'personalized-software';
+  phase: number;
+  title: string;
+  tagline: string;
+  description: string;
+  href: string;
+};
 
 export const servicePhases: ServicePhase[] = [
   {
@@ -44,7 +44,7 @@ export const servicePhases: ServicePhase[] = [
       'Custom applications designed for how your people actually work, powered by your own data, with AI woven into every interaction.',
     href: '/personalized-software',
   },
-]
+];
 
 export const homeContent = {
   hero: {
@@ -129,4 +129,4 @@ export const homeContent = {
       'One conversation. No pitch, no pressure, just clarity on what AI can do for your business.',
     button: 'Start the Conversation',
   },
-}
+};

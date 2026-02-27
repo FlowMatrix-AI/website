@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import Button from '../components/ui/Button.vue'
+import { useHead } from '@unhead/vue';
+import Button from '../components/ui/Button.vue';
 
 useHead({
   title: '404 | FlowMatrix AI',
@@ -14,7 +14,7 @@ useHead({
       content: 'noindex, nofollow',
     },
   ],
-})
+});
 </script>
 
 <template>

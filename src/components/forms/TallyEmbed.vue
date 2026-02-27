@@ -1,161 +1,163 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 
 const props = withDefaults(
   defineProps<{
-    formId: string
-    title?: string
-    minHeight?: number
+    formId: string;
+    title?: string;
+    minHeight?: number;
   }>(),
   {
     title: 'Lead capture form',
     minHeight: 580,
-  },
-)
+  }
+);
 
 const emit = defineEmits<{
-  submitted: [{ formId: string; submissionId?: string }]
-}>()
+  submitted: [{ formId: string; submissionId?: string }];
+}>();
 
-const TALLY_SCRIPT_SRC = 'https://tally.so/widgets/embed.js'
+const TALLY_SCRIPT_SRC = 'https://tally.so/widgets/embed.js';
 
 declare global {
   interface Window {
     Tally?: {
-      loadEmbeds?: () => void
-    }
+      loadEmbeds?: () => void;
+    };
   }
 }
 
 const iframeUrl = computed(() => {
-  const encodedFormId = encodeURIComponent(props.formId)
-  return `https://tally.so/embed/${encodedFormId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`
-})
+  const encodedFormId = encodeURIComponent(props.formId);
+  return `https://tally.so/embed/${encodedFormId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+});
 
 function ensureTallyScript() {
   if (typeof window === 'undefined') {
-    return
+    return;
   }
 
   const loadEmbeds = () => {
     if (typeof window.Tally?.loadEmbeds === 'function') {
-      window.Tally.loadEmbeds()
-      return
+      window.Tally.loadEmbeds();
+      return;
     }
 
     // Fallback path if the Tally global is unavailable for any reason.
     document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach((iframeElement) => {
-      const frame = iframeElement as HTMLIFrameElement
-      const dataSrc = frame.dataset.tallySrc
+      const frame = iframeElement as HTMLIFrameElement;
+      const dataSrc = frame.dataset.tallySrc;
       if (dataSrc) {
-        frame.src = dataSrc
+        frame.src = dataSrc;
       }
-    })
-  }
+    });
+  };
 
-  const existingScript = document.querySelector(`script[src=\"${TALLY_SCRIPT_SRC}\"]`)
+  const existingScript = document.querySelector(`script[src=\"${TALLY_SCRIPT_SRC}\"]`);
   if (existingScript) {
-    loadEmbeds()
-    return
+    loadEmbeds();
+    return;
   }
 
-  const script = document.createElement('script')
-  script.src = TALLY_SCRIPT_SRC
-  script.async = true
-  script.onload = loadEmbeds
-  script.onerror = loadEmbeds
-  document.body.appendChild(script)
+  const script = document.createElement('script');
+  script.src = TALLY_SCRIPT_SRC;
+  script.async = true;
+  script.onload = loadEmbeds;
+  script.onerror = loadEmbeds;
+  document.body.appendChild(script);
 }
 
 function isTrustedTallyOrigin(origin: string): boolean {
   try {
-    const host = new URL(origin).hostname
-    return host === 'tally.so' || host.endsWith('.tally.so')
+    const host = new URL(origin).hostname;
+    return host === 'tally.so' || host.endsWith('.tally.so');
   } catch {
-    return false
+    return false;
   }
 }
 
-function parseTallyMessage(data: unknown): { eventName: string; payload: Record<string, unknown> } | null {
+function parseTallyMessage(
+  data: unknown
+): { eventName: string; payload: Record<string, unknown> } | null {
   if (typeof data === 'string') {
     if (!data.includes('Tally.')) {
-      return null
+      return null;
     }
 
     try {
-      const parsed = JSON.parse(data) as { event?: unknown; data?: unknown }
-      const eventName = typeof parsed.event === 'string' ? parsed.event : null
-      const payload = parsed.data && typeof parsed.data === 'object' ? parsed.data : {}
+      const parsed = JSON.parse(data) as { event?: unknown; data?: unknown };
+      const eventName = typeof parsed.event === 'string' ? parsed.event : null;
+      const payload = parsed.data && typeof parsed.data === 'object' ? parsed.data : {};
 
       if (!eventName) {
-        return null
+        return null;
       }
 
-      return { eventName, payload: payload as Record<string, unknown> }
+      return { eventName, payload: payload as Record<string, unknown> };
     } catch {
-      return null
+      return null;
     }
   }
 
   if (data && typeof data === 'object') {
-    const parsed = data as { event?: unknown; type?: unknown; data?: unknown; payload?: unknown }
+    const parsed = data as { event?: unknown; type?: unknown; data?: unknown; payload?: unknown };
     const eventName =
       typeof parsed.event === 'string'
         ? parsed.event
         : typeof parsed.type === 'string'
           ? parsed.type
-          : null
+          : null;
 
     if (!eventName) {
-      return null
+      return null;
     }
 
-    const payloadCandidate = parsed.data ?? parsed.payload ?? {}
+    const payloadCandidate = parsed.data ?? parsed.payload ?? {};
     const payload =
       payloadCandidate && typeof payloadCandidate === 'object'
         ? (payloadCandidate as Record<string, unknown>)
-        : {}
+        : {};
 
-    return { eventName, payload }
+    return { eventName, payload };
   }
 
-  return null
+  return null;
 }
 
 function handleMessage(event: MessageEvent) {
   if (!isTrustedTallyOrigin(event.origin)) {
-    return
+    return;
   }
 
-  const parsed = parseTallyMessage(event.data)
+  const parsed = parseTallyMessage(event.data);
   if (!parsed || parsed.eventName !== 'Tally.FormSubmitted') {
-    return
+    return;
   }
 
   const submittedFormId =
-    typeof parsed.payload.formId === 'string' ? parsed.payload.formId : undefined
+    typeof parsed.payload.formId === 'string' ? parsed.payload.formId : undefined;
 
   if (submittedFormId && submittedFormId !== props.formId) {
-    return
+    return;
   }
 
   const submissionId =
-    typeof parsed.payload.submissionId === 'string' ? parsed.payload.submissionId : undefined
+    typeof parsed.payload.submissionId === 'string' ? parsed.payload.submissionId : undefined;
 
   emit('submitted', {
     formId: props.formId,
     submissionId,
-  })
+  });
 }
 
 onMounted(() => {
-  ensureTallyScript()
-  window.addEventListener('message', handleMessage)
-})
+  ensureTallyScript();
+  window.addEventListener('message', handleMessage);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('message', handleMessage)
-})
+  window.removeEventListener('message', handleMessage);
+});
 </script>
 
 <template>

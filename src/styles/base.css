@@ -19,8 +19,7 @@ body {
   background:
     radial-gradient(1200px 560px at 85% -18%, rgba(212, 168, 75, 0.13), transparent 56%),
     radial-gradient(1000px 460px at 8% -28%, rgba(255, 255, 255, 0.07), transparent 58%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%),
-    var(--color-bg);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%), var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,15 +44,15 @@ a {
 }
 
 :where(
-  a,
-  button,
-  input,
-  select,
-  textarea,
-  summary,
-  [role='button'],
-  [tabindex]:not([tabindex='-1'])
-):focus:not(:focus-visible) {
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [role='button'],
+    [tabindex]:not([tabindex='-1'])
+  ):focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -110,7 +109,13 @@ video {
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(120deg, rgba(212, 168, 75, 0.07), transparent 35%, transparent 68%, rgba(255, 255, 255, 0.035));
+  background: linear-gradient(
+    120deg,
+    rgba(212, 168, 75, 0.07),
+    transparent 35%,
+    transparent 68%,
+    rgba(255, 255, 255, 0.035)
+  );
   opacity: 0.6;
 }
 
@@ -124,7 +129,10 @@ video {
 }
 
 .card-lift {
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .card-lift:hover {

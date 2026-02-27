@@ -7,7 +7,15 @@
     "description": "This video demonstrates how to build an n8n workflow that automatically converts meeting notes into CRM tasks in under 60 seconds. The complete build includes Gmail trigger setup, AI extraction using OpenRouter and GPT-4.1 Mini, Google Drive document sharing, and ClickUp task creation. The workflow uses Google Gemini for AI meeting notes and includes routing logic to handle both document storage and task creation. The tutorial covers system and user prompts, AI Information Extractor configuration, ClickUp API integration using HTTP requests and access tokens, and text classification for advanced routing. A demonstration shows the automated task creation and meeting summary page generation in ClickUp. The video also explores building an agentic system with sub-agents for more advanced automation capabilities. A free n8n workflow JSON template is available for implementation.",
     "deliverable_type": "template",
     "labels": ["individual"],
-    "tools_used": ["n8n", "Gmail", "OpenRouter", "GPT-4.1 Mini", "Google Drive", "ClickUp", "Google Gemini"],
+    "tools_used": [
+      "n8n",
+      "Gmail",
+      "OpenRouter",
+      "GPT-4.1 Mini",
+      "Google Drive",
+      "ClickUp",
+      "Google Gemini"
+    ],
     "builders": ["Sebastian Tamburro"],
     "youtube_id": "XaW7nsJALvk",
     "thumbnail_url": "https://img.youtube.com/vi/XaW7nsJALvk/maxresdefault.jpg",
@@ -22,7 +30,12 @@
     "description": "The Email Organizer and Summarizer is an Email Intelligence system designed to save businesses 1 to 3 hours and over $1000 per month. The system automatically organizes emails received over a 24 hour period into designated folders and categories by querying a database to retrieve relevant context such as email history and thread continuations. Daily inbox management includes a short 2 to 3 minute overview highlighting significant emails and actions, plus a comprehensive 5 to 10 minute breakdown document featuring inbox overview, inbox analytics, category breakdown ranked by importance, direct navigation links, and an optimized action plan. Businesses provide their desired folders and categories ordered from most to least important. Available add-ons include automated response drafts with contextual awareness, automated responses for specific email categories, text notifications for high importance emails, calendar integration for automated planning and task creation, and integration with additional automation systems.",
     "deliverable_type": "template",
     "labels": ["individual"],
-    "tools_used": ["Email categorization", "Context retrieval", "Summary generation", "Calendar integration"],
+    "tools_used": [
+      "Email categorization",
+      "Context retrieval",
+      "Summary generation",
+      "Calendar integration"
+    ],
     "builders": ["Sebastian Tamburro"],
     "youtube_id": "sZHSdYXZkp8",
     "thumbnail_url": "https://img.youtube.com/vi/sZHSdYXZkp8/maxresdefault.jpg",
@@ -52,7 +65,12 @@
     "description": "FlowMatrix AI's Invoice Lifecycle Manager is an end-to-end automated system that handles the entire invoicing process from creation to payment collection without manual intervention. The system automates invoice creation and delivery by triggering when projects are marked complete, gathering client and project information, creating professionally formatted PDF invoices, and sending them to clients while updating tracking systems. It provides intelligent communication monitoring by scanning incoming emails daily for invoice-related communications, automatically identifying payment confirmations, classifying client questions that need attention, and sending real-time text notifications with direct links to important emails. The system includes strategic follow-up automation with a progressive reminder sequence at 1 week, 2 weeks, and due date, automatically escalating tone for overdue invoices, sending daily reminders after due dates, and offering optional automated phone call integration for severely overdue accounts. This system saves businesses 10 to 20 plus hours monthly while reducing payment collection time by 40 to 60 percent.",
     "deliverable_type": "template",
     "labels": ["enterprise"],
-    "tools_used": ["Invoice generation", "Email monitoring", "SMS notifications", "Reminder sequencing"],
+    "tools_used": [
+      "Invoice generation",
+      "Email monitoring",
+      "SMS notifications",
+      "Reminder sequencing"
+    ],
     "builders": ["Sebastian Tamburro"],
     "youtube_id": "6_XnGTYzS7A",
     "thumbnail_url": "https://img.youtube.com/vi/6_XnGTYzS7A/maxresdefault.jpg",
@@ -97,7 +115,17 @@
     "description": "This is Part 1 of the Marketing MEGA Agent series. This workflow demonstrates how a YouTube URL and form submission automatically generates a landing page on a website. The system updates the sitemap XML for SEO, indexes the new page with Google and Bing, and tracks analytics for every video automatically. The workflow covers form submission, landing page creation, SEO optimization, error handling, task routing in the CRM, and automated YouTube analytics tracking. Tools used include n8n for workflow automation, Claude AI for description and landing page copy generation, ClickUp for form intake and task management, GitHub for website deployment and version control, Vercel for automatic redeployment, Google Search Console and Bing Webmaster Tools for SEO indexing, Google Sheets for analytics tracking, and Canva for thumbnail creation.",
     "deliverable_type": "template",
     "labels": ["enterprise"],
-    "tools_used": ["n8n", "Claude AI", "ClickUp", "GitHub", "Vercel", "Google Search Console", "Bing Webmaster Tools", "Google Sheets", "Canva"],
+    "tools_used": [
+      "n8n",
+      "Claude AI",
+      "ClickUp",
+      "GitHub",
+      "Vercel",
+      "Google Search Console",
+      "Bing Webmaster Tools",
+      "Google Sheets",
+      "Canva"
+    ],
     "builders": ["Sebastian Tamburro"],
     "youtube_id": "fck4_83NAME",
     "thumbnail_url": "https://img.youtube.com/vi/fck4_83NAME/maxresdefault.jpg",

@@ -1,14 +1,14 @@
-import type { ServicePhase } from './siteContent'
+import type { ServicePhase } from './siteContent';
 
 type ServiceSection = {
-  heading: string
-  body: string
-}
+  heading: string;
+  body: string;
+};
 
 type ServiceBody = {
-  problem: string
-  sections: ServiceSection[]
-}
+  problem: string;
+  sections: ServiceSection[];
+};
 
 export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
   assessment: {
@@ -99,4 +99,4 @@ export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
       },
     ],
   },
-}
+};

@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
-import { useHead } from '@unhead/vue'
-import Button from '../components/ui/Button.vue'
-import TallyEmbed from '../components/forms/TallyEmbed.vue'
-import { forms } from '../config/forms'
-import { getTemplateBySlug } from '../data/templates'
-import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes'
-import { createSeoHead } from '../lib/seo'
+import { computed, ref, watch } from 'vue';
+import { useRoute, RouterLink } from 'vue-router';
+import { useHead } from '@unhead/vue';
+import Button from '../components/ui/Button.vue';
+import TallyEmbed from '../components/forms/TallyEmbed.vue';
+import { forms } from '../config/forms';
+import { getTemplateBySlug } from '../data/templates';
+import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes';
+import { createSeoHead } from '../lib/seo';
 import {
   createCreativeWorkSchema,
   createJsonLdHead,
   createWebPageSchema,
-} from '../lib/structuredData'
-import { trackAnalyticsEvent } from '../composables/useAnalytics'
+} from '../lib/structuredData';
+import { trackAnalyticsEvent } from '../composables/useAnalytics';
 
-const route = useRoute()
+const route = useRoute();
 
-const submitted = ref(false)
-const trackedViewSlug = ref<string | null>(null)
+const submitted = ref(false);
+const trackedViewSlug = ref<string | null>(null);
 
-const slug = computed(() => String(route.params.slug ?? '').trim())
+const slug = computed(() => String(route.params.slug ?? '').trim());
 
 const template = computed(() => {
   if (!slug.value) {
-    return null
+    return null;
   }
 
-  return getTemplateBySlug(slug.value)
-})
+  return getTemplateBySlug(slug.value);
+});
 
-const currentForm = forms.freeGetAccessNow
-const currentFormId = currentForm.formId
-const freeTemplateFormMinHeight = currentForm.embedMinHeight ?? 180
-const currentFormShareUrl = currentForm.shareUrl
+const currentForm = forms.freeGetAccessNow;
+const currentFormId = currentForm.formId;
+const freeTemplateFormMinHeight = currentForm.embedMinHeight ?? 180;
+const currentFormShareUrl = currentForm.shareUrl;
 
 const youtubeEmbedUrl = computed(() => {
   if (!template.value?.youtubeId) {
-    return null
+    return null;
   }
 
-  const encodedId = encodeURIComponent(template.value.youtubeId)
-  return `https://www.youtube.com/embed/${encodedId}`
-})
+  const encodedId = encodeURIComponent(template.value.youtubeId);
+  return `https://www.youtube.com/embed/${encodedId}`;
+});
 
 const seoHead = computed(() => {
   if (!template.value) {
@@ -51,7 +51,7 @@ const seoHead = computed(() => {
       description: 'The requested template could not be found.',
       path: `/free/${slug.value || ''}`,
       type: 'article',
-    })
+    });
   }
 
   return createSeoHead({
@@ -60,10 +60,10 @@ const seoHead = computed(() => {
     path: `/free/${template.value.slug}`,
     image: template.value.thumbnailUrl ?? undefined,
     type: 'article',
-  })
-})
+  });
+});
 
-useHead(seoHead)
+useHead(seoHead);
 
 useHead(() => {
   if (!template.value) {
@@ -73,7 +73,7 @@ useHead(() => {
         description: 'The requested template could not be found.',
         path: `/free/${slug.value || ''}`,
       }),
-    ])
+    ]);
   }
 
   return createJsonLdHead([
@@ -92,14 +92,14 @@ useHead(() => {
       datePublished: template.value.publishedAt,
       dateModified: template.value.updatedAt,
     }),
-  ])
-})
+  ]);
+});
 
 watch(
   () => template.value?.slug,
   (nextSlug) => {
     if (!template.value || !nextSlug || trackedViewSlug.value === nextSlug) {
-      return
+      return;
     }
 
     trackAnalyticsEvent('view_item', {
@@ -112,26 +112,26 @@ watch(
         },
       ],
       template_slug: template.value.slug,
-    })
+    });
 
-    trackedViewSlug.value = nextSlug
+    trackedViewSlug.value = nextSlug;
   },
-  { immediate: true },
-)
+  { immediate: true }
+);
 
 watch(
   () => slug.value,
   () => {
-    submitted.value = false
-  },
-)
+    submitted.value = false;
+  }
+);
 
 function handleLeadSubmitted() {
   if (!template.value) {
-    return
+    return;
   }
 
-  submitted.value = true
+  submitted.value = true;
 
   trackAnalyticsEvent('generate_lead', {
     lead_source: 'tally',
@@ -145,7 +145,7 @@ function handleLeadSubmitted() {
         item_category: template.value.deliverableType ?? 'template',
       },
     ],
-  })
+  });
 }
 </script>
 
@@ -171,7 +171,15 @@ function handleLeadSubmitted() {
             :src="youtubeEmbedUrl"
             :title="template.title"
             loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+              web-share;
+            "
             allowfullscreen
           />
         </div>
@@ -200,9 +208,7 @@ function handleLeadSubmitted() {
         <header>
           <p class="section-eyebrow">Get Access</p>
           <h2>Access This Resource</h2>
-          <p>
-            Submit once and we will send next-step access details to your email.
-          </p>
+          <p>Submit once and we will send next-step access details to your email.</p>
         </header>
 
         <p class="lead-note">Expected turnaround: within one business day.</p>
@@ -220,12 +226,8 @@ function handleLeadSubmitted() {
         />
 
         <div v-else class="missing-form">
-          <p>
-            Tally form is not configured yet for this template.
-          </p>
-          <p>
-            Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.
-          </p>
+          <p>Tally form is not configured yet for this template.</p>
+          <p>Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.</p>
           <p>Templates use one shared access form by design.</p>
         </div>
 
@@ -244,7 +246,10 @@ function handleLeadSubmitted() {
 
   <section v-else class="surface-card template-detail animate-fade-in-up">
     <h1 class="page-title">Template Not Found</h1>
-    <p class="page-subtitle">No template exists for slug: <code>{{ slug || '(empty)' }}</code>.</p>
+    <p class="page-subtitle">
+      No template exists for slug: <code>{{ slug || '(empty)' }}</code
+      >.
+    </p>
     <Button href="/free" variant="ghost">Back to Templates</Button>
   </section>
 </template>

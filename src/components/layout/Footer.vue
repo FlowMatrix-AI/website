@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const year = new Date().getFullYear()
+const year = new Date().getFullYear();
 </script>
 
 <template>
@@ -8,9 +8,7 @@ const year = new Date().getFullYear()
       <div class="footer-brand-block">
         <p class="footer-kicker">AI Transformation Studio</p>
         <img src="/flowmatrix-logo.webp" alt="FlowMatrix AI" width="160" height="40" />
-        <p class="footer-description">
-          Practical AI systems for real operators.
-        </p>
+        <p class="footer-description">Practical AI systems for real operators.</p>
         <a class="footer-email" href="mailto:info@flowmatrixai.com">info@flowmatrixai.com</a>
       </div>
 
@@ -24,7 +22,11 @@ const year = new Date().getFullYear()
 
       <div class="footer-links-block">
         <p class="footer-heading">Connect</p>
-        <a href="https://www.linkedin.com/company/flowmatrix-ai/" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://www.linkedin.com/company/flowmatrix-ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           LinkedIn
         </a>
       </div>

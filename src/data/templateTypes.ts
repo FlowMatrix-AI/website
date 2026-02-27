@@ -1,4 +1,4 @@
-import type { DeliverableType } from '../types/template'
+import type { DeliverableType } from '../types/template';
 
 export const templateTypeLabelMap: Record<DeliverableType, string> = {
   template: 'Template',
@@ -7,7 +7,7 @@ export const templateTypeLabelMap: Record<DeliverableType, string> = {
   discount: 'Discount',
   tool: 'Tool',
   course: 'Course',
-}
+};
 
 export const templateTypeClassMap: Record<DeliverableType, string> = {
   template: 'type-template',
@@ -16,20 +16,20 @@ export const templateTypeClassMap: Record<DeliverableType, string> = {
   discount: 'type-discount',
   tool: 'type-tool',
   course: 'type-course',
-}
+};
 
 export function getTemplateTypeLabel(type: DeliverableType | null): string {
   if (!type) {
-    return 'Resource'
+    return 'Resource';
   }
 
-  return templateTypeLabelMap[type]
+  return templateTypeLabelMap[type];
 }
 
 export function getTemplateTypeClass(type: DeliverableType | null): string {
   if (!type) {
-    return 'type-default'
+    return 'type-default';
   }
 
-  return templateTypeClassMap[type]
+  return templateTypeClassMap[type];
 }

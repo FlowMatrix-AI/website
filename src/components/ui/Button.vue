@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
-type ButtonVariant = 'primary' | 'ghost'
-type ButtonSize = 'md' | 'lg'
+type ButtonVariant = 'primary' | 'ghost';
+type ButtonSize = 'md' | 'lg';
 
 const props = withDefaults(
   defineProps<{
-    href?: string
-    type?: 'button' | 'submit' | 'reset'
-    variant?: ButtonVariant
-    size?: ButtonSize
-    target?: '_self' | '_blank'
-    rel?: string
+    href?: string;
+    type?: 'button' | 'submit' | 'reset';
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    target?: '_self' | '_blank';
+    rel?: string;
   }>(),
   {
     type: 'button',
     variant: 'primary',
     size: 'md',
     target: '_self',
-  },
-)
+  }
+);
 
-const tagName = computed(() => (props.href ? 'a' : 'button'))
+const tagName = computed(() => (props.href ? 'a' : 'button'));
 
 const classes = computed(() => {
   return {
@@ -30,8 +30,8 @@ const classes = computed(() => {
     'fm-btn--ghost': props.variant === 'ghost',
     'fm-btn--md': props.size === 'md',
     'fm-btn--lg': props.size === 'lg',
-  }
-})
+  };
+});
 </script>
 
 <template>

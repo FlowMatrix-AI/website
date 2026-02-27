@@ -1,102 +1,100 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useHead } from '@unhead/vue'
-import { RouterLink } from 'vue-router'
-import { createSeoHead } from '../lib/seo'
-import { createCollectionPageSchema, createJsonLdHead } from '../lib/structuredData'
-import { templates } from '../data/templates'
-import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes'
-import type { DeliverableType } from '../types/template'
+import { computed, ref } from 'vue';
+import { useHead } from '@unhead/vue';
+import { RouterLink } from 'vue-router';
+import { createSeoHead } from '../lib/seo';
+import { createCollectionPageSchema, createJsonLdHead } from '../lib/structuredData';
+import { templates } from '../data/templates';
+import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes';
+import type { DeliverableType } from '../types/template';
 
 type LabelOption = {
-  label: string
-  count: number
-}
+  label: string;
+  count: number;
+};
 
-const searchQuery = ref('')
-const selectedType = ref<'all' | DeliverableType>('all')
-const selectedLabel = ref<'all' | string>('all')
+const searchQuery = ref('');
+const selectedType = ref<'all' | DeliverableType>('all');
+const selectedLabel = ref<'all' | string>('all');
 
 const availableTypes = computed(() => {
-  const unique = new Set<DeliverableType>()
+  const unique = new Set<DeliverableType>();
   for (const template of templates) {
     if (template.deliverableType) {
-      unique.add(template.deliverableType)
+      unique.add(template.deliverableType);
     }
   }
 
-  return Array.from(unique).sort()
-})
+  return Array.from(unique).sort();
+});
 
 const availableLabels = computed<LabelOption[]>(() => {
-  const labelCounts = new Map<string, number>()
+  const labelCounts = new Map<string, number>();
 
   for (const template of templates) {
     for (const label of template.labels) {
-      labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1)
+      labelCounts.set(label, (labelCounts.get(label) ?? 0) + 1);
     }
   }
 
   return Array.from(labelCounts.entries())
     .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => a.label.localeCompare(b.label))
-})
+    .sort((a, b) => a.label.localeCompare(b.label));
+});
 
 const filteredTemplates = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase()
+  const query = searchQuery.value.trim().toLowerCase();
 
   return templates.filter((template) => {
     if (selectedType.value !== 'all' && template.deliverableType !== selectedType.value) {
-      return false
+      return false;
     }
 
     if (selectedLabel.value !== 'all' && !template.labels.includes(selectedLabel.value)) {
-      return false
+      return false;
     }
 
     if (!query) {
-      return true
+      return true;
     }
 
-    const haystack = `${template.title} ${template.summary} ${template.description} ${template.labels.join(' ')} ${template.toolsUsed.join(' ')}`
-      .toLowerCase()
+    const haystack =
+      `${template.title} ${template.summary} ${template.description} ${template.labels.join(' ')} ${template.toolsUsed.join(' ')}`.toLowerCase();
 
-    return haystack.includes(query)
-  })
-})
+    return haystack.includes(query);
+  });
+});
 
 const hasActiveFilters = computed(
   () =>
     selectedType.value !== 'all' ||
     selectedLabel.value !== 'all' ||
-    searchQuery.value.trim().length > 0,
-)
+    searchQuery.value.trim().length > 0
+);
 
 function clearFilters() {
-  selectedType.value = 'all'
-  selectedLabel.value = 'all'
-  searchQuery.value = ''
+  selectedType.value = 'all';
+  selectedLabel.value = 'all';
+  searchQuery.value = '';
 }
 
 useHead(
   createSeoHead({
     title: 'Free Templates',
-    description:
-      'Browse FlowMatrix AI free templates, demos, and implementation resources.',
+    description: 'Browse FlowMatrix AI free templates, demos, and implementation resources.',
     path: '/free',
-  }),
-)
+  })
+);
 
 useHead(
   createJsonLdHead([
     createCollectionPageSchema({
       name: 'FlowMatrix AI Free Resource Library',
-      description:
-        'Free templates, walkthroughs, and implementation resources from FlowMatrix AI.',
+      description: 'Free templates, walkthroughs, and implementation resources from FlowMatrix AI.',
       path: '/free',
     }),
-  ]),
-)
+  ])
+);
 </script>
 
 <template>
@@ -106,7 +104,8 @@ useHead(
         <p class="section-eyebrow">FlowMatrix AI Resource Library</p>
         <h1 class="page-title">Free Stuff</h1>
         <p class="page-subtitle">
-          Browse automation templates, walkthroughs, and implementation documents. Every page is statically generated for speed and SEO.
+          Browse automation templates, walkthroughs, and implementation documents. Every page is
+          statically generated for speed and SEO.
         </p>
       </div>
       <div class="resource-pills" aria-label="Resource counts">
@@ -196,7 +195,11 @@ useHead(
             </div>
             <div class="card-body">
               <p class="card-meta">
-                {{ template.builders.length > 0 ? `By ${template.builders[0]}` : 'FlowMatrix Resource' }}
+                {{
+                  template.builders.length > 0
+                    ? `By ${template.builders[0]}`
+                    : 'FlowMatrix Resource'
+                }}
               </p>
               <h2>{{ template.title }}</h2>
               <p class="card-description">{{ template.summary }}</p>
@@ -272,7 +275,9 @@ useHead(
   color: var(--color-text-muted);
   padding: 0.34rem 0.72rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .clear-btn:hover {

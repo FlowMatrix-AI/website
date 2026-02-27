@@ -16,7 +16,7 @@
   --color-focus-ring: #ffffff;
   --color-focus-ring-glow: rgba(212, 168, 75, 0.58);
 
-  --font-sans: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   --radius-sm: 10px;
   --radius-md: 14px;
