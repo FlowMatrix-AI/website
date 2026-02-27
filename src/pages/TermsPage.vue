@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useHead } from '@unhead/vue'
+import { legalRevisionDates } from '../data/legalContent'
 import { createSeoHead } from '../lib/seo'
 import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
-
-const lastUpdated = computed(() => {
-  return new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-})
 
 const sections = [
   {
@@ -109,7 +101,7 @@ useHead(
 <template>
   <section class="surface-card legal-wrap animate-fade-in-up">
     <h1 class="page-title">Terms and Conditions</h1>
-    <p class="legal-meta">Last updated: {{ lastUpdated }}</p>
+    <p class="legal-meta">Last updated: {{ legalRevisionDates.terms }}</p>
 
     <div class="legal-intro">
       <h2>Welcome to FlowMatrix AI</h2>

@@ -13,6 +13,8 @@
   --color-border: rgba(255, 255, 255, 0.12);
   --color-border-strong: rgba(255, 255, 255, 0.22);
   --color-border-gold: rgba(212, 168, 75, 0.45);
+  --color-focus-ring: #ffffff;
+  --color-focus-ring-glow: rgba(212, 168, 75, 0.58);
 
   --font-sans: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 

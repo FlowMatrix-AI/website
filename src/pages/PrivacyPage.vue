@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { legalRevisionDates } from '../data/legalContent'
 import { createSeoHead } from '../lib/seo'
 import { createJsonLdHead, createWebPageSchema } from '../lib/structuredData'
 
@@ -106,7 +107,8 @@ useHead(
 <template>
   <section class="surface-card legal-wrap animate-fade-in-up">
     <h1 class="page-title">Privacy Policy</h1>
-    <p class="legal-meta">
+    <p class="legal-meta">Last updated: {{ legalRevisionDates.privacy }}</p>
+    <p class="legal-intro">
       We are committed to handling client and user data responsibly and transparently.
     </p>
 
@@ -145,7 +147,12 @@ useHead(
 }
 
 .legal-meta {
-  margin: -0.5rem 0 var(--space-6);
+  margin: -0.5rem 0 var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.legal-intro {
+  margin: 0 0 var(--space-6);
   color: var(--color-text-muted);
   line-height: 1.65;
 }

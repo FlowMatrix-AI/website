@@ -326,7 +326,6 @@ input[type='search'] {
 }
 
 input[type='search']:focus {
-  outline: none;
   border-color: rgba(212, 168, 75, 0.6);
   box-shadow: 0 0 0 2px rgba(212, 168, 75, 0.15);
 }
