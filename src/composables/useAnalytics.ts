@@ -50,7 +50,7 @@ export function useAnalyticsHead() {
     }
 
     gtag('js', new Date())
-    gtag('config', measurementId)
+    gtag('config', measurementId, { send_page_view: false })
 
     if (!document.getElementById(scriptId)) {
       const script = document.createElement('script')
@@ -75,4 +75,18 @@ export function trackAnalyticsEvent(eventName: string, params: AnalyticsParams =
   }
 
   gtag('event', eventName, params)
+}
+
+export function trackPageView(path: string) {
+  if (import.meta.env.SSR || !measurementId || typeof window === 'undefined') {
+    return
+  }
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+
+  trackAnalyticsEvent('page_view', {
+    page_path: normalizedPath,
+    page_location: window.location.href,
+    page_title: document.title,
+  })
 }
