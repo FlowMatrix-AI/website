@@ -29,14 +29,17 @@ No GitHub Actions variables are required for them.
 `src/data/forms.json` owns all Tally forms.
 
 Required keys:
+
 - `mainGetInTouch`
 - `freeGetAccessNow`
 
 Each key must include:
+
 - `formId` (Tally form ID)
 - `shareUrl` (`https://tally.so/r/<id>` or `https://tally.so/embed/<id>`)
 
 Optional key:
+
 - `embedMinHeight` (integer between `120` and `2000` for layout control)
 
 ## Free Template Content Source of Truth
@@ -44,12 +47,14 @@ Optional key:
 `src/data/templates.json` is content-only for `/free` pages.
 
 Required fields for `published` entries:
+
 - `slug`
 - `title`
 - `description`
 - `deliverable_type`
 
 Do not put lead fields in templates:
+
 - `tally_form_id`
 - `deliverable_url`
 
