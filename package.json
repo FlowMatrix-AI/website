@@ -14,6 +14,7 @@
     "sitemap:generate": "node scripts/generate-sitemap.mjs",
     "robots:generate": "node scripts/generate-robots.mjs",
     "validate:head-artifacts": "node scripts/validate-head-artifacts.mjs",
+    "validate:build-artifacts": "node scripts/validate-build-artifacts.mjs",
     "preview": "vite preview",
     "typecheck": "vue-tsc --build",
     "type-check": "vue-tsc --build"
