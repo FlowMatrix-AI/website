@@ -2,7 +2,7 @@ const allowedStatuses = new Set(['draft', 'published', 'archived']);
 
 export function readTemplateStatus(value) {
   if (value === undefined || value === null) {
-    return 'published';
+    return null;
   }
 
   if (typeof value !== 'string') {

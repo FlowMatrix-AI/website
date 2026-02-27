@@ -59,7 +59,9 @@ async function main() {
     if (!status) {
       const rawStatus = template.status;
       errors.push(
-        `[index ${index}] status must be one of draft, published, archived when provided (received ${JSON.stringify(rawStatus)})`
+        `[index ${index}] status must be one of 'draft', 'published', 'archived' (received ${JSON.stringify(
+          rawStatus
+        )})`
       );
       return;
     }
