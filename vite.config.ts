@@ -2,10 +2,11 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import 'vite-ssg'
 import templates from './src/data/templates.json'
+import { isPublishedTemplateStatus } from './src/data/templateStatus'
 
 type TemplateRouteRecord = {
   slug?: string
-  status?: string
+  status?: unknown
 }
 
 const ssgOptions = {
@@ -19,11 +20,7 @@ const ssgOptions = {
           return false
         }
 
-        if (!template.status) {
-          return true
-        }
-
-        return template.status.toLowerCase() === 'published'
+        return isPublishedTemplateStatus(template.status)
       })
       .map((template) => `/free/${template.slug?.trim()}`)
 

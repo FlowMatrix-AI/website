@@ -1,5 +1,6 @@
 import rawTemplates from './templates.json'
-import type { DeliverableType, Template, TemplateStatus } from '../types/template'
+import type { DeliverableType, Template } from '../types/template'
+import { isPublishedTemplateStatus } from './templateStatus'
 
 type RawTemplate = Record<string, unknown>
 
@@ -40,16 +41,6 @@ function readStringArray(record: RawTemplate, keys: string[]): string[] {
   return []
 }
 
-function readStatus(record: RawTemplate): TemplateStatus {
-  const status = readString(record, ['status'])?.toLowerCase()
-
-  if (status === 'draft' || status === 'archived' || status === 'published') {
-    return status
-  }
-
-  return 'published'
-}
-
 function normalizeDeliverableType(value: string | null): DeliverableType | null {
   if (!value) {
     return null
@@ -70,7 +61,7 @@ function normalizeTemplate(record: unknown): Template | null {
 
   const templateRecord = record as RawTemplate
 
-  if (readStatus(templateRecord) !== 'published') {
+  if (!isPublishedTemplateStatus(templateRecord.status)) {
     return null
   }
 

@@ -28,16 +28,24 @@ function readString(record, keys) {
 }
 
 function normalizeStatus(value) {
-  if (typeof value !== 'string') {
+  if (value === undefined || value === null) {
     return 'published'
   }
 
+  if (typeof value !== 'string') {
+    return null
+  }
+
   const normalized = value.trim().toLowerCase()
+  if (!normalized) {
+    return null
+  }
+
   if (normalized === 'draft' || normalized === 'archived' || normalized === 'published') {
     return normalized
   }
 
-  return 'published'
+  return null
 }
 
 async function main() {
@@ -65,6 +73,14 @@ async function main() {
 
     const template = entry
     const status = normalizeStatus(template.status)
+
+    if (!status) {
+      const rawStatus = template.status
+      errors.push(
+        `[index ${index}] status must be one of draft, published, archived when provided (received ${JSON.stringify(rawStatus)})`,
+      )
+      return
+    }
 
     if (status !== 'published') {
       return
