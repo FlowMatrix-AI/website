@@ -41,10 +41,10 @@ After manual gates pass:
 
 1. Freeze `Flowmatrix-AI-Website-SebT` as read-only reference.
 2. Remove it from active IDE workspace.
-3. Continue all execution in `flowmatrix-ai.github.io` exclusively.
+3. Continue all execution in `flowmatrixai.com` exclusively.
 
 ## 5. Definition of Done
 
 1. MVP parity is achieved for high-value flows without architecture regression.
-2. `flowmatrix-ai.github.io` is the single active codebase.
+2. `flowmatrixai.com` is the single active codebase.
 3. Legacy repo is no longer part of day-to-day workspace.

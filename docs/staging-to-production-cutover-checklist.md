@@ -1,6 +1,6 @@
 # Staging to Production Cutover Checklist
 
-Use this checklist when moving from GitHub Pages staging (`flowmatrix-ai.github.io`) to production (`flowmatrixai.com`).
+Use this checklist when moving from GitHub Pages staging (`flowmatrixai.com`) to production (`flowmatrixai.com`).
 
 ## 1. Preconditions
 
@@ -91,5 +91,5 @@ If critical production issues occur:
 
 1. Revert DNS to legacy records.
 2. Confirm legacy site is serving correctly.
-3. Fix issue in `flowmatrix-ai.github.io`.
+3. Fix issue in `flowmatrixai.com`.
 4. Re-run this checklist and re-attempt cutover.

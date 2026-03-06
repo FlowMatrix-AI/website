@@ -6,7 +6,7 @@ Deployment settings are committed in `src/config/deployment.json`.
 
 ```json
 {
-  "siteUrl": "https://flowmatrix-ai.github.io",
+  "siteUrl": "https://flowmatrixai.com",
   "allowIndexing": false,
   "gaMeasurementId": ""
 }
