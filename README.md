@@ -1,4 +1,4 @@
-# flowmatrix-ai.github.io
+# flowmatrixai.com website
 
 Static FlowMatrix AI website built with Vue 3 + `vite-ssg`.
 

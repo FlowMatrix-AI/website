@@ -115,7 +115,7 @@ After 48 hours of stable production operation:
 
 1. Archive/delete Vercel project.
 2. Archive Supabase project.
-3. Mark legacy repo archived and point references to `flowmatrix-ai.github.io`.
+3. Mark legacy repo archived and point references to `flowmatrixai.com`.
 
 ---
 

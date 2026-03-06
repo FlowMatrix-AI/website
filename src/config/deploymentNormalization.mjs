@@ -1,4 +1,4 @@
-export const DEFAULT_SITE_URL = 'https://flowmatrix-ai.github.io';
+export const DEFAULT_SITE_URL = 'https://flowmatrixai.com';
 
 export function normalizeSiteUrl(value) {
   if (typeof value !== 'string') {

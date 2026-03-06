@@ -42,7 +42,7 @@ These are not code changes — they are account and configuration tasks that mus
 ### OP-3 — Update `deployment.json` with production values
 
 **What:** Set `siteUrl` to the main production domain and set `allowIndexing` to `true` in `src/config/deployment.json`.  
-**Why:** The site currently deploys as `noindex, nofollow` on every page, and all canonical URLs, sitemap entries, and OG tags point to `flowmatrix-ai.github.io`. Both must be correct before search engines and social platforms encounter the production site.  
+**Why:** The site currently deploys as `noindex, nofollow` on every page, and all canonical URLs, sitemap entries, and OG tags point to `flowmatrixai.com`. Both must be correct before search engines and social platforms encounter the production site.  
 **Acceptance:** `validate:deployment` passes with the production URL. Sitemap and canonical URLs in a production build reference the correct domain. Generated `robots.txt` allows indexing.  
 **Note:** Do this only after OP-1 and OP-2 are complete and the site is stable on staging.
 

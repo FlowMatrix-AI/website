@@ -5,13 +5,13 @@
 **Status:** Implementation Complete in Staging (Production Cutover Pending)  
 **Last Updated:** February 26, 2026  
 **Source:** `Seabass-T/Flowmatrix-AI-Website` (Vercel/React/Supabase)  
-**Target:** `FlowMatrix-AI/flowmatrix-ai.github.io` (GitHub Pages/Vue 3/SSG)
+**Target:** `FlowMatrix-AI/flowmatrixai.com` (GitHub Pages/Vue 3/SSG)
 
 ---
 
 ## 1. Executive Summary
 
-This migration is actively underway and the new site is live in staging shape within the `flowmatrix-ai.github.io` repo.
+This migration is actively underway and the new site is live in staging shape within the `flowmatrixai.com` repo.
 
 Core directive remains unchanged:
 
