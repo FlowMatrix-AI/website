@@ -45,7 +45,7 @@ function ensureTallyScript() {
     });
   };
 
-  const existingScript = document.querySelector(`script[src=\"${TALLY_SCRIPT_SRC}\"]`);
+  const existingScript = document.querySelector(`script[src="${TALLY_SCRIPT_SRC}"]`);
   if (existingScript) {
     loadEmbeds();
     return;

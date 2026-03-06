@@ -23,8 +23,40 @@ function buildChecks({ requireJsonLd }) {
     { name: 'meta robots', pattern: /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']+/i },
     { name: 'og:title', pattern: /<meta[^>]+property=["']og:title["'][^>]+content=["'][^"']+/i },
     {
+      name: 'og:description',
+      pattern: /<meta[^>]+property=["']og:description["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'og:url',
+      pattern: /<meta[^>]+property=["']og:url["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'og:image',
+      pattern: /<meta[^>]+property=["']og:image["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'og:type',
+      pattern: /<meta[^>]+property=["']og:type["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'og:site_name',
+      pattern: /<meta[^>]+property=["']og:site_name["'][^>]+content=["'][^"']+/i,
+    },
+    {
       name: 'twitter:card',
       pattern: /<meta[^>]+name=["']twitter:card["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'twitter:title',
+      pattern: /<meta[^>]+name=["']twitter:title["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'twitter:description',
+      pattern: /<meta[^>]+name=["']twitter:description["'][^>]+content=["'][^"']+/i,
+    },
+    {
+      name: 'twitter:image',
+      pattern: /<meta[^>]+name=["']twitter:image["'][^>]+content=["'][^"']+/i,
     },
   ];
 

@@ -25,6 +25,10 @@ async function main() {
     'free.html',
     'terms.html',
     'privacy.html',
+    'assessment.html',
+    'database-mobilization.html',
+    'ai-implementation.html',
+    'personalized-software.html',
     'sitemap.xml',
     'robots.txt',
   ];

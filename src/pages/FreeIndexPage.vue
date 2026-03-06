@@ -155,7 +155,7 @@ useHead(
         </div>
       </div>
 
-      <div class="filter-group" v-if="availableLabels.length > 0">
+      <div v-if="availableLabels.length > 0" class="filter-group">
         <p class="group-label">Label</p>
         <div class="label-pills">
           <button
@@ -182,11 +182,11 @@ useHead(
       </div>
     </section>
 
-    <ul class="template-grid" v-if="filteredTemplates.length > 0">
+    <ul v-if="filteredTemplates.length > 0" class="template-grid">
       <li v-for="template in filteredTemplates" :key="template.slug">
         <RouterLink :to="`/free/${template.slug}`" class="template-link">
           <article class="surface-card template-card card-lift">
-            <div class="media-wrap" v-if="template.thumbnailUrl">
+            <div v-if="template.thumbnailUrl" class="media-wrap">
               <img :src="template.thumbnailUrl" :alt="template.title" loading="lazy" />
               <div class="media-fade" aria-hidden="true" />
               <span class="type-badge" :class="getTemplateTypeClass(template.deliverableType)">
@@ -204,11 +204,11 @@ useHead(
               <h2>{{ template.title }}</h2>
               <p class="card-description">{{ template.summary }}</p>
 
-              <div class="chip-row" v-if="template.labels.length > 0">
+              <div v-if="template.labels.length > 0" class="chip-row">
                 <span v-for="label in template.labels.slice(0, 3)" :key="label">{{ label }}</span>
               </div>
 
-              <div class="tool-row" v-if="template.toolsUsed.length > 0">
+              <div v-if="template.toolsUsed.length > 0" class="tool-row">
                 <span v-for="tool in template.toolsUsed.slice(0, 3)" :key="tool">{{ tool }}</span>
               </div>
 

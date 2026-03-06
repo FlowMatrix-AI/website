@@ -89,7 +89,7 @@ useHead(() => {
 </script>
 
 <template>
-  <section class="surface-card service-hero animate-fade-in-up" v-if="phase && content">
+  <section v-if="phase && content" class="surface-card service-hero animate-fade-in-up">
     <div class="hero-atmosphere" aria-hidden="true" />
 
     <a href="/#services" class="back-link">← All services</a>
@@ -111,24 +111,24 @@ useHead(() => {
     </ul>
   </section>
 
-  <section class="surface-card service-problem" v-if="content">
+  <section v-if="content" class="surface-card service-problem">
     <p class="section-eyebrow">Core Problem</p>
     <h2>Why this phase exists</h2>
     <p>{{ content.problem }}</p>
   </section>
 
-  <section class="surface-card service-outcomes" v-if="outcomes.length > 0">
+  <section v-if="outcomes.length > 0" class="surface-card service-outcomes">
     <p class="section-eyebrow">Included Outcomes</p>
     <ul>
       <li v-for="outcome in outcomes" :key="outcome">{{ outcome }}</li>
     </ul>
   </section>
 
-  <section class="service-sections" v-if="content">
+  <section v-if="content" class="service-sections">
     <article
-      class="surface-card section-item card-lift"
       v-for="(section, index) in content.sections"
       :key="section.heading"
+      class="surface-card section-item card-lift"
     >
       <p class="section-index">{{ String(index + 1).padStart(2, '0') }}</p>
       <h3>{{ section.heading }}</h3>
@@ -136,7 +136,7 @@ useHead(() => {
     </article>
   </section>
 
-  <section class="service-nav" v-if="phase">
+  <section v-if="phase" class="service-nav">
     <RouterLink v-if="prevPhase" :to="prevPhase.href" class="surface-card phase-nav-card card-lift">
       <span class="phase-nav-meta">Previous</span>
       <strong>Phase {{ prevPhase.phase }}: {{ prevPhase.title }}</strong>
@@ -152,7 +152,7 @@ useHead(() => {
     </RouterLink>
   </section>
 
-  <section class="surface-card service-cta" v-if="phase">
+  <section v-if="phase" class="surface-card service-cta">
     <h2>Start with a conversation.</h2>
     <p>Tell us where you are now. We will map what should happen next.</p>
     <div class="service-cta-actions">

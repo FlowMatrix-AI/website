@@ -150,7 +150,7 @@ function handleLeadSubmitted() {
 </script>
 
 <template>
-  <section class="surface-card template-detail animate-fade-in-up" v-if="template">
+  <section v-if="template" class="surface-card template-detail animate-fade-in-up">
     <RouterLink to="/free" class="back-link">← Back to templates</RouterLink>
 
     <header class="detail-header">
@@ -166,7 +166,7 @@ function handleLeadSubmitted() {
 
     <div class="detail-layout">
       <div class="detail-main">
-        <div class="video-wrap" v-if="youtubeEmbedUrl">
+        <div v-if="youtubeEmbedUrl" class="video-wrap">
           <iframe
             :src="youtubeEmbedUrl"
             :title="template.title"
@@ -184,10 +184,10 @@ function handleLeadSubmitted() {
           />
         </div>
 
-        <p class="video-caption" v-if="youtubeEmbedUrl">Watch the walkthrough above.</p>
+        <p v-if="youtubeEmbedUrl" class="video-caption">Watch the walkthrough above.</p>
         <p class="detail-description">{{ template.description }}</p>
 
-        <div class="meta-wrap" v-if="template.toolsUsed.length > 0 || template.labels.length > 0">
+        <div v-if="template.toolsUsed.length > 0 || template.labels.length > 0" class="meta-wrap">
           <div v-if="template.toolsUsed.length > 0">
             <h2>Tools</h2>
             <ul>

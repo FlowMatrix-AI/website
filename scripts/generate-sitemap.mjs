@@ -50,13 +50,9 @@ function routeFromFile(filePath) {
     return '/';
   }
 
-  let routePath = '';
-
-  if (normalized.endsWith('/index.html')) {
-    routePath = normalized.slice(0, -'/index.html'.length);
-  } else {
-    routePath = normalized.slice(0, -'.html'.length);
-  }
+  const routePath = normalized.endsWith('/index.html')
+    ? normalized.slice(0, -'/index.html'.length)
+    : normalized.slice(0, -'.html'.length);
 
   const route = `/${routePath}`.replace(/\/+$/, '');
 
