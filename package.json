@@ -9,6 +9,10 @@
     "validate:forms": "node scripts/validate-forms.mjs",
     "validate:templates": "node scripts/validate-templates.mjs",
     "validate:content": "npm run validate:deployment && npm run validate:forms && npm run validate:templates",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "vite-ssg build",
     "postbuild": "npm run sitemap:generate && npm run robots:generate && npm run validate:head-artifacts",
     "sitemap:generate": "node scripts/generate-sitemap.mjs",
@@ -18,7 +22,8 @@
     "preview": "vite preview",
     "typecheck": "vue-tsc --build",
     "type-check": "vue-tsc --build",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@unhead/vue": "^1.11.20",
@@ -41,5 +46,14 @@
     "vite": "^5.4.11",
     "vitest": "^4.0.18",
     "vue-tsc": "^2.1.10"
+  },
+  "lint-staged": {
+    "*.{ts,vue,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   }
 }

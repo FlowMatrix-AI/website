@@ -5,6 +5,24 @@
 
 ---
 
+## Implementation Status
+
+| Item   | Status      | Notes                                                          |
+| ------ | ----------- | -------------------------------------------------------------- |
+| OP-1   | Open        | Requires GA4 account setup                                     |
+| OP-2   | Open        | Requires Tally account migration                               |
+| OP-3   | Open        | Blocked on OP-1 and OP-2                                       |
+| BV-1   | **Done**    | Service pages added to `validate-build-artifacts.mjs`          |
+| BV-2   | **Done**    | Full OG/Twitter tag set added to `validate-head-artifacts.mjs` |
+| DX-1   | **Done**    | ESLint configured, codebase clean, CI gated                    |
+| DX-2   | **Done**    | Husky + lint-staged wired to pre-commit                        |
+| DX-3   | **Decided** | Status quo retained — see decision note below                  |
+| TEST-1 | **Done**    | 32 unit tests across 2 suites, passing in CI                   |
+| TEST-2 | **Decided** | Deferred — see decision note below                             |
+| TD-1   | **Decided** | Unit tests serve as guard — see decision note below            |
+
+---
+
 ## 1. Pre-Production Operational (Blockers for DNS Cutover)
 
 These are not code changes — they are account and configuration tasks that must be resolved before production goes live.
@@ -37,6 +55,7 @@ These are not code changes — they are account and configuration tasks that mus
 **What:** Install and configure ESLint with `eslint-plugin-vue`, `@typescript-eslint/eslint-plugin`, and `eslint-plugin-vuejs-accessibility` (or equivalent). Add a `lint` script to `package.json`. Add a lint step to the GitHub Actions workflow between type-check and build.  
 **Why:** TypeScript strict mode catches type errors, but it does not catch: unused variables, Vue component anti-patterns, accessibility violations, or style/consistency issues that Prettier does not cover. Currently the only guard between a lint regression and a deployed artifact is a developer's eyes.  
 **Design notes:**
+
 - Mirror the existing Prettier config semantics (singleQuote, 100 printWidth) to avoid conflicts.
 - Start with `eslint:recommended` + `plugin:vue/vue3-recommended` + `@typescript-eslint/recommended` and expand incrementally.
 - The `scripts/` directory uses plain `.mjs` and should also be covered by lint.
@@ -56,15 +75,17 @@ These are not code changes — they are account and configuration tasks that mus
 **Why:** Currently `deployment.json` is in `src/config/` while `templates.json` and `forms.json` are in `src/data/`. The inconsistency is a minor DX friction but creates uncertainty about where to look for and place config/data files.  
 **Options to evaluate:**
 
-| Option | Description | Trade-off |
-|---|---|---|
-| A (status quo) | `deployment.json` in `config/`, others in `data/` | Reflects semantic difference (config vs. content data) but the split is not obvious to newcomers |
-| B | All three in `src/config/` | Centralizes all non-TypeScript structured config; unusual for content data |
-| C | All three in `src/data/` | Consistent location for all raw data; mixes operational config with content |
-| D | Move all three to project root/`config/` (outside `src/`) | Signals they are environment/operational artifacts; aligns with how `deployment.json` is actually used; validation scripts already resolve from `process.cwd()` |
+| Option         | Description                                               | Trade-off                                                                                                                                                       |
+| -------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A (status quo) | `deployment.json` in `config/`, others in `data/`         | Reflects semantic difference (config vs. content data) but the split is not obvious to newcomers                                                                |
+| B              | All three in `src/config/`                                | Centralizes all non-TypeScript structured config; unusual for content data                                                                                      |
+| C              | All three in `src/data/`                                  | Consistent location for all raw data; mixes operational config with content                                                                                     |
+| D              | Move all three to project root/`config/` (outside `src/`) | Signals they are environment/operational artifacts; aligns with how `deployment.json` is actually used; validation scripts already resolve from `process.cwd()` |
 
 **Recommendation to evaluate:** Option D or A. `deployment.json` is genuinely environment config and arguably belongs outside `src/`. `templates.json` and `forms.json` are content data that the build consumes, making `src/data/` the right home for them. This points back toward A (status quo with explicit documentation) or D for `deployment.json` only.  
 **Acceptance:** A decision is made and documented. If files move, all import paths, validation scripts, and CI steps are updated and verified.
+
+**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `forms.json` and `templates.json` are content data consumed by the build. This distinction is worth preserving. No files moved.
 
 ---
 
@@ -100,6 +121,8 @@ These are not code changes — they are account and configuration tasks that mus
 **Note:** This is an evaluation item. The outcome may be "defer until traffic warrants the maintenance cost" — but it should be a deliberate decision, not a default omission.  
 **Acceptance:** A decision is documented. If E2E tests are added, they run in CI against the built dist.
 
+**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Tally form submission cannot be meaningfully tested in CI without real form IDs submitting to a real account. Revisit when the site has stable traffic and a test Tally account is available.
+
 ---
 
 ## 5. Technical Debt
@@ -109,23 +132,26 @@ These are not code changes — they are account and configuration tasks that mus
 **What:** Assess whether the `deploymentNormalization.mjs`/`.d.mts` and `templateStatus.mjs`/`.d.mts` pairs can be replaced with a single source that both the Vite bundler and Node scripts can consume.  
 **Why:** The current pattern works but requires manually keeping `.d.mts` declaration files in sync with their `.mjs` implementations. If either file diverges (added parameter, changed return type, renamed export), the type declarations silently lie without any enforcement.  
 **Options to evaluate:**
+
 - Convert to `.mts` (TypeScript ESM) and compile to `dist/` or use `ts-node`/`tsx` in scripts — eliminates the split.
 - Use a Vite alias or `tsconfig`/`package.json` exports map to let both consumers import from one `.ts` source at build time and one resolved path at script runtime.
 - Keep the current pattern but add a CI linting step that validates the `.d.mts` exports match the `.mjs` exports (simple AST or regex check).
 
 **Acceptance:** A decision is made and either the pattern is replaced or a safeguard against declaration drift is added.
 
+**Decision (March 5, 2026):** Pattern retained. The 32 unit tests in `tests/` directly exercise the `.mjs` implementations. Any behavioral change to a `.mjs` function will surface as a test failure, and any type-level divergence with `.d.mts` will surface as a TypeScript error in the test files when Vitest resolves types. This provides adequate drift protection without a build tooling change. Revisit if a third `.mjs`/`.d.mts` pair is ever added.
+
 ---
 
 ## Priority Order (suggested)
 
-| Priority | Item | Rationale |
-|---|---|---|
-| 1 | OP-1, OP-2, OP-3 | Hard blockers; site cannot launch without them |
-| 2 | BV-1, BV-2 | Low effort, closes real CI coverage gaps, raises confidence in every future build |
-| 3 | DX-1 | Foundational for all code quality enforcement; unblocks DX-2 |
-| 4 | DX-2 | Completes the pre-commit safety layer once DX-1 exists |
-| 5 | TEST-1 | High-value, narrow scope, natural fit with existing stack |
-| 6 | DX-3 | Low urgency; resolve when it becomes friction |
-| 7 | TEST-2 | Evaluate after TEST-1 is established |
-| 8 | TD-1 | Low urgency until the codebase grows or someone is burned by drift |
+| Priority | Item             | Rationale                                                                         |
+| -------- | ---------------- | --------------------------------------------------------------------------------- |
+| 1        | OP-1, OP-2, OP-3 | Hard blockers; site cannot launch without them                                    |
+| 2        | BV-1, BV-2       | Low effort, closes real CI coverage gaps, raises confidence in every future build |
+| 3        | DX-1             | Foundational for all code quality enforcement; unblocks DX-2                      |
+| 4        | DX-2             | Completes the pre-commit safety layer once DX-1 exists                            |
+| 5        | TEST-1           | High-value, narrow scope, natural fit with existing stack                         |
+| 6        | DX-3             | Low urgency; resolve when it becomes friction                                     |
+| 7        | TEST-2           | Evaluate after TEST-1 is established                                              |
+| 8        | TD-1             | Low urgency until the codebase grows or someone is burned by drift                |

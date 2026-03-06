@@ -37,8 +37,14 @@ jobs:
       - name: Validate deployment, forms, and template content
         run: npm run validate:content
 
+      - name: Lint
+        run: npm run lint
+
       - name: Type-check
         run: npm run type-check
+
+      - name: Test
+        run: npm test
 
       - name: Build static site
         run: npm run build
