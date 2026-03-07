@@ -52,6 +52,7 @@ watch(
 
 <template>
   <header class="nav-wrap" :class="{ 'nav-wrap--scrolled': scrolled }">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="container nav-inner">
       <RouterLink to="/" class="brand-link" aria-label="FlowMatrix AI Home">
         <img src="/flowmatrix-logo.webp" alt="FlowMatrix AI" width="160" height="40" />

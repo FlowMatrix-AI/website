@@ -72,6 +72,10 @@ function routeMeta(route) {
     return { changefreq: 'weekly', priority: '1.0' };
   }
 
+  if (route === '/contact') {
+    return { changefreq: 'monthly', priority: '0.8' };
+  }
+
   if (route === '/terms' || route === '/privacy') {
     return { changefreq: 'yearly', priority: '0.3' };
   }

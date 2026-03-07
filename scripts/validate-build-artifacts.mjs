@@ -25,6 +25,7 @@ async function main() {
     'contact.html',
     'terms.html',
     'privacy.html',
+    '404.html',
     'sitemap.xml',
     'robots.txt',
   ];
