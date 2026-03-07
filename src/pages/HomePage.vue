@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue';
 import Button from '../components/ui/Button.vue';
-import { homeContent, servicePhases } from '../data/siteContent';
+import MethodologyTabs from '../components/ui/MethodologyTabs.vue';
+import { methodologyPhases } from '../data/methodologyContent';
+import { homeContent } from '../data/siteContent';
 import { createSeoHead } from '../lib/seo';
 import {
   createFaqPageSchema,
@@ -234,7 +236,7 @@ useHead(
       </div>
     </section>
 
-    <!-- ═══ METHODOLOGY placeholder — replaced in Sprint 5 ═══ -->
+    <!-- ═══ METHODOLOGY ═══ -->
     <section
       id="services"
       class="section-block section-block--services"
@@ -244,13 +246,7 @@ useHead(
         <p class="section-eyebrow">Methodology</p>
         <h2 id="services-heading" class="section-title">Four phases. One transformation.</h2>
         <p class="page-subtitle">Each phase compounds the value of the previous one.</p>
-        <ul class="pillar-grid">
-          <li v-for="phase in servicePhases" :key="phase.id" class="pillar-item card-lift">
-            <p class="pillar-phase">Phase {{ phase.phase }}</p>
-            <h3>{{ phase.title }}</h3>
-            <p>{{ phase.description }}</p>
-          </li>
-        </ul>
+        <MethodologyTabs :phases="methodologyPhases" />
       </div>
     </section>
 
@@ -491,39 +487,10 @@ useHead(
 }
 
 /* ════════════════════════════════
-   Methodology placeholder
+   Methodology
 ════════════════════════════════ */
-.pillar-grid {
-  margin: var(--space-8) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4);
-}
-
-.pillar-item {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-5);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-}
-
-.pillar-phase {
-  margin: 0 0 var(--space-2);
-  color: var(--color-gold-soft);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.pillar-item h3 {
-  margin: 0 0 var(--space-2);
-}
-
-.pillar-item p {
-  margin: 0;
-  color: var(--color-text-muted);
+.section-block--services .methodology-tabs {
+  margin-top: var(--space-8);
 }
 
 /* ════════════════════════════════
