@@ -4,12 +4,27 @@ import routes from './router';
 import { trackPageView } from './composables/useAnalytics';
 import './style.css';
 
-export const createApp = ViteSSG(App, { routes }, ({ router, isClient }) => {
-  if (!isClient) {
-    return;
-  }
+export const createApp = ViteSSG(
+  App,
+  {
+    routes,
+    scrollBehavior(to, _from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      }
+      if (to.hash) {
+        return { el: to.hash, behavior: 'smooth' };
+      }
+      return { top: 0, behavior: 'smooth' };
+    },
+  },
+  ({ router, isClient }) => {
+    if (!isClient) {
+      return;
+    }
 
-  router.afterEach((to) => {
-    trackPageView(to.fullPath);
-  });
-});
+    router.afterEach((to) => {
+      trackPageView(to.fullPath);
+    });
+  }
+);
