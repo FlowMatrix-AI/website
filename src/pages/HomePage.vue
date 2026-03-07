@@ -68,185 +68,195 @@ function handleHomeLeadSubmitted() {
 </script>
 
 <template>
-  <div class="home-stack">
-    <section class="home-hero surface-card animate-fade-in-up">
-      <div class="hero-atmosphere hero-atmosphere--gold animate-drift-slow" aria-hidden="true" />
-      <div class="hero-atmosphere hero-atmosphere--white" aria-hidden="true" />
-      <div class="hero-grid" aria-hidden="true" />
+  <div class="container">
+    <div class="home-stack">
+      <section class="home-hero surface-card animate-fade-in-up">
+        <div class="hero-atmosphere hero-atmosphere--gold animate-drift-slow" aria-hidden="true" />
+        <div class="hero-atmosphere hero-atmosphere--white" aria-hidden="true" />
+        <div class="hero-grid" aria-hidden="true" />
 
-      <div class="hero-copy">
-        <p class="section-eyebrow">FlowMatrix AI</p>
-        <h1 class="page-title">
-          {{ homeContent.hero.headline }}
-        </h1>
-        <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
+        <div class="hero-copy">
+          <p class="section-eyebrow">FlowMatrix AI</p>
+          <h1 class="page-title">
+            {{ homeContent.hero.headline }}
+          </h1>
+          <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
 
-        <div class="hero-actions">
-          <Button href="/#start" size="lg">{{ homeContent.hero.cta }}</Button>
-          <Button href="/#services" variant="ghost" size="lg">View Services</Button>
-        </div>
+          <div class="hero-actions">
+            <Button href="/#start" size="lg">{{ homeContent.hero.cta }}</Button>
+            <Button href="/#services" variant="ghost" size="lg">View Services</Button>
+          </div>
 
-        <p class="hero-note">
-          From assessment to implementation, built for operators with no room for fluff.
-        </p>
-      </div>
-    </section>
-
-    <section
-      class="surface-card section-block section-block--stakes"
-      aria-labelledby="stakes-heading"
-    >
-      <p class="section-eyebrow">The Stakes</p>
-      <h2 id="stakes-heading" class="section-title">{{ homeContent.stakes.headline }}</h2>
-      <p class="page-subtitle">{{ homeContent.stakes.body }}</p>
-
-      <ul class="stats-grid">
-        <li v-for="stat in homeContent.stakes.stats" :key="stat.label" class="stat-item card-lift">
-          <span class="stat-value gold-gradient-text">{{ stat.value }}</span>
-          <span class="stat-label">{{ stat.label }}</span>
-        </li>
-      </ul>
-    </section>
-
-    <section
-      id="services"
-      class="surface-card section-block section-block--services"
-      aria-labelledby="services-heading"
-    >
-      <p class="section-eyebrow">Methodology</p>
-      <h2 id="services-heading" class="section-title">Four phases. One transformation.</h2>
-      <p class="page-subtitle">Each phase compounds the value of the previous one.</p>
-
-      <ul class="pillar-grid">
-        <li v-for="phase in servicePhases" :key="phase.id" class="pillar-item card-lift">
-          <p class="pillar-phase">Phase {{ phase.phase }}</p>
-          <h3>{{ phase.title }}</h3>
-          <p>{{ phase.description }}</p>
-          <RouterLink :to="phase.href" class="gold-link">Explore {{ phase.title }}</RouterLink>
-        </li>
-      </ul>
-    </section>
-
-    <section
-      id="proof"
-      class="surface-card section-block section-block--proof"
-      aria-labelledby="proof-heading"
-    >
-      <p class="section-eyebrow">Client Results</p>
-      <h2 id="proof-heading" class="section-title">{{ homeContent.proof.headline }}</h2>
-
-      <blockquote class="proof-quote">
-        <span class="quote-mark" aria-hidden="true">“</span>
-        <p>{{ homeContent.proof.testimonial }}</p>
-      </blockquote>
-
-      <div class="proof-attribution">
-        <img
-          :src="homeContent.proof.attribution.logo"
-          :alt="homeContent.proof.attribution.company"
-        />
-        <div>
-          <strong>{{ homeContent.proof.attribution.name }}</strong>
-          <p>
-            {{ homeContent.proof.attribution.title }}, {{ homeContent.proof.attribution.company }}
+          <p class="hero-note">
+            From assessment to implementation, built for operators with no room for fluff.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div class="logo-strip" aria-label="Selected client logos">
-        <div class="logo-marquee-track">
+      <section
+        class="surface-card section-block section-block--stakes"
+        aria-labelledby="stakes-heading"
+      >
+        <p class="section-eyebrow">The Stakes</p>
+        <h2 id="stakes-heading" class="section-title">{{ homeContent.stakes.headline }}</h2>
+        <p class="page-subtitle">{{ homeContent.stakes.body }}</p>
+
+        <ul class="stats-grid">
+          <li
+            v-for="stat in homeContent.stakes.stats"
+            :key="stat.label"
+            class="stat-item card-lift"
+          >
+            <span class="stat-value gold-gradient-text">{{ stat.value }}</span>
+            <span class="stat-label">{{ stat.label }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        id="services"
+        class="surface-card section-block section-block--services"
+        aria-labelledby="services-heading"
+      >
+        <p class="section-eyebrow">Methodology</p>
+        <h2 id="services-heading" class="section-title">Four phases. One transformation.</h2>
+        <p class="page-subtitle">Each phase compounds the value of the previous one.</p>
+
+        <ul class="pillar-grid">
+          <li v-for="phase in servicePhases" :key="phase.id" class="pillar-item card-lift">
+            <p class="pillar-phase">Phase {{ phase.phase }}</p>
+            <h3>{{ phase.title }}</h3>
+            <p>{{ phase.description }}</p>
+            <RouterLink :to="phase.href" class="gold-link">Explore {{ phase.title }}</RouterLink>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        id="proof"
+        class="surface-card section-block section-block--proof"
+        aria-labelledby="proof-heading"
+      >
+        <p class="section-eyebrow">Client Results</p>
+        <h2 id="proof-heading" class="section-title">{{ homeContent.proof.headline }}</h2>
+
+        <blockquote class="proof-quote">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p>{{ homeContent.proof.testimonial }}</p>
+        </blockquote>
+
+        <div class="proof-attribution">
           <img
-            v-for="(logo, index) in marqueeLogos"
-            :key="`${logo.name}-${index}`"
-            :src="logo.src"
-            :alt="logo.name"
-            class="client-logo"
-            loading="lazy"
+            :src="homeContent.proof.attribution.logo"
+            :alt="homeContent.proof.attribution.company"
           />
-        </div>
-      </div>
-    </section>
-
-    <section
-      id="team"
-      class="surface-card section-block section-block--team"
-      aria-labelledby="team-heading"
-    >
-      <p class="section-eyebrow">The Team</p>
-      <h2 id="team-heading" class="section-title">{{ homeContent.founders.headline }}</h2>
-      <p class="page-subtitle">{{ homeContent.founders.intro }}</p>
-
-      <ul class="founder-grid">
-        <li
-          v-for="member in homeContent.founders.team"
-          :key="member.name"
-          class="founder-card card-lift"
-        >
-          <img :src="member.image" :alt="member.name" />
           <div>
-            <h3>{{ member.name }}</h3>
-            <p>{{ member.title }}</p>
-            <div class="founder-links">
-              <a :href="member.linkedin" target="_blank" rel="noopener noreferrer" class="gold-link"
-                >LinkedIn</a
-              >
-              <a :href="`mailto:${member.email}`" class="gold-link">{{ member.email }}</a>
-            </div>
+            <strong>{{ homeContent.proof.attribution.name }}</strong>
+            <p>
+              {{ homeContent.proof.attribution.title }}, {{ homeContent.proof.attribution.company }}
+            </p>
           </div>
-        </li>
-      </ul>
-    </section>
+        </div>
 
-    <section
-      id="faq"
-      class="surface-card section-block section-block--faq"
-      aria-labelledby="faq-heading"
-    >
-      <p class="section-eyebrow">FAQ</p>
-      <h2 id="faq-heading" class="section-title">{{ homeContent.faq.headline }}</h2>
-      <div class="faq-list">
-        <details
-          v-for="(item, index) in homeContent.faq.items"
-          :key="item.question"
-          class="faq-item card-lift"
-        >
-          <summary>
-            <span class="faq-number">{{ String(index + 1).padStart(2, '0') }}</span>
-            <span>{{ item.question }}</span>
-          </summary>
-          <p>{{ item.answer }}</p>
-        </details>
-      </div>
-    </section>
+        <div class="logo-strip" aria-label="Selected client logos">
+          <div class="logo-marquee-track">
+            <img
+              v-for="(logo, index) in marqueeLogos"
+              :key="`${logo.name}-${index}`"
+              :src="logo.src"
+              :alt="logo.name"
+              class="client-logo"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
 
-    <section
-      id="start"
-      class="surface-card section-block section-block--cta"
-      aria-labelledby="cta-heading"
-    >
-      <div class="cta-header">
-        <p class="section-eyebrow">Start Here</p>
-        <h2 id="cta-heading" class="section-title">{{ homeContent.cta.headline }}</h2>
-        <p class="page-subtitle">{{ homeContent.cta.subheadline }}</p>
-      </div>
+      <section
+        id="team"
+        class="surface-card section-block section-block--team"
+        aria-labelledby="team-heading"
+      >
+        <p class="section-eyebrow">The Team</p>
+        <h2 id="team-heading" class="section-title">{{ homeContent.founders.headline }}</h2>
+        <p class="page-subtitle">{{ homeContent.founders.intro }}</p>
 
-      <div class="cta-form-wrap">
-        <p class="cta-form-note">
-          Tell us your current state and goals. We review every submission and respond within one
-          business day.
-        </p>
+        <ul class="founder-grid">
+          <li
+            v-for="member in homeContent.founders.team"
+            :key="member.name"
+            class="founder-card card-lift"
+          >
+            <img :src="member.image" :alt="member.name" />
+            <div>
+              <h3>{{ member.name }}</h3>
+              <p>{{ member.title }}</p>
+              <div class="founder-links">
+                <a
+                  :href="member.linkedin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="gold-link"
+                  >LinkedIn</a
+                >
+                <a :href="`mailto:${member.email}`" class="gold-link">{{ member.email }}</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
 
-        <p v-if="homeLeadSubmitted" class="cta-success" role="status" aria-live="polite">
-          Thanks. Submission received. We will follow up by email within 24 hours.
-        </p>
+      <section
+        id="faq"
+        class="surface-card section-block section-block--faq"
+        aria-labelledby="faq-heading"
+      >
+        <p class="section-eyebrow">FAQ</p>
+        <h2 id="faq-heading" class="section-title">{{ homeContent.faq.headline }}</h2>
+        <div class="faq-list">
+          <details
+            v-for="(item, index) in homeContent.faq.items"
+            :key="item.question"
+            class="faq-item card-lift"
+          >
+            <summary>
+              <span class="faq-number">{{ String(index + 1).padStart(2, '0') }}</span>
+              <span>{{ item.question }}</span>
+            </summary>
+            <p>{{ item.answer }}</p>
+          </details>
+        </div>
+      </section>
 
-        <LeadForm v-if="!homeLeadSubmitted" @submitted="handleHomeLeadSubmitted" />
-      </div>
+      <section
+        id="start"
+        class="surface-card section-block section-block--cta"
+        aria-labelledby="cta-heading"
+      >
+        <div class="cta-header">
+          <p class="section-eyebrow">Start Here</p>
+          <h2 id="cta-heading" class="section-title">{{ homeContent.cta.headline }}</h2>
+          <p class="page-subtitle">{{ homeContent.cta.subheadline }}</p>
+        </div>
 
-      <ul class="trust-row" aria-label="Trust signals">
-        <li v-for="signal in trustSignals" :key="signal">{{ signal }}</li>
-      </ul>
-    </section>
+        <div class="cta-form-wrap">
+          <p class="cta-form-note">
+            Tell us your current state and goals. We review every submission and respond within one
+            business day.
+          </p>
+
+          <p v-if="homeLeadSubmitted" class="cta-success" role="status" aria-live="polite">
+            Thanks. Submission received. We will follow up by email within 24 hours.
+          </p>
+
+          <LeadForm v-if="!homeLeadSubmitted" @submitted="handleHomeLeadSubmitted" />
+        </div>
+
+        <ul class="trust-row" aria-label="Trust signals">
+          <li v-for="signal in trustSignals" :key="signal">{{ signal }}</li>
+        </ul>
+      </section>
+    </div>
   </div>
 </template>
 

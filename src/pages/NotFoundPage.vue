@@ -18,11 +18,13 @@ useHead({
 </script>
 
 <template>
-  <section class="surface-card not-found animate-fade-in-up">
-    <h1 class="page-title">404</h1>
-    <p class="page-subtitle">The page you requested was not found.</p>
-    <Button href="/" variant="ghost">Return home</Button>
-  </section>
+  <div class="container">
+    <section class="surface-card not-found animate-fade-in-up">
+      <h1 class="page-title">404</h1>
+      <p class="page-subtitle">The page you requested was not found.</p>
+      <Button href="/" variant="ghost">Return home</Button>
+    </section>
+  </div>
 </template>
 
 <style scoped>

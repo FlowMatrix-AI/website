@@ -9,6 +9,7 @@ body,
 }
 
 html {
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
@@ -20,6 +21,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
+  line-height: 1.65;
   color: var(--color-text);
   background:
     radial-gradient(1200px 560px at 85% -18%, rgba(212, 168, 75, 0.13), transparent 56%),

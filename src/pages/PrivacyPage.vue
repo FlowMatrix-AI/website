@@ -105,40 +105,42 @@ useHead(
 </script>
 
 <template>
-  <section class="surface-card legal-wrap animate-fade-in-up">
-    <h1 class="page-title">Privacy Policy</h1>
-    <p class="legal-meta">Last updated: {{ legalRevisionDates.privacy }}</p>
-    <p class="legal-intro">
-      We are committed to handling client and user data responsibly and transparently.
-    </p>
+  <div class="container">
+    <section class="surface-card legal-wrap animate-fade-in-up">
+      <h1 class="page-title">Privacy Policy</h1>
+      <p class="legal-meta">Last updated: {{ legalRevisionDates.privacy }}</p>
+      <p class="legal-intro">
+        We are committed to handling client and user data responsibly and transparently.
+      </p>
 
-    <article class="legal-sections">
-      <section v-for="(section, index) in sections" :key="section.title" class="legal-section">
-        <h2>{{ index + 1 }}. {{ section.title }}</h2>
+      <article class="legal-sections">
+        <section v-for="(section, index) in sections" :key="section.title" class="legal-section">
+          <h2>{{ index + 1 }}. {{ section.title }}</h2>
 
-        <p v-for="paragraph in section.paragraphs ?? []" :key="paragraph">{{ paragraph }}</p>
+          <p v-for="paragraph in section.paragraphs ?? []" :key="paragraph">{{ paragraph }}</p>
 
-        <div v-if="section.groups" class="group-list">
-          <div v-for="group in section.groups" :key="group.heading" class="group-card">
-            <h3>{{ group.heading }}</h3>
-            <ul>
-              <li v-for="bullet in group.bullets" :key="bullet">{{ bullet }}</li>
-            </ul>
+          <div v-if="section.groups" class="group-list">
+            <div v-for="group in section.groups" :key="group.heading" class="group-card">
+              <h3>{{ group.heading }}</h3>
+              <ul>
+                <li v-for="bullet in group.bullets" :key="bullet">{{ bullet }}</li>
+              </ul>
+            </div>
           </div>
-        </div>
 
-        <ul v-if="section.bullets">
-          <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
-        </ul>
-      </section>
-    </article>
+          <ul v-if="section.bullets">
+            <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
+          </ul>
+        </section>
+      </article>
 
-    <div class="legal-contact">
-      <h2>Privacy Contact</h2>
-      <p>Email: <a href="mailto:privacy@flowmatrixai.com">privacy@flowmatrixai.com</a></p>
-      <p>Subject line: Privacy Policy Inquiry</p>
-    </div>
-  </section>
+      <div class="legal-contact">
+        <h2>Privacy Contact</h2>
+        <p>Email: <a href="mailto:privacy@flowmatrixai.com">privacy@flowmatrixai.com</a></p>
+        <p>Subject line: Privacy Policy Inquiry</p>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style scoped>
@@ -154,7 +156,6 @@ useHead(
 .legal-intro {
   margin: 0 0 var(--space-6);
   color: var(--color-text-muted);
-  line-height: 1.65;
 }
 
 .legal-sections {
@@ -169,7 +170,6 @@ useHead(
 
 .legal-section p {
   margin: 0 0 var(--space-3);
-  line-height: 1.65;
   color: var(--color-text-muted);
 }
 
