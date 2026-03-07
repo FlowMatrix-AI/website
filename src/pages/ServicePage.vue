@@ -92,7 +92,7 @@ useHead(() => {
   <section v-if="phase && content" class="surface-card service-hero animate-fade-in-up">
     <div class="hero-atmosphere" aria-hidden="true" />
 
-    <a href="/#services" class="back-link">← All services</a>
+    <RouterLink to="/#services" class="back-link">← All services</RouterLink>
     <p class="phase-label">Phase {{ phase.phase }}</p>
     <h1 class="page-title">{{ phase.title }}</h1>
     <p class="service-tagline">{{ phase.tagline }}</p>
@@ -157,7 +157,6 @@ useHead(() => {
     <p>Tell us where you are now. We will map what should happen next.</p>
     <div class="service-cta-actions">
       <Button href="/#start" size="lg">Start the Conversation</Button>
-      <Button href="/free" variant="ghost" size="lg">See Free Templates</Button>
     </div>
 
     <ul class="service-trust">

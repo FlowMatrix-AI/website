@@ -2,7 +2,21 @@
 
 All notable changes to this project are documented here.
 
-Pre-release versioning uses sequential phase labels aligned to the historical planning and execution at the inception of the project. Once the site is promoted to production, versioning transitions to [Semantic Versioning](https://semver.org/) starting at `0.1.0` (see `package.json`).
+Pre-release versioning uses sequential phase labels aligned to the historical planning and execution at the inception of the project. Versioning should follow to [Semantic Versioning](https://semver.org/) starting at `0.1.0` (see `package.json`).
+
+---
+
+## [0.1.1] — 2026-03-06 — Broken Link Fixes
+
+### Fixed
+
+- `Footer.vue` — removed dead `<RouterLink to="/free">Free Templates</RouterLink>`; replaced with links to all four service pages (`/assessment`, `/database-mobilization`, `/ai-implementation`, `/personalized-software`) plus Terms and Privacy
+- `ServicePage.vue` — removed dead `<Button href="/free">See Free Templates</Button>` from CTA section; CTA now has a single "Start the Conversation" button
+- `ServicePage.vue` — converted `<a href="/#services">← All services</a>` back-link to `<RouterLink>` to prevent full-page reload in the SPA
+
+---
+
+The following items are from the initial project planning and execution phases, included here for historical context and traceability of decisions and changes made during the development of the FlowMatrix AI website. They represent the version 0.1.0 in total.
 
 ---
 
