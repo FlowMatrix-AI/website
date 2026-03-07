@@ -2,9 +2,8 @@
 import { ref } from 'vue';
 import { useHead } from '@unhead/vue';
 import Button from '../components/ui/Button.vue';
-import TallyEmbed from '../components/forms/TallyEmbed.vue';
+import LeadForm from '../components/forms/LeadForm.vue';
 import { trackAnalyticsEvent } from '../composables/useAnalytics';
-import { forms } from '../config/forms';
 import { homeContent, servicePhases } from '../data/siteContent';
 import { createSeoHead } from '../lib/seo';
 import {
@@ -15,8 +14,6 @@ import {
 } from '../lib/structuredData';
 
 const homeLeadSubmitted = ref(false);
-const mainFormMinHeight = forms.mainGetInTouch.embedMinHeight ?? 620;
-const mainFormShareUrl = forms.mainGetInTouch.shareUrl;
 
 const clientLogos = [
   { name: 'All Clean', src: '/client-logos/all-clean.webp' },
@@ -63,9 +60,8 @@ function handleHomeLeadSubmitted() {
   homeLeadSubmitted.value = true;
 
   trackAnalyticsEvent('generate_lead', {
-    lead_source: 'tally',
+    lead_source: 'native',
     lead_flow: 'main_get_in_touch',
-    form_id: forms.mainGetInTouch.formId,
     source_page: '/',
   });
 }
@@ -244,23 +240,7 @@ function handleHomeLeadSubmitted() {
           Thanks. Submission received. We will follow up by email within 24 hours.
         </p>
 
-        <TallyEmbed
-          v-if="forms.mainGetInTouch.formId"
-          :form-id="forms.mainGetInTouch.formId"
-          :min-height="mainFormMinHeight"
-          title="Start the Conversation"
-          @submitted="handleHomeLeadSubmitted"
-        />
-        <p v-else class="cta-missing-form">
-          Main contact form is not configured. Set <code>mainGetInTouch.formId</code> in
-          <code>src/data/forms.json</code>.
-        </p>
-
-        <p v-if="mainFormShareUrl" class="cta-share-link">
-          <a :href="mainFormShareUrl" target="_blank" rel="noopener noreferrer">
-            Open form in a new tab
-          </a>
-        </p>
+        <LeadForm v-if="!homeLeadSubmitted" @submitted="handleHomeLeadSubmitted" />
       </div>
 
       <ul class="trust-row" aria-label="Trust signals">
