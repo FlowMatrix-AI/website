@@ -12,7 +12,6 @@ const navItems = [
   { label: 'Results', href: '/#proof' },
   { label: 'Team', href: '/#team' },
   { label: 'FAQ', href: '/#faq' },
-  { label: 'Free Templates', href: '/free' },
 ];
 
 const onScroll = () => {
@@ -22,10 +21,6 @@ const onScroll = () => {
 const activeHash = computed(() => route.hash || '');
 
 const isActive = (href: string) => {
-  if (href === '/free') {
-    return route.path.startsWith('/free');
-  }
-
   if (href.startsWith('/#')) {
     return route.path === '/' && activeHash.value === href.slice(1);
   }

@@ -2,8 +2,6 @@ import type { RouteRecordRaw } from 'vue-router';
 import HomePage from './pages/HomePage.vue';
 
 const ServicePage = () => import('./pages/ServicePage.vue');
-const FreeIndexPage = () => import('./pages/FreeIndexPage.vue');
-const TemplateDetailPage = () => import('./pages/TemplateDetailPage.vue');
 const TermsPage = () => import('./pages/TermsPage.vue');
 const PrivacyPage = () => import('./pages/PrivacyPage.vue');
 const NotFoundPage = () => import('./pages/NotFoundPage.vue');
@@ -37,16 +35,6 @@ const routes: RouteRecordRaw[] = [
     name: 'personalized-software',
     component: ServicePage,
     props: { serviceId: 'personalized-software' },
-  },
-  {
-    path: '/free',
-    name: 'free-index',
-    component: FreeIndexPage,
-  },
-  {
-    path: '/free/:slug',
-    name: 'template-detail',
-    component: TemplateDetailPage,
   },
   {
     path: '/terms',

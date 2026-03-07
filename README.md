@@ -28,23 +28,13 @@ At production cutover, set `allowIndexing: true` (and `gaMeasurementId` if GA4 i
 Forms are handled by Cloudflare Pages Functions — no third-party embed service.
 
 - `POST /api/lead` — homepage CTA form
-- `POST /api/template-access` — template detail page sidebar form
 
-Both send email via Resend to `leads@flowmatrixai.com`. Required environment variables in Cloudflare Pages: `RESEND_API_KEY`, `LEAD_RECIPIENT_EMAIL`. For local dev, create `.dev.vars` at the repo root (gitignored).
-
-`src/data/templates.json` is content-only for free resources.
-For each `published` template, CI requires:
-
-- `slug`
-- `title`
-- `description`
-- `deliverable_type`
+Sends email via Resend to `leads@flowmatrixai.com`. Required environment variables in Cloudflare Pages: `RESEND_API_KEY`, `LEAD_RECIPIENT_EMAIL`. For local dev, create `.dev.vars` at the repo root (gitignored).
 
 Run locally:
 
 ```bash
 npm run validate:deployment
-npm run validate:templates
 npm run validate:content
 ```
 

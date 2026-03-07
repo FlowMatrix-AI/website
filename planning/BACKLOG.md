@@ -83,7 +83,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 **Recommendation to evaluate:** Option D or A. `deployment.json` is genuinely environment config and arguably belongs outside `src/`. `templates.json` and `forms.json` are content data that the build consumes, making `src/data/` the right home for them. This points back toward A (status quo with explicit documentation) or D for `deployment.json` only.  
 **Acceptance:** A decision is made and documented. If files move, all import paths, validation scripts, and CI steps are updated and verified.
 
-**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `templates.json` is content data consumed by the build. This distinction is worth preserving. No files moved. (Note: `forms.json` was subsequently deleted as part of the Cloudflare migration — this item is fully resolved.)
+**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment. No files moved. (Note: `forms.json` and `templates.json` were subsequently deleted — `forms.json` as part of the Cloudflare migration, `templates.json` when the free templates feature was removed. This item is fully resolved.)
 
 ---
 
@@ -92,7 +92,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 ### BV-1 — Extend `validate-build-artifacts` to cover service pages
 
 **What:** Add the four service route HTML files to the required artifact list in `scripts/validate-build-artifacts.mjs`: `assessment.html`, `database-mobilization.html`, `ai-implementation.html`, `personalized-software.html`.  
-**Why:** The current script verifies `index.html`, `free.html`, `terms.html`, `privacy.html`, sitemap, and robots — but the four service pages are not checked. If SSG silently fails to render them, the CI build still passes and broken pages reach production.  
+**Why:** The current script verifies `index.html`, `terms.html`, `privacy.html`, sitemap, and robots — but the four service pages are not checked. If SSG silently fails to render them, the CI build still passes and broken pages reach production.  
 **Acceptance:** `validate:build-artifacts` fails if any of the four service pages are absent or empty in `dist/`. The script passes on a clean build.
 
 ### BV-2 — Extend `validate-head-artifacts` to cover the full SEO tag set
@@ -107,19 +107,19 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 
 ### TEST-1 — Unit tests for data normalization and validation logic
 
-**What:** Add a test runner (Vitest is the natural fit given the existing Vite setup) and write unit tests for the core data normalization modules: `deploymentNormalization.mjs`, `templateStatus.mjs`, and the `normalizeTemplate` logic in `src/data/templates.ts`.  
-**Why:** These modules are the integrity layer for every piece of content that reaches production. They handle edge cases (null, undefined, wrong types, empty strings, unknown status values) that are easy to break silently. Currently there are zero automated tests for any of this logic.  
-**Scope:** Start narrow — pure function inputs/outputs for normalization and status helpers. Do not attempt component or E2E coverage in this pass.  
-**Acceptance:** `npm run test` (or `npm run test:unit`) passes in CI. Coverage includes the normalization happy paths and the primary edge cases (null, empty, unknown values) for each module.
+**What:** Add a test runner (Vitest is the natural fit given the existing Vite setup) and write unit tests for the core data normalization modules: `deploymentNormalization.mjs` and related config logic.  
+**Why:** These modules are the integrity layer for every piece of content that reaches production. They handle edge cases (null, undefined, wrong types, empty strings) that are easy to break silently.  
+**Scope:** Start narrow — pure function inputs/outputs for normalization helpers. Do not attempt component or E2E coverage in this pass.  
+**Acceptance:** `npm run test` (or `npm run test:unit`) passes in CI. Coverage includes the normalization happy paths and the primary edge cases for each module.
 
 ### TEST-2 — Evaluate E2E test coverage for critical paths
 
-**What:** Assess whether Playwright or a similar E2E framework should be added to cover the two highest-value paths: (1) a template detail page loads correctly from a direct URL, and (2) the Tally form embed renders and the `submitted` event fires correctly.  
-**Why:** SSG route integrity and form submission are the two failure modes with the most user impact. Neither is covered by the current CI pipeline beyond build artifact existence checks.  
+**What:** Assess whether Playwright or a similar E2E framework should be added to cover the highest-value paths: (1) critical routes load correctly from direct URLs, and (2) the homepage lead form submits correctly against a real environment.  
+**Why:** Form submission is the primary failure mode with user impact. Build artifact existence checks confirm static output but cannot test runtime function behavior.  
 **Note:** This is an evaluation item. The outcome may be "defer until traffic warrants the maintenance cost" — but it should be a deliberate decision, not a default omission.  
 **Acceptance:** A decision is documented. If E2E tests are added, they run in CI against the built dist.
 
-**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Native form functions (`/api/lead`, `/api/template-access`) can be unit tested in isolation but require a live Resend account for end-to-end coverage — not suitable for CI. Revisit when the site has stable traffic.
+**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. The lead form function (`/api/lead`) can be unit tested in isolation but requires a live Resend account for end-to-end coverage — not suitable for CI. Revisit when the site has stable traffic.
 
 ---
 
@@ -127,7 +127,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 
 ### TD-1 — Evaluate the `.mjs` + `.d.mts` dual-file pattern
 
-**What:** Assess whether the `deploymentNormalization.mjs`/`.d.mts` and `templateStatus.mjs`/`.d.mts` pairs can be replaced with a single source that both the Vite bundler and Node scripts can consume.  
+**What:** Assess whether the `deploymentNormalization.mjs`/`.d.mts` pair can be replaced with a single source that both the Vite bundler and Node scripts can consume.  
 **Why:** The current pattern works but requires manually keeping `.d.mts` declaration files in sync with their `.mjs` implementations. If either file diverges (added parameter, changed return type, renamed export), the type declarations silently lie without any enforcement.  
 **Options to evaluate:**
 
@@ -137,7 +137,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 
 **Acceptance:** A decision is made and either the pattern is replaced or a safeguard against declaration drift is added.
 
-**Decision (March 5, 2026):** Pattern retained. The 32 unit tests in `tests/` directly exercise the `.mjs` implementations. Any behavioral change to a `.mjs` function will surface as a test failure, and any type-level divergence with `.d.mts` will surface as a TypeScript error in the test files when Vitest resolves types. This provides adequate drift protection without a build tooling change. Revisit if a third `.mjs`/`.d.mts` pair is ever added.
+**Decision (March 5, 2026):** Pattern retained. The 15 unit tests in `tests/` directly exercise the `.mjs` implementations. Any behavioral change to a `.mjs` function will surface as a test failure, and any type-level divergence with `.d.mts` will surface as a TypeScript error in the test files when Vitest resolves types. This provides adequate drift protection without a build tooling change. (Note: `templateStatus.mjs`/`.d.mts` were deleted when the free templates feature was removed; only `deploymentNormalization.mjs`/`.d.mts` remains.)
 
 ---
 

@@ -6,6 +6,35 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [Phase 5.1] — 2026-03-06 — Remove Free Templates
+
+**Branch:** `deploy/cloudflare-cutover`  
+**Decision:** The free templates library (`/free`, `/free/:slug`) will not ship with v0.1.0. The feature can be restored from git history when ready.
+
+### Removed
+
+- `/free` listing page (`FreeIndexPage.vue`) and `/free/:slug` detail page (`TemplateDetailPage.vue`) — routes and SSG output gone
+- `TemplateAccessForm.vue` — template access form component
+- `functions/api/template-access.ts` — Cloudflare Pages Function for template access form
+- `src/data/templates.json`, `templates.ts`, `templateTypes.ts` — all template content and type definitions
+- `src/data/templateStatus.mjs`, `templateStatus.d.mts` — template status parsing and type declarations
+- `scripts/validate-templates.mjs` — template content CI validator
+- `tests/templateStatus.test.ts` — 17 unit tests for template status logic (15 tests remain in suite)
+- `validate:templates` npm script
+
+### Changed
+
+- `src/router.ts` — `/free` and `/free/:slug` routes and their lazy-loaded page imports removed
+- `vite.config.ts` — dynamic SSG route expansion from `templates.json` removed; config simplified to static routes only
+- `src/components/layout/NavBar.vue` — "Free Templates" nav item removed; `/free`-specific `isActive` branch removed
+- `scripts/generate-sitemap.mjs` — `/free` and `/free/**` priority/changefreq branches removed
+- `scripts/validate-build-artifacts.mjs` — `free.html` and `dist/free/` directory checks removed
+- `scripts/validate-head-artifacts.mjs` — `free index` and `free detail` pages removed from head metadata checks
+- `package.json` — `validate:content` simplified to `validate:deployment` only
+- Site now renders 7 static routes: `/`, `/assessment`, `/database-mobilization`, `/ai-implementation`, `/personalized-software`, `/terms`, `/privacy`
+
+---
+
 ## [Phase 5] — 2026-03-06 — Cloudflare Migration
 
 **Branch:** `deploy/cloudflare-cutover`  

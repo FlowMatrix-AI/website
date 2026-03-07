@@ -72,16 +72,8 @@ function routeMeta(route) {
     return { changefreq: 'weekly', priority: '1.0' };
   }
 
-  if (route === '/free') {
-    return { changefreq: 'daily', priority: '0.9' };
-  }
-
   if (route === '/terms' || route === '/privacy') {
     return { changefreq: 'yearly', priority: '0.3' };
-  }
-
-  if (route.startsWith('/free/')) {
-    return { changefreq: 'weekly', priority: '0.8' };
   }
 
   return { changefreq: 'monthly', priority: '0.7' };
