@@ -1,5 +1,7 @@
 # flowmatrixai.com website
 
+[![CI](https://github.com/FlowMatrix-AI/website/actions/workflows/ci.yml/badge.svg)](https://github.com/FlowMatrix-AI/website/actions/workflows/ci.yml)
+
 Static FlowMatrix AI website built with Vue 3 + `vite-ssg`.
 
 ## Build
