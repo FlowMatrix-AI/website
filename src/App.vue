@@ -11,10 +11,8 @@ useAnalyticsHead();
     <div class="grain-overlay" aria-hidden="true" />
     <NavBar />
 
-    <main class="page-main">
-      <div class="container">
-        <RouterView />
-      </div>
+    <main id="main-content" class="page-main">
+      <RouterView />
     </main>
 
     <Footer />

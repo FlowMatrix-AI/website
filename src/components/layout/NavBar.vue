@@ -52,6 +52,7 @@ watch(
 
 <template>
   <header class="nav-wrap" :class="{ 'nav-wrap--scrolled': scrolled }">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="container nav-inner">
       <RouterLink to="/" class="brand-link" aria-label="FlowMatrix AI Home">
         <img src="/flowmatrix-logo.webp" alt="FlowMatrix AI" width="160" height="40" />
@@ -70,7 +71,7 @@ watch(
       </nav>
 
       <div class="nav-actions">
-        <Button href="/#start" size="md" class="desktop-cta">Start Conversation</Button>
+        <Button to="/contact" size="md" class="desktop-cta">Start Conversation</Button>
         <button
           class="mobile-toggle"
           type="button"
@@ -96,7 +97,7 @@ watch(
           >
             {{ item.label }}
           </RouterLink>
-          <Button href="/#start" size="lg" class="animate-pulse-glow">Start Conversation</Button>
+          <Button to="/contact" size="lg" class="animate-pulse-glow">Start Conversation</Button>
         </nav>
       </div>
     </transition>

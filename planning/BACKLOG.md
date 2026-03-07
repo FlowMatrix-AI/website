@@ -7,19 +7,20 @@
 
 ## Implementation Status
 
-| Item   | Status         | Notes                                                          |
-| ------ | -------------- | -------------------------------------------------------------- |
-| OP-1   | Open           | Requires GA4 account setup                                     |
-| OP-2   | **Superseded** | Tally replaced entirely by native CF Pages Functions + Resend  |
-| OP-3   | Open           | Blocked on OP-1; OP-2 superseded                               |
-| BV-1   | **Done**       | Service pages added to `validate-build-artifacts.mjs`          |
-| BV-2   | **Done**       | Full OG/Twitter tag set added to `validate-head-artifacts.mjs` |
-| DX-1   | **Done**       | ESLint configured, codebase clean, CI gated                    |
-| DX-2   | **Done**       | Husky + lint-staged wired to pre-commit                        |
-| DX-3   | **Decided**    | Status quo retained — see decision note below                  |
-| TEST-1 | **Done**       | 32 unit tests across 2 suites, passing in CI                   |
-| TEST-2 | **Decided**    | Deferred — see decision note below                             |
-| TD-1   | **Decided**    | Unit tests serve as guard — see decision note below            |
+| Item      | Status         | Notes                                                          |
+| --------- | -------------- | -------------------------------------------------------------- |
+| OP-1      | Open           | Requires GA4 account setup                                     |
+| OP-2      | **Superseded** | Tally replaced entirely by native CF Pages Functions + Resend  |
+| OP-3      | Open           | Blocked on OP-1; OP-2 superseded                               |
+| BV-1      | **Done**       | Service pages added to `validate-build-artifacts.mjs`          |
+| BV-2      | **Done**       | Full OG/Twitter tag set added to `validate-head-artifacts.mjs` |
+| DX-1      | **Done**       | ESLint configured, codebase clean, CI gated                    |
+| DX-2      | **Done**       | Husky + lint-staged wired to pre-commit                        |
+| DX-3      | **Decided**    | Status quo retained — see decision note below                  |
+| TEST-1    | **Done**       | 32 unit tests across 2 suites, passing in CI                   |
+| TEST-2    | **Decided**    | Deferred — see decision note below                             |
+| TD-1      | **Decided**    | Unit tests serve as guard — see decision note below            |
+| CONTENT-1 | Open           | Stats authenticity — see Section 6 below                       |
 
 ---
 
@@ -153,3 +154,20 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 | 6        | DX-3       | Low urgency; resolve when it becomes friction                                     |
 | 7        | TEST-2     | Evaluate after TEST-1 is established                                              |
 | 8        | TD-1       | Low urgency until the codebase grows or someone is burned by drift                |
+| 9        | CONTENT-1  | Must be resolved before production go-live; no code dependency                    |
+
+---
+
+## 6. Content
+
+### CONTENT-1 — Verify or replace homepage stats with FlowMatrix-sourced data
+
+**What:** The three stats displayed in the homepage stakes section (`72%`, `3x`, `18mo`) are currently framed as outcomes but appear to be industry benchmark averages rather than FlowMatrix-specific client results.  
+**Why:** A sophisticated B2B buyer evaluating a consultancy will ask “is this your data?” If the numbers are not client-derived, presenting them without attribution is a credibility risk at the exact moment the site is trying to establish trust.  
+**Options:**
+
+- Replace with real FlowMatrix client outcome numbers if available
+- Add inline attribution: “industry average” with a source citation
+- Remove entirely and replace with a different trust signal if no sourced data exists
+
+**Acceptance:** Stats on the homepage are either (a) real FlowMatrix client outcomes, or (b) clearly attributed industry benchmarks with a source. Resolved before production DNS cutover.

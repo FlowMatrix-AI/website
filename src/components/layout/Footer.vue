@@ -9,16 +9,13 @@ const year = new Date().getFullYear();
         <p class="footer-kicker">AI Transformation Studio</p>
         <img src="/flowmatrix-logo.webp" alt="FlowMatrix AI" width="160" height="40" />
         <p class="footer-description">Practical AI systems for real operators.</p>
-        <a class="footer-email" href="mailto:info@flowmatrixai.com">info@flowmatrixai.com</a>
+        <RouterLink to="/contact" class="footer-email">Get in touch →</RouterLink>
       </div>
 
       <div class="footer-links-block">
         <p class="footer-heading">Explore</p>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/assessment">Assessment</RouterLink>
-        <RouterLink to="/database-mobilization">Database Mobilization</RouterLink>
-        <RouterLink to="/ai-implementation">AI Implementation</RouterLink>
-        <RouterLink to="/personalized-software">Personalized Software</RouterLink>
+        <RouterLink to="/contact">Contact</RouterLink>
         <RouterLink to="/terms">Terms</RouterLink>
         <RouterLink to="/privacy">Privacy</RouterLink>
       </div>

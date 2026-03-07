@@ -6,6 +6,83 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.2.3] — 2026-03-07 — UI/UX Revision
+
+### Changed
+
+- `HomePage.vue` — Hero SVG redesigned: straight `<line>` segments replaced with cubic bezier `<path>` arcs; 4-layer neural network topology (L0 ghost → L1 white → L2 gold hidden → L3 bright gold output) with left-to-right downward drift; graduated opacity across layers for smooth white-to-gold transition
+- `HomePage.vue` — methodology section background `var(--color-bg-soft)`, team section `var(--color-surface)`
+- `HomePage.vue` — proof attribution logo height 28px → 56px
+- `MethodologyTabs.vue` — removed "Show detail" expand mechanic; section details always visible in 2-column grid; panel split 1fr/1fr → 34fr/66fr; fixed panel height via grid stacking (all panels occupy same grid cell, inactive = `visibility:hidden` + `inert`)
+- `siteContent.ts` — content updates
+
+---
+
+## [0.2.2] — 2026-03-06 — UI Polish
+
+### Added
+
+- `index.html` — Inter font loaded via Google Fonts (`wght@400;500;600;700`, `display=swap`) with `preconnect` hints for `fonts.googleapis.com` and `fonts.gstatic.com`; fixes visitors receiving system fallback fonts instead of the design-intended typeface
+
+### Changed
+
+- `HomePage.vue` — hero CTA button order corrected: primary (filled) button now routes to `/contact`; secondary (ghost) button scrolls to `/#services`; conversion action is now the visual priority
+- `HomePage.vue` — closing CTA section: supporting line “One conversation. No pitch, no pressure.” added between the heading and button
+- `HomePage.vue` — founder `<img>` elements: `loading="lazy"` added; images are well below the fold and should not block initial page load
+
+### Fixed
+
+- `HomePage.vue` — removed dead `.pillar-grid` selector from `@media (max-width: 980px)` responsive block; `.pillar-grid` was deleted in Sprint 2
+
+---
+
+## [0.2.1] — 2026-03-06 — Contact Form Polish
+
+### Changed
+
+- `LeadForm.vue` — added per-field client-side validation with inline error messages shown on blur and on submit attempt; required checks on name and message, format check on email; submit blocked when validation fails; button label changed from “Send Message” to “Start the Conversation”; textarea placeholder updated to “What are you currently dealing with, and what would a better outcome look like?”; `error` ref renamed to `serverError` to distinguish from field errors
+- `ContactPage.vue` — removed redundant “Get in Touch” eyebrow (duplicate of H1); added three-step “What happens next” list between the subtitle and form card; success state replaced with a proper completion view including heading, explanatory copy, spam caveat, and a link back to home
+
+---
+
+## [0.2.0] — 2026-03-06 — Homepage Redesign
+
+**Branch:** `feat/spa-homepage-redesign`
+
+### Added
+
+- `src/pages/ContactPage.vue` — dedicated contact page at `/contact` with SEO head, `surface-card` form card, `LeadForm`, and success state; replaces the inline homepage CTA form
+- `src/components/ui/MethodologyTabs.vue` — interactive four-phase tab panel component with `role="tablist"` accessibility, `ArrowLeft`/`ArrowRight` keyboard navigation, per-panel expand/collapse toggle for full section detail, and a `<details>`/`<summary>` accordion that replaces the tab UI below 768px
+- `src/data/methodologyContent.ts` — unified `MethodologyPhase` data structure merging phase titles, taglines, descriptions, problems, outcomes, and detail sections; replaces split data across `siteContent.ts` and the now-deleted `serviceContent.ts`
+- Skip-to-content link (`<a href="#main-content" class="skip-link">`) added as first focusable element in `NavBar.vue`; `.skip-link` CSS in `base.css` — visually hidden at rest, revealed on `:focus`
+
+### Changed
+
+- `HomePage.vue` — full-bleed section redesign across all eight sections:
+  - Hero: 90svh two-column grid (55/45 split), inline SVG node-connection diagram, removed hero note and inline stats
+  - Stats: new standalone bar section with gold values and column dividers
+  - Methodology: pillar-grid placeholder replaced with `<MethodologyTabs>`
+  - Proof: `surface-card` removed; container added; marquee opacity 0.6; `proof-attribution-logo` class
+  - Team: `surface-card` removed; email links removed from founder cards; LinkedIn only
+  - FAQ: `surface-card` removed; `<span>` wrapper added for grid-row expand animation
+  - Closing CTA: inline form replaced with `<h2>Ready to build?</h2>` and `Button` routing to `/contact`
+- `App.vue` — global `<div class="container">` wrapper removed; per-page components now own their own container; `id="main-content"` on `<main>`
+- `NavBar.vue` — both desktop and mobile CTAs changed from `href="/#start"` to `to="/contact"`
+- `Footer.vue` — four service page links replaced with Home · Contact · Terms · Privacy; `mailto:` link replaced with `<RouterLink to="/contact">Get in touch →</RouterLink>`
+- `LeadForm.vue` — submit button replaced with `Button` component; name and email fields wrapped in `.form-row-pair` for two-column layout at ≥560px
+- `base.css` — `font-size: 16px` set on `html`; `line-height: 1.65` set on `body`
+- `scripts/generate-sitemap.mjs` — `/contact` route given `priority: '0.8'` and `changefreq: 'monthly'`
+- `scripts/validate-build-artifacts.mjs` — `404.html` added to required artifacts list
+- `src/router.ts` — four service routes (`/assessment`, `/database-mobilization`, `/ai-implementation`, `/personalized-software`) removed; `/contact` route added; route count 7 → 4
+
+### Removed
+
+- `src/pages/ServicePage.vue` — individual service page component removed along with its four routes
+- `src/data/serviceContent.ts` — service body content (problem, sections) fully merged into `methodologyContent.ts`
+- `src/data/siteContent.ts` — dead `ServicePhase` type, `servicePhases` array, `homeContent.cta` block, and team `email` fields removed; file retained for active `homeContent` export
+
+---
+
 ## [0.1.2] — 2026-03-06 — SPA Navigation Fix
 
 ### Fixed

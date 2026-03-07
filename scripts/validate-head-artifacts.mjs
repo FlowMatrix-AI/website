@@ -79,6 +79,7 @@ async function main() {
 
   const pages = [
     { label: 'home', file: 'index.html', requireJsonLd: true },
+    { label: 'contact', file: 'contact.html', requireJsonLd: true },
     { label: 'terms', file: 'terms.html', requireJsonLd: true },
   ];
 

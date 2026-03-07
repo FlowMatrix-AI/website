@@ -1,19 +1,36 @@
-import type { ServicePhase } from './siteContent';
+/**
+ * Merged methodology phase data for the MethodologyTabs component.
+ * Combines servicePhases (siteContent.ts) + serviceBody (serviceContent.ts) into a
+ * single flat structure. The individual source files remain until Sprint 5 cleanup.
+ */
 
-type ServiceSection = {
-  heading: string;
-  body: string;
-};
-
-type ServiceBody = {
+export interface MethodologyPhase {
+  id: string;
+  phase: number;
+  title: string;
+  tagline: string;
+  description: string;
   problem: string;
-  sections: ServiceSection[];
-};
+  outcomes: string[];
+  sections: { heading: string; body: string }[];
+}
 
-export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
-  assessment: {
+export const methodologyPhases: MethodologyPhase[] = [
+  {
+    id: 'assessment',
+    phase: 1,
+    title: 'Assessment',
+    tagline: 'Eliminate the guesswork.',
+    description:
+      'Before we build anything, we assess. Three tiers of analysis: from a single process audit to a full human-tech holistic review. Every engagement starts here. You walk away with a clear roadmap whether you work with us or not.',
     problem:
       'Most companies know something is off, but they lack visibility into what, where, and why. Without a clear picture, every dollar spent on technology is a gamble.',
+    outcomes: [
+      'Three tiers, one purpose',
+      'What you walk away with',
+      'Assessed through an AI lens',
+      'Risk reversal',
+    ],
     sections: [
       {
         heading: 'Three tiers, one purpose',
@@ -33,9 +50,21 @@ export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
       },
     ],
   },
-  'database-mobilization': {
+  {
+    id: 'database-mobilization',
+    phase: 2,
+    title: 'Database Mobilization',
+    tagline: 'Bet on the house, not on Red 16.',
+    description:
+      "We create a living, AI-optimized copy of your company's data that stays in sync with your existing tools. Platform-independent, always current, ready for any AI system to plug into.",
     problem:
       'When your data is locked inside one platform, you are betting everything on one vendor. If technology shifts, switching costs become painful.',
+    outcomes: [
+      'A parallel intelligence layer',
+      'Architecture follows data',
+      'Universal access layer',
+      'Living sync, not snapshots',
+    ],
     sections: [
       {
         heading: 'A parallel intelligence layer',
@@ -55,9 +84,21 @@ export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
       },
     ],
   },
-  'ai-implementation': {
+  {
+    id: 'ai-implementation',
+    phase: 3,
+    title: 'AI Implementation',
+    tagline: 'Intelligence that works while you sleep.',
+    description:
+      'From simple automations to autonomous agents, we build backend systems that eliminate manual work. Automations, AI-powered workflows, agentic systems, and development infrastructure all connected to your mobilized data.',
     problem:
       'Your team spends hours on work that follows predictable patterns: triage, routing, extraction, follow-ups, and repetitive coordination.',
+    outcomes: [
+      'Automations and workflows',
+      'AI-powered workflows',
+      'Agentic systems',
+      'Development infrastructure',
+    ],
     sections: [
       {
         heading: 'Automations and workflows',
@@ -77,9 +118,21 @@ export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
       },
     ],
   },
-  'personalized-software': {
+  {
+    id: 'personalized-software',
+    phase: 4,
+    title: 'Personalized Software',
+    tagline: 'Where intelligence meets interface.',
+    description:
+      'Custom applications designed for how your people actually work, powered by your own data, with AI woven into every interaction.',
     problem:
       'Intelligence and automation only matter if people can actually use them. Generic software forces teams to adapt to the tool.',
+    outcomes: [
+      'Designed for your people',
+      'Powered by your data',
+      'AI-native by design',
+      'Internal, external, or both',
+    ],
     sections: [
       {
         heading: 'Designed for your people',
@@ -99,4 +152,4 @@ export const serviceBody: Record<ServicePhase['id'], ServiceBody> = {
       },
     ],
   },
-};
+];

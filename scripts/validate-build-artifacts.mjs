@@ -22,12 +22,10 @@ async function main() {
 
   const requiredFiles = [
     'index.html',
+    'contact.html',
     'terms.html',
     'privacy.html',
-    'assessment.html',
-    'database-mobilization.html',
-    'ai-implementation.html',
-    'personalized-software.html',
+    '404.html',
     'sitemap.xml',
     'robots.txt',
   ];
