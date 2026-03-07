@@ -18,29 +18,38 @@ No GitHub Actions variables are required for them.
 ## Cutover Steps (Staging -> Production)
 
 1. Update `src/config/deployment.json`:
-   - `siteUrl`: `https://flowmatrixai.com`
    - `allowIndexing`: `true`
    - `gaMeasurementId`: set `G-...` once GA4 stream is ready
 2. Run validation/build locally.
 3. Commit and deploy.
 
-## Form Config Source of Truth
+## Native Forms
 
-`src/data/forms.json` owns all Tally forms.
+Forms are handled by Cloudflare Pages Functions. No config files or third-party services are involved.
 
-Required keys:
+Endpoints:
 
-- `mainGetInTouch`
-- `freeGetAccessNow`
+- `POST /api/lead` — main lead form (Home page)
+- `POST /api/template-access` — template access request (Template detail pages)
 
-Each key must include:
+Both functions read two environment variables set in **Cloudflare Pages → Settings → Environment Variables**:
 
-- `formId` (Tally form ID)
-- `shareUrl` (`https://tally.so/r/<id>` or `https://tally.so/embed/<id>`)
+| Variable               | Value                      | Scope                |
+| ---------------------- | -------------------------- | -------------------- |
+| `RESEND_API_KEY`       | Resend API key (send-only) | Production + Preview |
+| `LEAD_RECIPIENT_EMAIL` | `leads@flowmatrixai.com`   | Production + Preview |
 
-Optional key:
+For local development, create a `.dev.vars` file at the repo root (gitignored):
 
-- `embedMinHeight` (integer between `120` and `2000` for layout control)
+```secret
+RESEND_API_KEY=re_...
+```
+
+```text
+LEAD_RECIPIENT_EMAIL=leads@flowmatrixai.com
+```
+
+Sending domain: `updates.flowmatrixai.com` (verified in Resend, isolated from main domain reputation).
 
 ## Free Template Content Source of Truth
 
@@ -54,27 +63,18 @@ Required fields for `published` entries:
 - `description`
 - `deliverable_type`
 
-Do not put lead fields in templates:
-
-- `tally_form_id`
-- `deliverable_url`
-
-Lead capture is shared at the page level via `forms.json`.
-
 ## Validation Commands
 
 - `npm run validate:deployment`
-- `npm run validate:forms`
 - `npm run validate:templates`
-- `npm run validate:content` (all)
+- `npm run validate:content` (all of the above)
 
 CI runs `npm run validate:content` before build.
 
-## Tally + GA4 Quick Setup
+## GA4 Setup (deferred — post DNS cutover)
 
-1. Create/configure Tally forms and notification recipients in Tally.
-2. Put IDs/URLs in `src/data/forms.json`.
-3. Set `gaMeasurementId` in `src/config/deployment.json` once GA4 stream is ready.
-4. Deploy and verify GA4 Realtime:
+1. Create/configure GA4 property and stream.
+2. Set `gaMeasurementId` to `G-...` in `src/config/deployment.json`.
+3. Deploy and verify GA4 Realtime:
    - `view_item` on `/free/:slug`
    - `generate_lead` on form submit

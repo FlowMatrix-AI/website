@@ -3,8 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
 import { useHead } from '@unhead/vue';
 import Button from '../components/ui/Button.vue';
-import TallyEmbed from '../components/forms/TallyEmbed.vue';
-import { forms } from '../config/forms';
+import TemplateAccessForm from '../components/forms/TemplateAccessForm.vue';
 import { getTemplateBySlug } from '../data/templates';
 import { getTemplateTypeClass, getTemplateTypeLabel } from '../data/templateTypes';
 import { createSeoHead } from '../lib/seo';
@@ -29,11 +28,6 @@ const template = computed(() => {
 
   return getTemplateBySlug(slug.value);
 });
-
-const currentForm = forms.freeGetAccessNow;
-const currentFormId = currentForm.formId;
-const freeTemplateFormMinHeight = currentForm.embedMinHeight ?? 180;
-const currentFormShareUrl = currentForm.shareUrl;
 
 const youtubeEmbedUrl = computed(() => {
   if (!template.value?.youtubeId) {
@@ -134,9 +128,8 @@ function handleLeadSubmitted() {
   submitted.value = true;
 
   trackAnalyticsEvent('generate_lead', {
-    lead_source: 'tally',
+    lead_source: 'native',
     lead_flow: 'free_get_access',
-    form_id: currentFormId,
     template_slug: template.value.slug,
     items: [
       {
@@ -217,25 +210,12 @@ function handleLeadSubmitted() {
           Thanks. Submission received. Check your inbox for the next-step access email.
         </p>
 
-        <TallyEmbed
-          v-if="currentFormId"
-          :form-id="currentFormId"
-          :min-height="freeTemplateFormMinHeight"
-          :title="`Lead form for ${template.title}`"
+        <TemplateAccessForm
+          v-if="!submitted"
+          :template-slug="template.slug"
+          :template-title="template.title"
           @submitted="handleLeadSubmitted"
         />
-
-        <div v-else class="missing-form">
-          <p>Tally form is not configured yet for this template.</p>
-          <p>Set <code>freeGetAccessNow.formId</code> in <code>src/data/forms.json</code>.</p>
-          <p>Templates use one shared access form by design.</p>
-        </div>
-
-        <p v-if="currentFormShareUrl" class="lead-share-link">
-          <a :href="currentFormShareUrl" target="_blank" rel="noopener noreferrer">
-            Open form in a new tab
-          </a>
-        </p>
 
         <div class="detail-actions">
           <Button href="/free" variant="ghost">Back to Templates</Button>

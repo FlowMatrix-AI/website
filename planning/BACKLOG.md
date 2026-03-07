@@ -7,19 +7,19 @@
 
 ## Implementation Status
 
-| Item   | Status      | Notes                                                          |
-| ------ | ----------- | -------------------------------------------------------------- |
-| OP-1   | Open        | Requires GA4 account setup                                     |
-| OP-2   | Open        | Requires Tally account migration                               |
-| OP-3   | Open        | Blocked on OP-1 and OP-2                                       |
-| BV-1   | **Done**    | Service pages added to `validate-build-artifacts.mjs`          |
-| BV-2   | **Done**    | Full OG/Twitter tag set added to `validate-head-artifacts.mjs` |
-| DX-1   | **Done**    | ESLint configured, codebase clean, CI gated                    |
-| DX-2   | **Done**    | Husky + lint-staged wired to pre-commit                        |
-| DX-3   | **Decided** | Status quo retained — see decision note below                  |
-| TEST-1 | **Done**    | 32 unit tests across 2 suites, passing in CI                   |
-| TEST-2 | **Decided** | Deferred — see decision note below                             |
-| TD-1   | **Decided** | Unit tests serve as guard — see decision note below            |
+| Item   | Status         | Notes                                                          |
+| ------ | -------------- | -------------------------------------------------------------- |
+| OP-1   | Open           | Requires GA4 account setup                                     |
+| OP-2   | **Superseded** | Tally replaced entirely by native CF Pages Functions + Resend  |
+| OP-3   | Open           | Blocked on OP-1; OP-2 superseded                               |
+| BV-1   | **Done**       | Service pages added to `validate-build-artifacts.mjs`          |
+| BV-2   | **Done**       | Full OG/Twitter tag set added to `validate-head-artifacts.mjs` |
+| DX-1   | **Done**       | ESLint configured, codebase clean, CI gated                    |
+| DX-2   | **Done**       | Husky + lint-staged wired to pre-commit                        |
+| DX-3   | **Decided**    | Status quo retained — see decision note below                  |
+| TEST-1 | **Done**       | 32 unit tests across 2 suites, passing in CI                   |
+| TEST-2 | **Decided**    | Deferred — see decision note below                             |
+| TD-1   | **Decided**    | Unit tests serve as guard — see decision note below            |
 
 ---
 
@@ -33,18 +33,16 @@ These are not code changes — they are account and configuration tasks that mus
 **Why:** Analytics is entirely disabled until a valid `G-XXXXXXXX` ID is present. There will be zero measurement data from launch.  
 **Acceptance:** `gaMeasurementId` is a valid `G-XXXXXXXX` value in `deployment.json`, `validate:deployment` passes, and `page_view` / `generate_lead` events are visible in GA4 realtime during a staging smoke test.
 
-### OP-2 — Migrate Tally forms to production account
+### ~~OP-2 — Migrate Tally forms to production account~~ — Superseded
 
-**What:** Move both Tally forms (`mainGetInTouch`, `freeGetAccessNow`) from the current account to the proper production account. Update `formId` and `shareUrl` in `src/data/forms.json`.  
-**Why:** Form submissions currently go to a non-production account. Leads and access requests will be lost or inaccessible post-cutover.  
-**Acceptance:** Updated form IDs pass `validate:forms`. Both forms submit successfully in a staging smoke test and submissions land in the correct production Tally account.
+Tally was removed entirely and replaced with native Cloudflare Pages Functions (`/api/lead`, `/api/template-access`) sending via Resend. `forms.json`, `forms.ts`, `TallyEmbed.vue`, and `validate-forms.mjs` are all deleted. This item is no longer applicable.
 
 ### OP-3 — Update `deployment.json` with production values
 
 **What:** Set `siteUrl` to the main production domain and set `allowIndexing` to `true` in `src/config/deployment.json`.  
 **Why:** The site currently deploys as `noindex, nofollow` on every page, and all canonical URLs, sitemap entries, and OG tags point to `flowmatrixai.com`. Both must be correct before search engines and social platforms encounter the production site.  
 **Acceptance:** `validate:deployment` passes with the production URL. Sitemap and canonical URLs in a production build reference the correct domain. Generated `robots.txt` allows indexing.  
-**Note:** Do this only after OP-1 and OP-2 are complete and the site is stable on staging.
+**Note:** Do this only after OP-1 is complete and the site is stable on staging.
 
 ---
 
@@ -85,7 +83,7 @@ These are not code changes — they are account and configuration tasks that mus
 **Recommendation to evaluate:** Option D or A. `deployment.json` is genuinely environment config and arguably belongs outside `src/`. `templates.json` and `forms.json` are content data that the build consumes, making `src/data/` the right home for them. This points back toward A (status quo with explicit documentation) or D for `deployment.json` only.  
 **Acceptance:** A decision is made and documented. If files move, all import paths, validation scripts, and CI steps are updated and verified.
 
-**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `forms.json` and `templates.json` are content data consumed by the build. This distinction is worth preserving. No files moved.
+**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `templates.json` is content data consumed by the build. This distinction is worth preserving. No files moved. (Note: `forms.json` was subsequently deleted as part of the Cloudflare migration — this item is fully resolved.)
 
 ---
 
@@ -121,7 +119,7 @@ These are not code changes — they are account and configuration tasks that mus
 **Note:** This is an evaluation item. The outcome may be "defer until traffic warrants the maintenance cost" — but it should be a deliberate decision, not a default omission.  
 **Acceptance:** A decision is documented. If E2E tests are added, they run in CI against the built dist.
 
-**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Tally form submission cannot be meaningfully tested in CI without real form IDs submitting to a real account. Revisit when the site has stable traffic and a test Tally account is available.
+**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Native form functions (`/api/lead`, `/api/template-access`) can be unit tested in isolation but require a live Resend account for end-to-end coverage — not suitable for CI. Revisit when the site has stable traffic.
 
 ---
 
@@ -145,13 +143,13 @@ These are not code changes — they are account and configuration tasks that mus
 
 ## Priority Order (suggested)
 
-| Priority | Item             | Rationale                                                                         |
-| -------- | ---------------- | --------------------------------------------------------------------------------- |
-| 1        | OP-1, OP-2, OP-3 | Hard blockers; site cannot launch without them                                    |
-| 2        | BV-1, BV-2       | Low effort, closes real CI coverage gaps, raises confidence in every future build |
-| 3        | DX-1             | Foundational for all code quality enforcement; unblocks DX-2                      |
-| 4        | DX-2             | Completes the pre-commit safety layer once DX-1 exists                            |
-| 5        | TEST-1           | High-value, narrow scope, natural fit with existing stack                         |
-| 6        | DX-3             | Low urgency; resolve when it becomes friction                                     |
-| 7        | TEST-2           | Evaluate after TEST-1 is established                                              |
-| 8        | TD-1             | Low urgency until the codebase grows or someone is burned by drift                |
+| Priority | Item       | Rationale                                                                         |
+| -------- | ---------- | --------------------------------------------------------------------------------- |
+| 1        | OP-1, OP-3 | Hard blockers; site cannot launch without them (OP-2 superseded)                  |
+| 2        | BV-1, BV-2 | Low effort, closes real CI coverage gaps, raises confidence in every future build |
+| 3        | DX-1       | Foundational for all code quality enforcement; unblocks DX-2                      |
+| 4        | DX-2       | Completes the pre-commit safety layer once DX-1 exists                            |
+| 5        | TEST-1     | High-value, narrow scope, natural fit with existing stack                         |
+| 6        | DX-3       | Low urgency; resolve when it becomes friction                                     |
+| 7        | TEST-2     | Evaluate after TEST-1 is established                                              |
+| 8        | TD-1       | Low urgency until the codebase grows or someone is burned by drift                |

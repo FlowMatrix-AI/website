@@ -4,5 +4,5 @@ Concise operational docs for configuration and deployment. This is meant for hum
 
 ## Index
 
-- `deployment-configuration.md`: committed deployment config, cutover values, GA4 hookup, and Tally hookup.
+- `deployment-configuration.md`: committed deployment config, cutover values, native form endpoints, and GA4 hookup.
 - `staging-to-production-cutover-checklist.md`: production cutover checklist, validation gates, and rollback procedure.
