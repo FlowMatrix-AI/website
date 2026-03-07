@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import Button from '../ui/Button.vue';
 
 const emit = defineEmits<{
   submitted: [];
@@ -65,38 +66,40 @@ async function handleSubmit() {
       />
     </div>
 
-    <div class="form-field">
-      <label for="lf-name" class="form-label"
-        >Name <span class="required" aria-hidden="true">*</span></label
-      >
-      <input
-        id="lf-name"
-        v-model="name"
-        type="text"
-        name="name"
-        class="form-input"
-        required
-        autocomplete="name"
-        placeholder="Your name"
-        :disabled="loading"
-      />
-    </div>
+    <div class="form-row-pair">
+      <div class="form-field">
+        <label for="lf-name" class="form-label"
+          >Name <span class="required" aria-hidden="true">*</span></label
+        >
+        <input
+          id="lf-name"
+          v-model="name"
+          type="text"
+          name="name"
+          class="form-input"
+          required
+          autocomplete="name"
+          placeholder="Your name"
+          :disabled="loading"
+        />
+      </div>
 
-    <div class="form-field">
-      <label for="lf-email" class="form-label"
-        >Email <span class="required" aria-hidden="true">*</span></label
-      >
-      <input
-        id="lf-email"
-        v-model="email"
-        type="email"
-        name="email"
-        class="form-input"
-        required
-        autocomplete="email"
-        placeholder="you@company.com"
-        :disabled="loading"
-      />
+      <div class="form-field">
+        <label for="lf-email" class="form-label"
+          >Email <span class="required" aria-hidden="true">*</span></label
+        >
+        <input
+          id="lf-email"
+          v-model="email"
+          type="email"
+          name="email"
+          class="form-input"
+          required
+          autocomplete="email"
+          placeholder="you@company.com"
+          :disabled="loading"
+        />
+      </div>
     </div>
 
     <div class="form-field">
@@ -133,9 +136,9 @@ async function handleSubmit() {
 
     <p v-if="error" class="form-error" role="alert">{{ error }}</p>
 
-    <button type="submit" class="form-submit" :disabled="loading">
+    <Button type="submit" size="lg" :disabled="loading">
       {{ loading ? 'Sending…' : 'Send Message' }}
-    </button>
+    </Button>
   </form>
 </template>
 
@@ -216,29 +219,11 @@ async function handleSubmit() {
   margin: 0;
 }
 
-.form-submit {
-  align-self: flex-start;
-  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-soft));
-  border: none;
-  border-radius: 999px;
-  box-shadow: var(--shadow-gold);
-  color: #0b0b0c;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  padding: 0.65rem 1.4rem;
-  transition: all 0.2s ease;
-}
-
-.form-submit:hover:not(:disabled) {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-}
-
-.form-submit:disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
+@media (min-width: 560px) {
+  .form-row-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
 }
 </style>

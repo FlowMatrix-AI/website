@@ -70,7 +70,7 @@ watch(
       </nav>
 
       <div class="nav-actions">
-        <Button href="/#start" size="md" class="desktop-cta">Start Conversation</Button>
+        <Button to="/contact" size="md" class="desktop-cta">Start Conversation</Button>
         <button
           class="mobile-toggle"
           type="button"
@@ -96,7 +96,7 @@ watch(
           >
             {{ item.label }}
           </RouterLink>
-          <Button href="/#start" size="lg" class="animate-pulse-glow">Start Conversation</Button>
+          <Button to="/contact" size="lg" class="animate-pulse-glow">Start Conversation</Button>
         </nav>
       </div>
     </transition>

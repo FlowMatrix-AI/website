@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import HomePage from './pages/HomePage.vue';
 
+const ContactPage = () => import('./pages/ContactPage.vue');
 const TermsPage = () => import('./pages/TermsPage.vue');
 const PrivacyPage = () => import('./pages/PrivacyPage.vue');
 const NotFoundPage = () => import('./pages/NotFoundPage.vue');
@@ -10,6 +11,11 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'home',
     component: HomePage,
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: ContactPage,
   },
   {
     path: '/terms',
