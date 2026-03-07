@@ -6,6 +6,15 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.2.1] — 2026-03-06 — Contact Form Polish
+
+### Changed
+
+- `LeadForm.vue` — added per-field client-side validation with inline error messages shown on blur and on submit attempt; required checks on name and message, format check on email; submit blocked when validation fails; button label changed from “Send Message” to “Start the Conversation”; textarea placeholder updated to “What are you currently dealing with, and what would a better outcome look like?”; `error` ref renamed to `serverError` to distinguish from field errors
+- `ContactPage.vue` — removed redundant “Get in Touch” eyebrow (duplicate of H1); added three-step “What happens next” list between the subtitle and form card; success state replaced with a proper completion view including heading, explanatory copy, spam caveat, and a link back to home
+
+---
+
 ## [0.2.0] — 2026-03-06 — Homepage Redesign
 
 **Branch:** `feat/spa-homepage-redesign`

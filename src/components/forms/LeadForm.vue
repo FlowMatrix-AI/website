@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import Button from '../ui/Button.vue';
 
 const emit = defineEmits<{
@@ -13,10 +13,32 @@ const message = ref('');
 const website = ref(''); // honeypot
 
 const loading = ref(false);
-const error = ref('');
+const serverError = ref('');
+const submitAttempted = ref(false);
+const touched = reactive({ name: false, email: false, message: false });
+
+const errors = computed(() => {
+  const e: Record<string, string> = {};
+  if (!name.value.trim()) e.name = 'Name is required.';
+  if (!email.value.trim()) {
+    e.email = 'Email is required.';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+    e.email = 'Enter a valid email address.';
+  }
+  if (!message.value.trim()) e.message = 'Please tell us what you need help with.';
+  return e;
+});
+
+function showError(field: 'name' | 'email' | 'message'): string {
+  return touched[field] || submitAttempted.value ? (errors.value[field] ?? '') : '';
+}
 
 async function handleSubmit() {
-  error.value = '';
+  submitAttempted.value = true;
+  serverError.value = '';
+
+  if (Object.keys(errors.value).length > 0) return;
+
   loading.value = true;
 
   try {
@@ -35,16 +57,16 @@ async function handleSubmit() {
     const data = (await response.json()) as { success?: boolean; error?: string };
 
     if (!response.ok) {
-      error.value =
+      serverError.value =
         data.error ??
-        'Something went wrong. Please try again or email us directly at leads@flowmatrixai.com.';
+        'Something went wrong. Please try again or email us at leads@flowmatrixai.com.';
       return;
     }
 
     emit('submitted');
   } catch {
-    error.value =
-      'Something went wrong. Please try again or email us directly at leads@flowmatrixai.com.';
+    serverError.value =
+      'Something went wrong. Please try again or email us at leads@flowmatrixai.com.';
   } finally {
     loading.value = false;
   }
@@ -77,11 +99,14 @@ async function handleSubmit() {
           type="text"
           name="name"
           class="form-input"
+          :class="{ 'form-input--error': showError('name') }"
           required
           autocomplete="name"
           placeholder="Your name"
           :disabled="loading"
+          @blur="touched.name = true"
         />
+        <p v-if="showError('name')" class="field-error" role="alert">{{ showError('name') }}</p>
       </div>
 
       <div class="form-field">
@@ -94,11 +119,14 @@ async function handleSubmit() {
           type="email"
           name="email"
           class="form-input"
+          :class="{ 'form-input--error': showError('email') }"
           required
           autocomplete="email"
           placeholder="you@company.com"
           :disabled="loading"
+          @blur="touched.email = true"
         />
+        <p v-if="showError('email')" class="field-error" role="alert">{{ showError('email') }}</p>
       </div>
     </div>
 
@@ -127,17 +155,20 @@ async function handleSubmit() {
         v-model="message"
         name="message"
         class="form-input form-textarea"
+        :class="{ 'form-input--error': showError('message') }"
         required
         rows="5"
-        placeholder="Tell us your current situation and goals."
+        placeholder="What are you currently dealing with, and what would a better outcome look like?"
         :disabled="loading"
+        @blur="touched.message = true"
       />
+      <p v-if="showError('message')" class="field-error" role="alert">{{ showError('message') }}</p>
     </div>
 
-    <p v-if="error" class="form-error" role="alert">{{ error }}</p>
+    <p v-if="serverError" class="form-error" role="alert">{{ serverError }}</p>
 
     <Button type="submit" size="lg" :disabled="loading">
-      {{ loading ? 'Sending…' : 'Send Message' }}
+      {{ loading ? 'Sending…' : 'Start the Conversation' }}
     </Button>
   </form>
 </template>
@@ -211,6 +242,16 @@ async function handleSubmit() {
 .form-textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+.form-input--error {
+  border-color: #f87171;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: #f87171;
+  margin: 0;
 }
 
 .form-error {
