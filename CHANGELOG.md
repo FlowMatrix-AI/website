@@ -6,6 +6,14 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.1.2] — 2026-03-06 — SPA Navigation Fix
+
+### Fixed
+
+- `HomePage.vue` — converted service pillar card `<a :href="phase.href">` links to `<RouterLink :to="phase.href">` to prevent full-page reloads when navigating to service pages within the SPA
+
+---
+
 ## [0.1.1] — 2026-03-06 — Broken Link Fixes
 
 ### Fixed
