@@ -122,7 +122,7 @@ function handleHomeLeadSubmitted() {
           <p class="pillar-phase">Phase {{ phase.phase }}</p>
           <h3>{{ phase.title }}</h3>
           <p>{{ phase.description }}</p>
-          <a :href="phase.href" class="gold-link">Explore {{ phase.title }}</a>
+          <RouterLink :to="phase.href" class="gold-link">Explore {{ phase.title }}</RouterLink>
         </li>
       </ul>
     </section>
