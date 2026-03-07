@@ -6,6 +6,24 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.2.2] — 2026-03-06 — UI Polish
+
+### Added
+
+- `index.html` — Inter font loaded via Google Fonts (`wght@400;500;600;700`, `display=swap`) with `preconnect` hints for `fonts.googleapis.com` and `fonts.gstatic.com`; fixes visitors receiving system fallback fonts instead of the design-intended typeface
+
+### Changed
+
+- `HomePage.vue` — hero CTA button order corrected: primary (filled) button now routes to `/contact`; secondary (ghost) button scrolls to `/#services`; conversion action is now the visual priority
+- `HomePage.vue` — closing CTA section: supporting line “One conversation. No pitch, no pressure.” added between the heading and button
+- `HomePage.vue` — founder `<img>` elements: `loading="lazy"` added; images are well below the fold and should not block initial page load
+
+### Fixed
+
+- `HomePage.vue` — removed dead `.pillar-grid` selector from `@media (max-width: 980px)` responsive block; `.pillar-grid` was deleted in Sprint 2
+
+---
+
 ## [0.2.1] — 2026-03-06 — Contact Form Polish
 
 ### Changed

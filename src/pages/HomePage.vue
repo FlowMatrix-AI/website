@@ -66,8 +66,8 @@ useHead(
             <h1 class="page-title">{{ homeContent.hero.headline }}</h1>
             <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
             <div class="hero-actions">
-              <Button href="/#services" size="lg">Explore Services</Button>
-              <Button href="/contact" variant="ghost" size="lg">{{ homeContent.hero.cta }}</Button>
+              <Button to="/contact" size="lg">{{ homeContent.hero.cta }}</Button>
+              <Button href="/#services" variant="ghost" size="lg">Explore Services</Button>
             </div>
           </div>
           <div class="hero-diagram" aria-hidden="true">
@@ -302,7 +302,7 @@ useHead(
             :key="member.name"
             class="founder-card card-lift"
           >
-            <img :src="member.image" :alt="member.name" />
+            <img :src="member.image" :alt="member.name" loading="lazy" />
             <div>
               <h3>{{ member.name }}</h3>
               <p>{{ member.title }}</p>
@@ -341,6 +341,7 @@ useHead(
       <div class="container">
         <div class="closing-cta-inner">
           <h2 class="closing-cta-title">Ready to build?</h2>
+          <p class="closing-cta-sub">One conversation. No pitch, no pressure.</p>
           <Button to="/contact" size="lg">Start the Conversation</Button>
         </div>
       </div>
@@ -702,6 +703,12 @@ useHead(
   letter-spacing: -0.015em;
 }
 
+.closing-cta-sub {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
 /* ════════════════════════════════
    Responsive
 ════════════════════════════════ */
@@ -716,7 +723,6 @@ useHead(
 }
 
 @media (max-width: 980px) {
-  .pillar-grid,
   .founder-grid {
     grid-template-columns: 1fr;
   }
