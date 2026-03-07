@@ -61,7 +61,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   const resendPayload = {
     from: 'FlowMatrix AI <no-reply@updates.flowmatrixai.com>',
     to: [env.LEAD_RECIPIENT_EMAIL],
-    reply_to: email.trim(),
+    replyTo: email.trim(),
     subject: `New lead: ${name.trim()}`,
     html,
   };
