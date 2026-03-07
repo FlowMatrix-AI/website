@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useHead } from '@unhead/vue';
 import Button from '../components/ui/Button.vue';
-import LeadForm from '../components/forms/LeadForm.vue';
-import { trackAnalyticsEvent } from '../composables/useAnalytics';
 import { homeContent, servicePhases } from '../data/siteContent';
 import { createSeoHead } from '../lib/seo';
 import {
@@ -12,8 +9,6 @@ import {
   createOrganizationSchema,
   createWebPageSchema,
 } from '../lib/structuredData';
-
-const homeLeadSubmitted = ref(false);
 
 const clientLogos = [
   { name: 'All Clean', src: '/client-logos/all-clean.webp' },
@@ -25,8 +20,6 @@ const clientLogos = [
 ];
 
 const marqueeLogos = [...clientLogos, ...clientLogos];
-
-const trustSignals = ['No obligation call', 'Response within 24h', 'Execution-focused roadmap'];
 
 useHead(
   createSeoHead({
@@ -55,88 +48,215 @@ useHead(
     }),
   ])
 );
-
-function handleHomeLeadSubmitted() {
-  homeLeadSubmitted.value = true;
-
-  trackAnalyticsEvent('generate_lead', {
-    lead_source: 'native',
-    lead_flow: 'main_get_in_touch',
-    source_page: '/',
-  });
-}
 </script>
 
 <template>
-  <div class="container">
-    <div class="home-stack">
-      <section class="home-hero surface-card animate-fade-in-up">
-        <div class="hero-atmosphere hero-atmosphere--gold animate-drift-slow" aria-hidden="true" />
-        <div class="hero-atmosphere hero-atmosphere--white" aria-hidden="true" />
-        <div class="hero-grid" aria-hidden="true" />
-
-        <div class="hero-copy">
-          <p class="section-eyebrow">FlowMatrix AI</p>
-          <h1 class="page-title">
-            {{ homeContent.hero.headline }}
-          </h1>
-          <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
-
-          <div class="hero-actions">
-            <Button href="/#start" size="lg">{{ homeContent.hero.cta }}</Button>
-            <Button href="/#services" variant="ghost" size="lg">View Services</Button>
+  <div class="home-stack">
+    <!-- ═══ HERO ═══ -->
+    <section class="home-hero animate-fade-in-up">
+      <div class="hero-atmosphere hero-atmosphere--gold animate-drift-slow" aria-hidden="true" />
+      <div class="hero-atmosphere hero-atmosphere--white" aria-hidden="true" />
+      <div class="hero-grid" aria-hidden="true" />
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <p class="section-eyebrow">FlowMatrix AI</p>
+            <h1 class="page-title">{{ homeContent.hero.headline }}</h1>
+            <p class="page-subtitle">{{ homeContent.hero.subheadline }}</p>
+            <div class="hero-actions">
+              <Button href="/#services" size="lg">Explore Services</Button>
+              <Button href="/contact" variant="ghost" size="lg">{{ homeContent.hero.cta }}</Button>
+            </div>
           </div>
-
-          <p class="hero-note">
-            From assessment to implementation, built for operators with no room for fluff.
-          </p>
+          <div class="hero-diagram" aria-hidden="true">
+            <svg
+              viewBox="0 0 400 480"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="hero-diagram-svg"
+            >
+              <!-- connections -->
+              <line
+                x1="80"
+                y1="60"
+                x2="200"
+                y2="40"
+                stroke="rgba(255,255,255,0.10)"
+                stroke-width="1"
+              />
+              <line
+                x1="200"
+                y1="40"
+                x2="330"
+                y2="90"
+                stroke="rgba(212,168,75,0.25)"
+                stroke-width="1"
+              />
+              <line
+                x1="200"
+                y1="40"
+                x2="140"
+                y2="155"
+                stroke="rgba(255,255,255,0.10)"
+                stroke-width="1"
+              />
+              <line
+                x1="330"
+                y1="90"
+                x2="260"
+                y2="165"
+                stroke="rgba(212,168,75,0.20)"
+                stroke-width="1"
+              />
+              <line
+                x1="330"
+                y1="90"
+                x2="360"
+                y2="210"
+                stroke="rgba(255,255,255,0.08)"
+                stroke-width="1"
+              />
+              <line
+                x1="140"
+                y1="155"
+                x2="260"
+                y2="165"
+                stroke="rgba(255,255,255,0.10)"
+                stroke-width="1"
+              />
+              <line
+                x1="140"
+                y1="155"
+                x2="75"
+                y2="240"
+                stroke="rgba(212,168,75,0.20)"
+                stroke-width="1"
+              />
+              <line
+                x1="260"
+                y1="165"
+                x2="360"
+                y2="210"
+                stroke="rgba(255,255,255,0.08)"
+                stroke-width="1"
+              />
+              <line
+                x1="260"
+                y1="165"
+                x2="190"
+                y2="295"
+                stroke="rgba(212,168,75,0.25)"
+                stroke-width="1"
+              />
+              <line
+                x1="360"
+                y1="210"
+                x2="310"
+                y2="322"
+                stroke="rgba(255,255,255,0.10)"
+                stroke-width="1"
+              />
+              <line
+                x1="75"
+                y1="240"
+                x2="190"
+                y2="295"
+                stroke="rgba(255,255,255,0.08)"
+                stroke-width="1"
+              />
+              <line
+                x1="75"
+                y1="240"
+                x2="50"
+                y2="360"
+                stroke="rgba(255,255,255,0.07)"
+                stroke-width="1"
+              />
+              <line
+                x1="190"
+                y1="295"
+                x2="310"
+                y2="322"
+                stroke="rgba(212,168,75,0.20)"
+                stroke-width="1"
+              />
+              <line
+                x1="190"
+                y1="295"
+                x2="220"
+                y2="410"
+                stroke="rgba(255,255,255,0.09)"
+                stroke-width="1"
+              />
+              <line
+                x1="310"
+                y1="322"
+                x2="220"
+                y2="410"
+                stroke="rgba(212,168,75,0.18)"
+                stroke-width="1"
+              />
+              <!-- nodes -->
+              <circle cx="80" cy="60" r="3.5" fill="rgba(255,255,255,0.15)" />
+              <circle cx="200" cy="40" r="5" fill="rgba(212,168,75,0.55)" />
+              <circle cx="330" cy="90" r="3.5" fill="rgba(255,255,255,0.15)" />
+              <circle cx="140" cy="155" r="4" fill="rgba(212,168,75,0.42)" />
+              <circle cx="260" cy="165" r="5.5" fill="rgba(212,168,75,0.55)" />
+              <circle cx="360" cy="210" r="3" fill="rgba(255,255,255,0.12)" />
+              <circle cx="75" cy="240" r="3.5" fill="rgba(212,168,75,0.38)" />
+              <circle cx="190" cy="295" r="4.5" fill="rgba(212,168,75,0.48)" />
+              <circle cx="310" cy="322" r="3.5" fill="rgba(255,255,255,0.12)" />
+              <circle cx="50" cy="360" r="2.5" fill="rgba(255,255,255,0.10)" />
+              <circle cx="220" cy="410" r="4" fill="rgba(212,168,75,0.38)" />
+            </svg>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section
-        class="surface-card section-block section-block--stakes"
-        aria-labelledby="stakes-heading"
-      >
-        <p class="section-eyebrow">The Stakes</p>
+    <!-- ═══ STAKES ═══ -->
+    <section class="section-block section-block--stakes" aria-labelledby="stakes-heading">
+      <div class="container">
         <h2 id="stakes-heading" class="section-title">{{ homeContent.stakes.headline }}</h2>
         <p class="page-subtitle">{{ homeContent.stakes.body }}</p>
+      </div>
+    </section>
 
-        <ul class="stats-grid">
-          <li
-            v-for="stat in homeContent.stakes.stats"
-            :key="stat.label"
-            class="stat-item card-lift"
-          >
-            <span class="stat-value gold-gradient-text">{{ stat.value }}</span>
-            <span class="stat-label">{{ stat.label }}</span>
+    <!-- ═══ STATS BAR ═══ -->
+    <section class="stats-bar" aria-label="Key outcomes">
+      <div class="container">
+        <ul class="stats-bar-list">
+          <li v-for="stat in homeContent.stakes.stats" :key="stat.label" class="stats-bar-item">
+            <span class="stats-bar-value gold-gradient-text">{{ stat.value }}</span>
+            <span class="stats-bar-label">{{ stat.label }}</span>
           </li>
         </ul>
-      </section>
+      </div>
+    </section>
 
-      <section
-        id="services"
-        class="surface-card section-block section-block--services"
-        aria-labelledby="services-heading"
-      >
+    <!-- ═══ METHODOLOGY placeholder — replaced in Sprint 5 ═══ -->
+    <section
+      id="services"
+      class="section-block section-block--services"
+      aria-labelledby="services-heading"
+    >
+      <div class="container">
         <p class="section-eyebrow">Methodology</p>
         <h2 id="services-heading" class="section-title">Four phases. One transformation.</h2>
         <p class="page-subtitle">Each phase compounds the value of the previous one.</p>
-
         <ul class="pillar-grid">
           <li v-for="phase in servicePhases" :key="phase.id" class="pillar-item card-lift">
             <p class="pillar-phase">Phase {{ phase.phase }}</p>
             <h3>{{ phase.title }}</h3>
             <p>{{ phase.description }}</p>
-            <RouterLink :to="phase.href" class="gold-link">Explore {{ phase.title }}</RouterLink>
           </li>
         </ul>
-      </section>
+      </div>
+    </section>
 
-      <section
-        id="proof"
-        class="surface-card section-block section-block--proof"
-        aria-labelledby="proof-heading"
-      >
+    <!-- ═══ PROOF ═══ -->
+    <section id="proof" class="section-block section-block--proof" aria-labelledby="proof-heading">
+      <div class="container">
         <p class="section-eyebrow">Client Results</p>
         <h2 id="proof-heading" class="section-title">{{ homeContent.proof.headline }}</h2>
 
@@ -149,6 +269,7 @@ function handleHomeLeadSubmitted() {
           <img
             :src="homeContent.proof.attribution.logo"
             :alt="homeContent.proof.attribution.company"
+            class="proof-attribution-logo"
           />
           <div>
             <strong>{{ homeContent.proof.attribution.name }}</strong>
@@ -170,14 +291,12 @@ function handleHomeLeadSubmitted() {
             />
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section
-        id="team"
-        class="surface-card section-block section-block--team"
-        aria-labelledby="team-heading"
-      >
-        <p class="section-eyebrow">The Team</p>
+    <!-- ═══ TEAM ═══ -->
+    <section id="team" class="section-block section-block--team" aria-labelledby="team-heading">
+      <div class="container">
         <h2 id="team-heading" class="section-title">{{ homeContent.founders.headline }}</h2>
         <p class="page-subtitle">{{ homeContent.founders.intro }}</p>
 
@@ -199,95 +318,79 @@ function handleHomeLeadSubmitted() {
                   class="gold-link"
                   >LinkedIn</a
                 >
-                <a :href="`mailto:${member.email}`" class="gold-link">{{ member.email }}</a>
               </div>
             </div>
           </li>
         </ul>
-      </section>
+      </div>
+    </section>
 
-      <section
-        id="faq"
-        class="surface-card section-block section-block--faq"
-        aria-labelledby="faq-heading"
-      >
-        <p class="section-eyebrow">FAQ</p>
+    <!-- ═══ FAQ ═══ -->
+    <section id="faq" class="section-block section-block--faq" aria-labelledby="faq-heading">
+      <div class="container">
         <h2 id="faq-heading" class="section-title">{{ homeContent.faq.headline }}</h2>
         <div class="faq-list">
-          <details
-            v-for="(item, index) in homeContent.faq.items"
-            :key="item.question"
-            class="faq-item card-lift"
-          >
-            <summary>
-              <span class="faq-number">{{ String(index + 1).padStart(2, '0') }}</span>
-              <span>{{ item.question }}</span>
-            </summary>
-            <p>{{ item.answer }}</p>
+          <details v-for="item in homeContent.faq.items" :key="item.question" class="faq-item">
+            <summary>{{ item.question }}</summary>
+            <p>
+              <span>{{ item.answer }}</span>
+            </p>
           </details>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section
-        id="start"
-        class="surface-card section-block section-block--cta"
-        aria-labelledby="cta-heading"
-      >
-        <div class="cta-header">
-          <p class="section-eyebrow">Start Here</p>
-          <h2 id="cta-heading" class="section-title">{{ homeContent.cta.headline }}</h2>
-          <p class="page-subtitle">{{ homeContent.cta.subheadline }}</p>
+    <!-- ═══ CLOSING CTA ═══ -->
+    <section class="section-block section-block--closing-cta" aria-label="Call to action">
+      <div class="container">
+        <div class="closing-cta-inner">
+          <h2 class="closing-cta-title">Ready to build?</h2>
+          <Button to="/contact" size="lg">Start the Conversation</Button>
         </div>
-
-        <div class="cta-form-wrap">
-          <p class="cta-form-note">
-            Tell us your current state and goals. We review every submission and respond within one
-            business day.
-          </p>
-
-          <p v-if="homeLeadSubmitted" class="cta-success" role="status" aria-live="polite">
-            Thanks. Submission received. We will follow up by email within 24 hours.
-          </p>
-
-          <LeadForm v-if="!homeLeadSubmitted" @submitted="handleHomeLeadSubmitted" />
-        </div>
-
-        <ul class="trust-row" aria-label="Trust signals">
-          <li v-for="signal in trustSignals" :key="signal">{{ signal }}</li>
-        </ul>
-      </section>
-    </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <style scoped>
+/* ════════════════════════════════
+   Layout
+════════════════════════════════ */
 .home-stack {
   display: grid;
-  gap: var(--space-8);
+  gap: 0;
 }
 
 .section-block {
-  padding: clamp(1.4rem, 3.6vw, 2.4rem);
+  padding: var(--space-16) 0;
 }
 
 .section-title {
   margin: 0 0 var(--space-4);
-  font-size: clamp(1.5rem, 2.9vw, 2.2rem);
+  font-size: clamp(1.75rem, 3.2vw, 2.6rem);
   letter-spacing: -0.012em;
   max-width: 24ch;
 }
 
+/* ════════════════════════════════
+   Hero
+════════════════════════════════ */
 .home-hero {
   position: relative;
   overflow: hidden;
-  padding: clamp(1.5rem, 4vw, 2.8rem);
-  min-height: 420px;
+  min-height: 90svh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-16) 0;
 }
 
-.hero-copy {
+.hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: var(--space-10);
+  align-items: center;
 }
 
 .hero-actions {
@@ -295,13 +398,6 @@ function handleHomeLeadSubmitted() {
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-8);
-}
-
-.hero-note {
-  margin: var(--space-6) 0 0;
-  color: var(--color-text-faint);
-  max-width: 56ch;
-  font-size: 0.95rem;
 }
 
 .hero-atmosphere {
@@ -312,11 +408,11 @@ function handleHomeLeadSubmitted() {
 }
 
 .hero-atmosphere--gold {
-  width: 540px;
-  height: 540px;
-  top: -190px;
-  right: -120px;
-  background: radial-gradient(circle, rgba(212, 168, 75, 0.24) 0%, rgba(212, 168, 75, 0) 68%);
+  width: 600px;
+  height: 600px;
+  top: -220px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(212, 168, 75, 0.22) 0%, rgba(212, 168, 75, 0) 68%);
 }
 
 .hero-atmosphere--white {
@@ -339,43 +435,64 @@ function handleHomeLeadSubmitted() {
   opacity: 0.36;
 }
 
-.section-block--stakes,
-.section-block--services,
-.section-block--proof,
-.section-block--team,
-.section-block--faq,
-.section-block--cta {
-  position: relative;
+.hero-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
 }
 
-.stats-grid {
-  margin: var(--space-8) 0 0;
-  padding: 0;
-  list-style: none;
+.hero-diagram-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+/* ════════════════════════════════
+   Stats bar
+════════════════════════════════ */
+.stats-bar {
+  padding: var(--space-10) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stats-bar-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.stat-item {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.036), rgba(255, 255, 255, 0.012));
+.stats-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
 }
 
-.stat-value {
-  display: block;
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+.stats-bar-item + .stats-bar-item {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-bar-value {
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
   font-weight: 700;
+  line-height: 1;
 }
 
-.stat-label {
-  display: block;
+.stats-bar-label {
+  font-size: 0.85rem;
   color: var(--color-text-muted);
-  font-size: 0.88rem;
+  text-align: center;
 }
 
+/* ════════════════════════════════
+   Methodology placeholder
+════════════════════════════════ */
 .pillar-grid {
   margin: var(--space-8) 0 0;
   padding: 0;
@@ -405,10 +522,13 @@ function handleHomeLeadSubmitted() {
 }
 
 .pillar-item p {
-  margin: 0 0 var(--space-3);
+  margin: 0;
   color: var(--color-text-muted);
 }
 
+/* ════════════════════════════════
+   Proof
+════════════════════════════════ */
 .proof-quote {
   position: relative;
   margin: var(--space-4) 0 0;
@@ -446,11 +566,11 @@ function handleHomeLeadSubmitted() {
   background: linear-gradient(90deg, rgba(212, 168, 75, 0.9), transparent);
 }
 
-.proof-attribution img {
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  object-fit: cover;
+.proof-attribution-logo {
+  width: auto;
+  height: 28px;
+  border-radius: 4px;
+  object-fit: contain;
   border: 1px solid var(--color-border);
 }
 
@@ -472,15 +592,18 @@ function handleHomeLeadSubmitted() {
   width: auto;
   height: 34px;
   margin-right: var(--space-10);
-  opacity: 0.38;
+  opacity: 0.6;
   filter: grayscale(1) contrast(0.95);
   transition: opacity 0.2s ease;
 }
 
 .client-logo:hover {
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
+/* ════════════════════════════════
+   Team
+════════════════════════════════ */
 .founder-grid {
   margin: var(--space-8) 0 0;
   padding: 0;
@@ -531,106 +654,101 @@ function handleHomeLeadSubmitted() {
   font-size: 0.9rem;
 }
 
+/* ════════════════════════════════
+   FAQ
+════════════════════════════════ */
 .faq-list {
   display: grid;
-  gap: var(--space-3);
+  gap: 0;
   margin-top: var(--space-8);
 }
 
 .faq-item {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-4);
-  background: rgba(255, 255, 255, 0.015);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
 }
 
 .faq-item summary {
   cursor: pointer;
   font-weight: 600;
-  display: flex;
-  gap: var(--space-3);
-  align-items: baseline;
+  list-style: none;
+  padding-right: var(--space-8);
+  position: relative;
 }
 
-.faq-number {
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 0;
   color: var(--color-gold-soft);
-  font-size: 0.76rem;
-  letter-spacing: 0.12em;
-  font-weight: 700;
+  font-weight: 300;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  transition: transform 0.2s ease;
 }
 
-.faq-item p {
-  margin: var(--space-3) 0 0;
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item > p {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+  margin: 0;
+}
+
+.faq-item[open] > p {
+  grid-template-rows: 1fr;
+}
+
+.faq-item > p > span {
+  overflow: hidden;
+  display: block;
   color: var(--color-text-muted);
   line-height: 1.6;
+  padding-top: var(--space-3);
 }
 
-.section-block--cta {
-  display: grid;
+/* ════════════════════════════════
+   Closing CTA
+════════════════════════════════ */
+.section-block--closing-cta {
+  text-align: center;
+}
+
+.closing-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: var(--space-6);
 }
 
-.cta-header {
-  max-width: 70ch;
-}
-
-.cta-form-wrap {
-  border: 1px solid rgba(212, 168, 75, 0.25);
-  border-radius: var(--radius-md);
-  background:
-    radial-gradient(500px 200px at 90% -20%, rgba(212, 168, 75, 0.12), transparent 58%),
-    rgba(255, 255, 255, 0.01);
-  padding: var(--space-4);
-}
-
-.cta-form-note {
-  margin: 0 0 var(--space-3);
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
-
-.cta-success {
-  margin: 0 0 var(--space-3);
-  border: 1px solid rgba(212, 168, 75, 0.4);
-  border-radius: var(--radius-sm);
-  background: rgba(212, 168, 75, 0.08);
-  color: var(--color-gold-soft);
-  padding: var(--space-3);
-}
-
-.cta-missing-form {
+.closing-cta-title {
   margin: 0;
-  color: var(--color-text-muted);
+  font-size: clamp(1.75rem, 3.5vw, 2.8rem);
+  letter-spacing: -0.015em;
 }
 
-.cta-share-link {
-  margin: var(--space-3) 0 0;
-  font-size: 0.88rem;
-}
+/* ════════════════════════════════
+   Responsive
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
 
-.cta-share-link a {
-  color: var(--color-gold-soft);
-}
-
-.trust-row {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.trust-row li {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  padding: 0.34rem 0.72rem;
-  color: var(--color-text-muted);
-  font-size: 0.83rem;
+  .hero-diagram {
+    display: none;
+  }
 }
 
 @media (max-width: 980px) {
-  .stats-grid,
   .pillar-grid,
   .founder-grid {
     grid-template-columns: 1fr;
@@ -646,12 +764,8 @@ function handleHomeLeadSubmitted() {
 }
 
 @media (max-width: 760px) {
-  .home-stack {
-    gap: var(--space-6);
-  }
-
   .home-hero {
-    min-height: 380px;
+    min-height: 75svh;
   }
 
   .founder-card img {
@@ -662,6 +776,15 @@ function handleHomeLeadSubmitted() {
   .client-logo {
     height: 28px;
     margin-right: var(--space-8);
+  }
+
+  .stats-bar-list {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-bar-item + .stats-bar-item {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 </style>
