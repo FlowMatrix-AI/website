@@ -2,7 +2,7 @@ export const homeContent = {
   hero: {
     headline: 'Build what lasts.',
     subheadline:
-      "The next decade belongs to businesses that transform now. We make sure you're one of them.",
+      "The next decade belongs to businesses that transform now. We ensure you're one of them.",
     cta: 'Start the Conversation',
   },
   stakes: {

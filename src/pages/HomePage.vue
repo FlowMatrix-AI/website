@@ -498,6 +498,10 @@ useHead(
 /* ════════════════════════════════
    Methodology
 ════════════════════════════════ */
+.section-block--services {
+  background: var(--color-bg-soft);
+}
+
 .section-block--services .methodology-tabs {
   margin-top: var(--space-8);
 }
@@ -544,7 +548,7 @@ useHead(
 
 .proof-attribution-logo {
   width: auto;
-  height: 28px;
+  height: 44px;
   border-radius: 4px;
   object-fit: contain;
   border: 1px solid var(--color-border);
@@ -580,6 +584,10 @@ useHead(
 /* ════════════════════════════════
    Team
 ════════════════════════════════ */
+.section-block--team {
+  background: var(--color-surface);
+}
+
 .founder-grid {
   margin: var(--space-8) 0 0;
   padding: 0;

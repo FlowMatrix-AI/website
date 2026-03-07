@@ -6,6 +6,18 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.2.3] — 2026-03-07 — UI/UX Revision
+
+### Changed
+
+- `HomePage.vue` — Hero SVG redesigned: straight `<line>` segments replaced with cubic bezier `<path>` arcs; 4-layer neural network topology (L0 ghost → L1 white → L2 gold hidden → L3 bright gold output) with left-to-right downward drift; graduated opacity across layers for smooth white-to-gold transition
+- `HomePage.vue` — methodology section background `var(--color-bg-soft)`, team section `var(--color-surface)`
+- `HomePage.vue` — proof attribution logo height 28px → 56px
+- `MethodologyTabs.vue` — removed "Show detail" expand mechanic; section details always visible in 2-column grid; panel split 1fr/1fr → 34fr/66fr; fixed panel height via grid stacking (all panels occupy same grid cell, inactive = `visibility:hidden` + `inert`)
+- `siteContent.ts` — content updates
+
+---
+
 ## [0.2.2] — 2026-03-06 — UI Polish
 
 ### Added

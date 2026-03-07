@@ -7,7 +7,6 @@ const props = defineProps<{
 }>();
 
 const activeId = ref(props.phases[0].id);
-const expandedId = ref<string | null>(null);
 
 function handleTabKey(e: KeyboardEvent) {
   const ids = props.phases.map((p) => p.id);
@@ -19,10 +18,6 @@ function handleTabKey(e: KeyboardEvent) {
     e.preventDefault();
     activeId.value = ids[(current - 1 + ids.length) % ids.length];
   }
-}
-
-function toggleExpanded(id: string) {
-  expandedId.value = expandedId.value === id ? null : id;
 }
 </script>
 
@@ -47,40 +42,28 @@ function toggleExpanded(id: string) {
       </button>
     </div>
 
-    <!-- ── Tab panels (desktop) ── -->
-    <div
-      v-for="phase in phases"
-      :id="`panel-${phase.id}`"
-      :key="`panel-${phase.id}`"
-      role="tabpanel"
-      :aria-labelledby="`tab-${phase.id}`"
-      :hidden="activeId !== phase.id"
-      class="tab-panel"
-    >
-      <div class="panel-inner">
-        <div class="panel-summary">
-          <p class="panel-phase-label">Phase {{ phase.phase }}</p>
-          <h3 class="panel-title">{{ phase.title }}</h3>
-          <p class="panel-tagline">{{ phase.tagline }}</p>
-          <p class="panel-problem">{{ phase.problem }}</p>
-          <ul class="panel-outcomes">
-            <li v-for="outcome in phase.outcomes" :key="outcome">{{ outcome }}</li>
-          </ul>
-        </div>
+    <!-- ── Tab panels ── -->
+    <div class="tab-panels-wrap">
+      <div
+        v-for="phase in phases"
+        :id="`panel-${phase.id}`"
+        :key="`panel-${phase.id}`"
+        role="tabpanel"
+        :aria-labelledby="`tab-${phase.id}`"
+        :aria-hidden="activeId !== phase.id ? 'true' : undefined"
+        :inert="activeId !== phase.id ? true : undefined"
+        class="tab-panel"
+        :class="{ 'tab-panel--inactive': activeId !== phase.id }"
+      >
+        <div class="panel-inner">
+          <div class="panel-summary">
+            <p class="panel-phase-label">Phase {{ phase.phase }}</p>
+            <h3 class="panel-title">{{ phase.title }}</h3>
+            <p class="panel-tagline">{{ phase.tagline }}</p>
+            <p class="panel-problem">{{ phase.problem }}</p>
+          </div>
 
-        <div class="panel-detail-wrap">
-          <button
-            class="panel-expand-btn"
-            :aria-expanded="expandedId === phase.id"
-            @click="toggleExpanded(phase.id)"
-          >
-            {{ expandedId === phase.id ? 'Show less' : 'Show detail' }}
-            <span class="expand-icon" aria-hidden="true">{{
-              expandedId === phase.id ? '↑' : '↓'
-            }}</span>
-          </button>
-
-          <div v-if="expandedId === phase.id" class="panel-sections">
+          <div class="panel-sections">
             <div v-for="section in phase.sections" :key="section.heading" class="panel-section">
               <h4>{{ section.heading }}</h4>
               <p>{{ section.body }}</p>
@@ -89,6 +72,7 @@ function toggleExpanded(id: string) {
         </div>
       </div>
     </div>
+    <!-- end tab-panels-wrap -->
 
     <!-- ── Mobile accordion (< 768px) ── -->
     <div class="mobile-accordion">
@@ -100,9 +84,12 @@ function toggleExpanded(id: string) {
         <div class="accordion-body">
           <p class="panel-tagline">{{ phase.tagline }}</p>
           <p class="panel-problem">{{ phase.problem }}</p>
-          <ul class="panel-outcomes">
-            <li v-for="outcome in phase.outcomes" :key="outcome">{{ outcome }}</li>
-          </ul>
+          <div class="accordion-sections">
+            <div v-for="section in phase.sections" :key="section.heading" class="accordion-section">
+              <h4>{{ section.heading }}</h4>
+              <p>{{ section.body }}</p>
+            </div>
+          </div>
         </div>
       </details>
     </div>
@@ -164,15 +151,25 @@ function toggleExpanded(id: string) {
   opacity: 1;
 }
 
-/* ── Tab panel ── */
-.tab-panel {
+/* ── Tab panels stacking container ── */
+.tab-panels-wrap {
+  display: grid;
   margin-top: var(--space-1);
+}
+
+.tab-panel {
+  grid-area: 1 / 1;
   border: 1px solid var(--color-border);
   border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.034), rgba(255, 255, 255, 0.012));
   box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
+}
+
+.tab-panel--inactive {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .tab-panel::before {
@@ -195,7 +192,7 @@ function toggleExpanded(id: string) {
   z-index: 1;
   padding: clamp(1.5rem, 3vw, 2.5rem);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 34fr 66fr;
   gap: var(--space-10);
   align-items: start;
 }
@@ -227,77 +224,24 @@ function toggleExpanded(id: string) {
   line-height: 1.65;
 }
 
-.panel-outcomes {
-  margin: var(--space-5) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--space-2);
-}
-
-.panel-outcomes li {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-}
-
-.panel-outcomes li::before {
-  content: '→';
-  color: var(--color-gold);
-  flex-shrink: 0;
-}
-
-/* ── Expand/detail ── */
-.panel-detail-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-.panel-expand-btn {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  color: var(--color-text-muted);
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 500;
-  padding: 0.4rem 0.9rem;
-  cursor: pointer;
-  transition:
-    color 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.panel-expand-btn:hover {
-  color: var(--color-text);
-  border-color: var(--color-border-strong);
-}
-
-.expand-icon {
-  font-size: 0.75rem;
-}
-
+/* ── Sections 2-col grid ── */
 .panel-sections {
   display: grid;
-  gap: var(--space-5);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5) var(--space-6);
+  align-content: start;
 }
 
 .panel-section h4 {
   margin: 0 0 var(--space-2);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--color-text);
 }
 
 .panel-section p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
   color: var(--color-text-muted);
   line-height: 1.65;
 }
@@ -327,18 +271,38 @@ function toggleExpanded(id: string) {
 }
 
 .accordion-body {
-  padding: 0 0 var(--space-5);
+  padding: 0 0 var(--space-6);
 }
 
-.accordion-body .panel-outcomes {
+.accordion-sections {
   margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.accordion-section h4 {
+  margin: 0 0 var(--space-1);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.accordion-section p {
+  margin: 0;
+  font-size: 0.87rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .panel-inner {
     grid-template-columns: 1fr;
     gap: var(--space-6);
+  }
+
+  .panel-sections {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
