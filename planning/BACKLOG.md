@@ -83,7 +83,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 **Recommendation to evaluate:** Option D or A. `deployment.json` is genuinely environment config and arguably belongs outside `src/`. `templates.json` and `forms.json` are content data that the build consumes, making `src/data/` the right home for them. This points back toward A (status quo with explicit documentation) or D for `deployment.json` only.  
 **Acceptance:** A decision is made and documented. If files move, all import paths, validation scripts, and CI steps are updated and verified.
 
-**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `forms.json` and `templates.json` are content data consumed by the build. This distinction is worth preserving. No files moved.
+**Decision (March 5, 2026):** Option A — status quo retained. The `config/` vs `data/` split reflects a meaningful semantic boundary: `deployment.json` is environment config that varies per deployment; `templates.json` is content data consumed by the build. This distinction is worth preserving. No files moved. (Note: `forms.json` was subsequently deleted as part of the Cloudflare migration — this item is fully resolved.)
 
 ---
 
@@ -119,7 +119,7 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 **Note:** This is an evaluation item. The outcome may be "defer until traffic warrants the maintenance cost" — but it should be a deliberate decision, not a default omission.  
 **Acceptance:** A decision is documented. If E2E tests are added, they run in CI against the built dist.
 
-**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Tally form submission cannot be meaningfully tested in CI without real form IDs submitting to a real account. Revisit when the site has stable traffic and a test Tally account is available.
+**Decision (March 5, 2026):** Deferred. SSG route integrity is already validated by `validate-build-artifacts` and `validate-head-artifacts` post-build. Native form functions (`/api/lead`, `/api/template-access`) can be unit tested in isolation but require a live Resend account for end-to-end coverage — not suitable for CI. Revisit when the site has stable traffic.
 
 ---
 
@@ -143,13 +143,13 @@ Tally was removed entirely and replaced with native Cloudflare Pages Functions (
 
 ## Priority Order (suggested)
 
-| Priority | Item             | Rationale                                                                         |
-| -------- | ---------------- | --------------------------------------------------------------------------------- |
-| 1        | OP-1, OP-2, OP-3 | Hard blockers; site cannot launch without them                                    |
-| 2        | BV-1, BV-2       | Low effort, closes real CI coverage gaps, raises confidence in every future build |
-| 3        | DX-1             | Foundational for all code quality enforcement; unblocks DX-2                      |
-| 4        | DX-2             | Completes the pre-commit safety layer once DX-1 exists                            |
-| 5        | TEST-1           | High-value, narrow scope, natural fit with existing stack                         |
-| 6        | DX-3             | Low urgency; resolve when it becomes friction                                     |
-| 7        | TEST-2           | Evaluate after TEST-1 is established                                              |
-| 8        | TD-1             | Low urgency until the codebase grows or someone is burned by drift                |
+| Priority | Item       | Rationale                                                                         |
+| -------- | ---------- | --------------------------------------------------------------------------------- |
+| 1        | OP-1, OP-3 | Hard blockers; site cannot launch without them (OP-2 superseded)                  |
+| 2        | BV-1, BV-2 | Low effort, closes real CI coverage gaps, raises confidence in every future build |
+| 3        | DX-1       | Foundational for all code quality enforcement; unblocks DX-2                      |
+| 4        | DX-2       | Completes the pre-commit safety layer once DX-1 exists                            |
+| 5        | TEST-1     | High-value, narrow scope, natural fit with existing stack                         |
+| 6        | DX-3       | Low urgency; resolve when it becomes friction                                     |
+| 7        | TEST-2     | Evaluate after TEST-1 is established                                              |
+| 8        | TD-1       | Low urgency until the codebase grows or someone is burned by drift                |

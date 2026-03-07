@@ -1,15 +1,16 @@
 # Staging to Production Cutover Checklist
 
-Use this checklist when moving from GitHub Pages staging (`flowmatrixai.com`) to production (`flowmatrixai.com`).
+Use this checklist when moving from Cloudflare Pages staging (preview deployments) to production (`flowmatrixai.com` on the `main` branch).
+
+**Hosting:** Cloudflare Pages — `main` branch serves production via the custom domain. Preview deployments are built from other branches.
 
 ## 1. Preconditions
 
 - [ ] CI is green on latest `main`.
-- [ ] Latest staging deploy is healthy.
+- [ ] Latest staging preview deploy is healthy.
 - [ ] `npm run validate:content`, `npm run type-check`, and `npm run build` pass locally.
-- [ ] GitHub repo admin access confirmed.
-- [ ] DNS provider access confirmed.
-- [ ] Legacy DNS records are saved for rollback.
+- [ ] Cloudflare Pages dashboard access confirmed.
+- [ ] `RESEND_API_KEY` and `LEAD_RECIPIENT_EMAIL` are set in Cloudflare Pages → Settings → Environment Variables (Production).
 
 ## 2. Production Config Commit
 
@@ -25,38 +26,16 @@ Update `src/config/deployment.json`:
 
 Notes:
 
-- `gaMeasurementId` may remain empty if GA4 is not ready yet.
-- Keep forms in `src/data/forms.json` (do not move to secrets).
+- `gaMeasurementId` may remain empty if GA4 is not ready yet — site will launch without analytics.
+- `siteUrl` is already `https://flowmatrixai.com`; confirm it is correct before flipping `allowIndexing`.
 
 Then:
 
 - [ ] Commit config change.
 - [ ] Push to `main`.
-- [ ] Confirm deploy workflow succeeds.
+- [ ] Confirm CI workflow passes and Cloudflare Pages deployment succeeds.
 
-## 3. GitHub Pages Domain Setup
-
-- [ ] In repository settings, set custom domain to `flowmatrixai.com`.
-- [ ] Wait for GitHub Pages to show DNS check status.
-- [ ] Enable `Enforce HTTPS` when certificate becomes available.
-
-## 4. DNS Cutover
-
-Recommended:
-
-- [ ] Lower TTL before cutover window (if your provider supports it).
-
-Apply DNS records exactly as required by current GitHub Pages instructions for your repo/domain:
-
-- [ ] Apex/root records for `flowmatrixai.com`.
-- [ ] `www` CNAME record.
-
-After saving DNS:
-
-- [ ] Wait for propagation.
-- [ ] Re-run a Pages deploy if needed.
-
-## 5. Post-Cutover Verification
+## 3. Post-Cutover Verification
 
 Functional:
 
@@ -71,25 +50,29 @@ SEO/technical:
 - [ ] `https://flowmatrixai.com/robots.txt` is reachable and allows indexing.
 - [ ] Canonical tags resolve to `https://flowmatrixai.com/...`.
 
-Lead and analytics:
+Forms:
 
-- [ ] Submit homepage Tally form and confirm receipt.
-- [ ] Submit shared `/free/:slug` Tally form and confirm receipt.
-- [ ] Verify GA4 realtime events (`view_item`, `generate_lead`) if GA is enabled.
+- [ ] Submit homepage lead form (`POST /api/lead`) and confirm email arrives at `leads@flowmatrixai.com`.
+- [ ] Submit a `/free/:slug` template access form (`POST /api/template-access`) and confirm email arrives.
+- [ ] Confirm `Reply-To` in received emails is the submitter's address.
 
-## 6. Stabilization Window
+Analytics (if GA4 is enabled):
+
+- [ ] Verify GA4 realtime events (`view_item`, `generate_lead`) fire correctly.
+
+## 4. Stabilization Window
 
 For 24-48 hours after cutover:
 
 - [ ] Watch for form failures, routing issues, and certificate issues.
 - [ ] Monitor search console/indexing health.
-- [ ] Confirm no critical regression before decommissioning legacy services.
+- [ ] Confirm no critical regression.
 
-## 7. Rollback Procedure
+## 5. Rollback Procedure
 
 If critical production issues occur:
 
-1. Revert DNS to legacy records.
-2. Confirm legacy site is serving correctly.
-3. Fix issue in `flowmatrixai.com`.
-4. Re-run this checklist and re-attempt cutover.
+1. In Cloudflare Pages dashboard, roll back to the previous successful deployment.
+2. Confirm the previous build is serving correctly.
+3. Fix the issue on a branch, verify on a preview deployment.
+4. Re-run this checklist before re-promoting to production.

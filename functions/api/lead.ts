@@ -58,6 +58,9 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     <p style="white-space:pre-wrap">${escapeHtml(message.trim())}</p>
   `.trim();
 
+  console.log('[lead] env check — RESEND_API_KEY present:', !!env.RESEND_API_KEY);
+  console.log('[lead] env check — LEAD_RECIPIENT_EMAIL:', env.LEAD_RECIPIENT_EMAIL ?? '(missing)');
+
   const resendPayload = {
     from: 'FlowMatrix AI <no-reply@updates.flowmatrixai.com>',
     to: [env.LEAD_RECIPIENT_EMAIL],
@@ -65,6 +68,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     subject: `New lead: ${name.trim()}`,
     html,
   };
+
+  console.log(
+    '[lead] sending to Resend — payload (no html):',
+    JSON.stringify({ ...resendPayload, html: '(omitted)' })
+  );
 
   let resendResponse: Response;
   try {
@@ -76,7 +84,8 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
       },
       body: JSON.stringify(resendPayload),
     });
-  } catch {
+  } catch (err) {
+    console.error('[lead] fetch threw:', err);
     return Response.json(
       { error: 'Failed to send. Please email us at leads@flowmatrixai.com.' },
       { status: 500 }
@@ -84,11 +93,15 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   if (!resendResponse.ok) {
+    const errorBody = await resendResponse.text().catch(() => '(could not read body)');
+    console.error('[lead] Resend error — status:', resendResponse.status, '— body:', errorBody);
     return Response.json(
       { error: 'Failed to send. Please email us at leads@flowmatrixai.com.' },
       { status: 500 }
     );
   }
+
+  console.log('[lead] Resend success — status:', resendResponse.status);
 
   return Response.json({ success: true }, { status: 200 });
 };

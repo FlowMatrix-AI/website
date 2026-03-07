@@ -54,6 +54,12 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     <p><strong>Template:</strong> ${escapeHtml(template_title.trim())} (slug: ${escapeHtml(template_slug.trim())})</p>
   `.trim();
 
+  console.log('[template-access] env check — RESEND_API_KEY present:', !!env.RESEND_API_KEY);
+  console.log(
+    '[template-access] env check — LEAD_RECIPIENT_EMAIL:',
+    env.LEAD_RECIPIENT_EMAIL ?? '(missing)'
+  );
+
   const resendPayload = {
     from: 'FlowMatrix AI <no-reply@updates.flowmatrixai.com>',
     to: [env.LEAD_RECIPIENT_EMAIL],
@@ -61,6 +67,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     subject: `Template access request: ${template_title.trim()}`,
     html,
   };
+
+  console.log(
+    '[template-access] sending to Resend — payload (no html):',
+    JSON.stringify({ ...resendPayload, html: '(omitted)' })
+  );
 
   let resendResponse: Response;
   try {
@@ -72,7 +83,8 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
       },
       body: JSON.stringify(resendPayload),
     });
-  } catch {
+  } catch (err) {
+    console.error('[template-access] fetch threw:', err);
     return Response.json(
       { error: 'Failed to send. Please email us at leads@flowmatrixai.com.' },
       { status: 500 }
@@ -80,11 +92,20 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   if (!resendResponse.ok) {
+    const errorBody = await resendResponse.text().catch(() => '(could not read body)');
+    console.error(
+      '[template-access] Resend error — status:',
+      resendResponse.status,
+      '— body:',
+      errorBody
+    );
     return Response.json(
       { error: 'Failed to send. Please email us at leads@flowmatrixai.com.' },
       { status: 500 }
     );
   }
+
+  console.log('[template-access] Resend success — status:', resendResponse.status);
 
   return Response.json({ success: true }, { status: 200 });
 };

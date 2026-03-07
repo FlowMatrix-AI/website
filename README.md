@@ -19,14 +19,16 @@ Public deployment settings are versioned in `src/config/deployment.json`:
 - `gaMeasurementId` (optional)
 
 No GitHub Actions secrets or variables are required for these values.
-At domain cutover, update `siteUrl` and `allowIndexing` in `deployment.json` and deploy.
+At production cutover, set `allowIndexing: true` (and `gaMeasurementId` if GA4 is ready) in `deployment.json` and deploy. `siteUrl` is already set to `https://flowmatrixai.com`.
 
-## Lead Capture Configuration
+## Lead Capture
 
-Lead capture config is centralized in `src/data/forms.json`:
+Forms are handled by Cloudflare Pages Functions — no third-party embed service.
 
-- `mainGetInTouch`: form used on homepage CTA
-- `freeGetAccessNow`: shared form used across `/free/:slug` pages
+- `POST /api/lead` — homepage CTA form
+- `POST /api/template-access` — template detail page sidebar form
+
+Both send email via Resend to `leads@flowmatrixai.com`. Required environment variables in Cloudflare Pages: `RESEND_API_KEY`, `LEAD_RECIPIENT_EMAIL`. For local dev, create `.dev.vars` at the repo root (gitignored).
 
 `src/data/templates.json` is content-only for free resources.
 For each `published` template, CI requires:
@@ -40,7 +42,6 @@ Run locally:
 
 ```bash
 npm run validate:deployment
-npm run validate:forms
 npm run validate:templates
 npm run validate:content
 ```
