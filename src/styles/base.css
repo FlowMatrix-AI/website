@@ -12,6 +12,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Offset anchor targets below the fixed nav */
+[id] {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
