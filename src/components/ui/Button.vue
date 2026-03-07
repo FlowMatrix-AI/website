@@ -96,8 +96,8 @@ const classes = computed(() => {
 
 .fm-btn--ghost {
   color: var(--color-text);
-  border-color: var(--color-border-strong);
-  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .fm-btn--ghost:hover {

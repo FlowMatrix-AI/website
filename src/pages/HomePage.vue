@@ -83,133 +83,133 @@ useHead(
                 y1="60"
                 x2="200"
                 y2="40"
-                stroke="rgba(255,255,255,0.10)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.15)"
+                stroke-width="0.8"
               />
               <line
                 x1="200"
                 y1="40"
                 x2="330"
                 y2="90"
-                stroke="rgba(212,168,75,0.25)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.42)"
+                stroke-width="1.0"
               />
               <line
                 x1="200"
                 y1="40"
                 x2="140"
                 y2="155"
-                stroke="rgba(255,255,255,0.10)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.15)"
+                stroke-width="0.8"
               />
               <line
                 x1="330"
                 y1="90"
                 x2="260"
                 y2="165"
-                stroke="rgba(212,168,75,0.20)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.35)"
+                stroke-width="1.0"
               />
               <line
                 x1="330"
                 y1="90"
                 x2="360"
                 y2="210"
-                stroke="rgba(255,255,255,0.08)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.12)"
+                stroke-width="0.8"
               />
               <line
                 x1="140"
                 y1="155"
                 x2="260"
                 y2="165"
-                stroke="rgba(255,255,255,0.10)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.35)"
+                stroke-width="1.0"
               />
               <line
                 x1="140"
                 y1="155"
                 x2="75"
                 y2="240"
-                stroke="rgba(212,168,75,0.20)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.35)"
+                stroke-width="1.0"
               />
               <line
                 x1="260"
                 y1="165"
                 x2="360"
                 y2="210"
-                stroke="rgba(255,255,255,0.08)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.12)"
+                stroke-width="0.8"
               />
               <line
                 x1="260"
                 y1="165"
                 x2="190"
                 y2="295"
-                stroke="rgba(212,168,75,0.25)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.42)"
+                stroke-width="1.0"
               />
               <line
                 x1="360"
                 y1="210"
                 x2="310"
                 y2="322"
-                stroke="rgba(255,255,255,0.10)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.15)"
+                stroke-width="0.8"
               />
               <line
                 x1="75"
                 y1="240"
                 x2="190"
                 y2="295"
-                stroke="rgba(255,255,255,0.08)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.12)"
+                stroke-width="0.8"
               />
               <line
                 x1="75"
                 y1="240"
                 x2="50"
                 y2="360"
-                stroke="rgba(255,255,255,0.07)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.10)"
+                stroke-width="0.8"
               />
               <line
                 x1="190"
                 y1="295"
                 x2="310"
                 y2="322"
-                stroke="rgba(212,168,75,0.20)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.35)"
+                stroke-width="1.0"
               />
               <line
                 x1="190"
                 y1="295"
                 x2="220"
                 y2="410"
-                stroke="rgba(255,255,255,0.09)"
-                stroke-width="1"
+                stroke="rgba(255,255,255,0.12)"
+                stroke-width="0.8"
               />
               <line
                 x1="310"
                 y1="322"
                 x2="220"
                 y2="410"
-                stroke="rgba(212,168,75,0.18)"
-                stroke-width="1"
+                stroke="rgba(212,168,75,0.30)"
+                stroke-width="1.0"
               />
               <!-- nodes -->
-              <circle cx="80" cy="60" r="3.5" fill="rgba(255,255,255,0.15)" />
-              <circle cx="200" cy="40" r="5" fill="rgba(212,168,75,0.55)" />
-              <circle cx="330" cy="90" r="3.5" fill="rgba(255,255,255,0.15)" />
-              <circle cx="140" cy="155" r="4" fill="rgba(212,168,75,0.42)" />
-              <circle cx="260" cy="165" r="5.5" fill="rgba(212,168,75,0.55)" />
-              <circle cx="360" cy="210" r="3" fill="rgba(255,255,255,0.12)" />
-              <circle cx="75" cy="240" r="3.5" fill="rgba(212,168,75,0.38)" />
-              <circle cx="190" cy="295" r="4.5" fill="rgba(212,168,75,0.48)" />
-              <circle cx="310" cy="322" r="3.5" fill="rgba(255,255,255,0.12)" />
-              <circle cx="50" cy="360" r="2.5" fill="rgba(255,255,255,0.10)" />
-              <circle cx="220" cy="410" r="4" fill="rgba(212,168,75,0.38)" />
+              <circle cx="80" cy="60" r="2.5" fill="rgba(255,255,255,0.32)" />
+              <circle cx="200" cy="40" r="4.0" fill="rgba(212,168,75,0.82)" />
+              <circle cx="330" cy="90" r="2.25" fill="rgba(255,255,255,0.32)" />
+              <circle cx="140" cy="155" r="3.0" fill="rgba(212,168,75,0.72)" />
+              <circle cx="260" cy="165" r="4.8" fill="rgba(212,168,75,0.82)" />
+              <circle cx="360" cy="210" r="1.8" fill="rgba(255,255,255,0.28)" />
+              <circle cx="75" cy="240" r="3.0" fill="rgba(212,168,75,0.68)" />
+              <circle cx="190" cy="295" r="3.2" fill="rgba(212,168,75,0.78)" />
+              <circle cx="310" cy="322" r="2.5" fill="rgba(255,255,255,0.28)" />
+              <circle cx="50" cy="360" r="1.6" fill="rgba(255,255,255,0.22)" />
+              <circle cx="220" cy="410" r="3.6" fill="rgba(212,168,75,0.68)" />
             </svg>
           </div>
         </div>
@@ -377,8 +377,8 @@ useHead(
   overflow: hidden;
   min-height: 90svh;
   display: flex;
-  align-items: center;
-  padding: var(--space-16) 0;
+  align-items: flex-start;
+  padding: clamp(4rem, 10vh, 7rem) 0 var(--space-16);
 }
 
 .hero-inner {
@@ -405,11 +405,11 @@ useHead(
 }
 
 .hero-atmosphere--gold {
-  width: 600px;
-  height: 600px;
-  top: -220px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(212, 168, 75, 0.22) 0%, rgba(212, 168, 75, 0) 68%);
+  width: 700px;
+  height: 700px;
+  top: -180px;
+  right: -360px;
+  background: radial-gradient(circle, rgba(212, 168, 75, 0.28) 0%, rgba(212, 168, 75, 0) 68%);
 }
 
 .hero-atmosphere--white {
@@ -436,13 +436,21 @@ useHead(
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .hero-diagram-svg {
   width: 100%;
   max-width: 420px;
   height: auto;
+}
+
+.hero-copy .page-title {
+  font-size: clamp(3rem, 5.5vw, 4.4rem);
+}
+
+.hero-copy .page-subtitle {
+  max-width: 36ch;
 }
 
 /* ════════════════════════════════
