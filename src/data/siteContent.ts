@@ -1,51 +1,3 @@
-export type ServicePhase = {
-  id: 'assessment' | 'database-mobilization' | 'ai-implementation' | 'personalized-software';
-  phase: number;
-  title: string;
-  tagline: string;
-  description: string;
-  href: string;
-};
-
-export const servicePhases: ServicePhase[] = [
-  {
-    id: 'assessment',
-    phase: 1,
-    title: 'Assessment',
-    tagline: 'Eliminate the guesswork.',
-    description:
-      'Before we build anything, we assess. Three tiers of analysis: from a single process audit to a full human-tech holistic review. Every engagement starts here. You walk away with a clear roadmap whether you work with us or not.',
-    href: '/assessment',
-  },
-  {
-    id: 'database-mobilization',
-    phase: 2,
-    title: 'Database Mobilization',
-    tagline: 'Bet on the house, not on Red 16.',
-    description:
-      "We create a living, AI-optimized copy of your company's data that stays in sync with your existing tools. Platform-independent, always current, ready for any AI system to plug into.",
-    href: '/database-mobilization',
-  },
-  {
-    id: 'ai-implementation',
-    phase: 3,
-    title: 'AI Implementation',
-    tagline: 'Intelligence that works while you sleep.',
-    description:
-      'From simple automations to autonomous agents, we build backend systems that eliminate manual work. Automations, AI-powered workflows, agentic systems, and development infrastructure all connected to your mobilized data.',
-    href: '/ai-implementation',
-  },
-  {
-    id: 'personalized-software',
-    phase: 4,
-    title: 'Personalized Software',
-    tagline: 'Where intelligence meets interface.',
-    description:
-      'Custom applications designed for how your people actually work, powered by your own data, with AI woven into every interaction.',
-    href: '/personalized-software',
-  },
-];
-
 export const homeContent = {
   hero: {
     headline: 'Build what lasts.',
@@ -82,14 +34,12 @@ export const homeContent = {
         title: 'CEO',
         image: '/headshots/sebastian-tamburro.webp',
         linkedin: 'https://www.linkedin.com/in/sebastian-tamburro-694530287',
-        email: 'st@flowmatrixai.com',
       },
       {
         name: 'Dom Joseph',
         title: 'COO',
         image: '/headshots/dom-joseph.webp',
         linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
-        email: 'dj@flowmatrixai.com',
       },
     ],
   },
@@ -122,11 +72,5 @@ export const homeContent = {
           'It starts with an assessment that is credited toward your first build if you proceed. Beyond that, pricing scales with scope and complexity.',
       },
     ],
-  },
-  cta: {
-    headline: 'Ready when you are.',
-    subheadline:
-      'One conversation. No pitch, no pressure, just clarity on what AI can do for your business.',
-    button: 'Start the Conversation',
   },
 };
