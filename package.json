@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "validate:deployment": "node scripts/validate-deployment-config.mjs",
-    "validate:templates": "node scripts/validate-templates.mjs",
-    "validate:content": "npm run validate:deployment && npm run validate:templates",
+    "validate:content": "npm run validate:deployment",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",

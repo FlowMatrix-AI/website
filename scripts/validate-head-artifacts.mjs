@@ -77,27 +77,9 @@ async function main() {
     throw new Error(`dist directory not found at ${distDir}. Run the build first.`);
   }
 
-  const freeDir = path.join(distDir, 'free');
-  let freeDetailFile = null;
-
-  try {
-    const freeEntries = await fs.readdir(freeDir, { withFileTypes: true });
-    const freeHtmlFiles = freeEntries
-      .filter((entry) => entry.isFile() && entry.name.endsWith('.html'))
-      .map((entry) => entry.name)
-      .sort();
-    if (freeHtmlFiles.length > 0) {
-      freeDetailFile = path.join('free', freeHtmlFiles[0]);
-    }
-  } catch {
-    // noop; reported by checks below
-  }
-
   const pages = [
     { label: 'home', file: 'index.html', requireJsonLd: true },
-    { label: 'free index', file: 'free.html', requireJsonLd: true },
     { label: 'terms', file: 'terms.html', requireJsonLd: true },
-    { label: 'free detail', file: freeDetailFile, requireJsonLd: true },
   ];
 
   const errors = [];

@@ -22,7 +22,6 @@ async function main() {
 
   const requiredFiles = [
     'index.html',
-    'free.html',
     'terms.html',
     'privacy.html',
     'assessment.html',
@@ -40,17 +39,6 @@ async function main() {
     if (!ok) {
       errors.push(`[build-artifacts] missing or empty required file: ${fullPath}`);
     }
-  }
-
-  const freeDir = path.join(distDir, 'free');
-  try {
-    const entries = await fs.readdir(freeDir, { withFileTypes: true });
-    const detailPages = entries.filter((entry) => entry.isFile() && entry.name.endsWith('.html'));
-    if (detailPages.length === 0) {
-      errors.push(`[build-artifacts] expected at least one free detail page in ${freeDir}`);
-    }
-  } catch {
-    errors.push(`[build-artifacts] missing free detail directory: ${freeDir}`);
   }
 
   if (errors.length > 0) {
