@@ -6,6 +6,21 @@ Pre-release versioning uses sequential phase labels aligned to the historical pl
 
 ---
 
+## [0.2.4] — 2026-03-07 — Chore
+
+### Removed
+
+- `src/types/template.ts` — dead file, no longer imported anywhere
+- `src/lib/structuredData.ts` — removed unused exports `createServiceSchema`, `createCollectionPageSchema`, `createCreativeWorkSchema` and their corresponding input types and `compactObject` helper (all left over from deleted service/template pages)
+- `docs/deployment-configuration.md` — replaced by unified `docs/deployment.md`
+- `docs/staging-to-production-cutover-checklist.md` — replaced by unified `docs/deployment.md`
+
+### Added
+
+- `docs/deployment.md` — single unified deployment reference covering config, env vars, form endpoints, validation commands, cutover checklist, rollback, and GA4 setup
+
+---
+
 ## [0.2.3] — 2026-03-07 — UI/UX Revision
 
 ### Changed
