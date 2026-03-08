@@ -50,12 +50,14 @@ describe('normalizeAllowIndexing', () => {
     expect(normalizeAllowIndexing(false, 'https://example.com')).toBe(false);
   });
 
-  it('infers false for a github.io domain when value is not boolean', () => {
-    expect(normalizeAllowIndexing(null, 'https://some-user.github.io')).toBe(false);
-    expect(normalizeAllowIndexing(undefined, 'https://org-name.github.io')).toBe(false);
+  it('infers false for a pages.dev domain when value is not boolean', () => {
+    expect(normalizeAllowIndexing(null, 'https://flowmatrix-ai-abc123.pages.dev')).toBe(false);
+    expect(normalizeAllowIndexing(undefined, 'https://feat-branch.flowmatrix-ai.pages.dev')).toBe(
+      false
+    );
   });
 
-  it('infers true for a non-github.io domain when value is not boolean', () => {
+  it('infers true for a non-pages.dev domain when value is not boolean', () => {
     expect(normalizeAllowIndexing(null, 'https://flowmatrixai.com')).toBe(true);
     expect(normalizeAllowIndexing('yes', 'https://example.com')).toBe(true);
   });

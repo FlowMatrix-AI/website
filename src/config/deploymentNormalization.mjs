@@ -20,7 +20,7 @@ export function normalizeAllowIndexing(value, siteUrl) {
 
   try {
     const host = new URL(siteUrl).hostname;
-    return !host.endsWith('github.io');
+    return !host.endsWith('pages.dev');
   } catch {
     return true;
   }

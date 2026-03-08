@@ -334,7 +334,6 @@ The following items are from the initial project planning and execution phases, 
 
 ### Added
 
-- Repository initialized: `FlowMatrix-AI/flowmatrix-ai.github.io`
 - Vue 3 + Vite project bootstrapped with zero backend dependencies
 - Migration source: `Seabass-T/Flowmatrix-AI-Website` (Vercel / React / Supabase)
 - Target architecture: static Vue 3 SSG, no runtime server, no database
