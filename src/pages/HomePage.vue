@@ -593,7 +593,7 @@ useHead(
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -740,7 +740,7 @@ useHead(
 
 @media (max-width: 980px) {
   .founder-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .proof-attribution {
@@ -755,6 +755,10 @@ useHead(
 @media (max-width: 760px) {
   .home-hero {
     min-height: 75svh;
+  }
+
+  .founder-grid {
+    grid-template-columns: 1fr;
   }
 
   .founder-card img {
