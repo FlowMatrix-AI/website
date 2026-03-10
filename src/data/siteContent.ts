@@ -41,6 +41,12 @@ export const homeContent = {
         image: '/headshots/dom-joseph.webp',
         linkedin: 'https://www.linkedin.com/in/dom-joseph1130/',
       },
+      {
+        name: 'Cameron Brooks',
+        title: 'CTO',
+        image: '/headshots/cameron-brooks.webp',
+        linkedin: 'https://www.linkedin.com/in/cameron-brooks-cb/',
+      },
     ],
   },
   faq: {
