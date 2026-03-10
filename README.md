@@ -21,7 +21,22 @@ Public deployment settings are versioned in `src/config/deployment.json`:
 - `gaMeasurementId` (optional)
 
 No GitHub Actions secrets or variables are required for these values.
-At production cutover, set `allowIndexing: true` (and `gaMeasurementId` if GA4 is ready) in `deployment.json` and deploy. `siteUrl` is already set to `https://flowmatrixai.com`.
+At production cutover, set `allowIndexing: true` in `deployment.json` and deploy. `siteUrl` is already set to `https://flowmatrixai.com`.
+
+## Google Analytics
+
+GA4 property is configured and active.
+
+| Field          | Value                        |
+| -------------- | ---------------------------- |
+| Stream Name    | Main Website                 |
+| Stream URL     | https://www.flowmatrixai.com |
+| Stream ID      | 13882383979                  |
+| Measurement ID | G-T2M3GJRNEV                 |
+
+The Measurement ID is set in `src/config/deployment.json` (`gaMeasurementId`). Tracking is implemented via `src/composables/useAnalytics.ts` — the gtag.js script is injected dynamically on mount (SSG-safe), with manual page view tracking on each route change.
+
+For future tag management needs, consider migrating to Google Tag Manager: https://support.google.com/tagmanager/answer/12811173
 
 ## Lead Capture
 
